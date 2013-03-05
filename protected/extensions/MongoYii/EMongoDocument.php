@@ -38,12 +38,6 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function __construct($scenario='insert')
 	{
-		
-		if($scenario===null) // internally used by populateRecord() and model()
-			return;
-
-		$this->setScenario($scenario);
-		$this->setIsNewRecord(true);
 
 		// Run reflection and cache it if not already there
 		if(!$this->getDbConnection()->getObjCache(get_class($this)) && get_class($this) != 'EMongoDocument' /* We can't cache the model */){
@@ -73,6 +67,11 @@ class EMongoDocument extends EMongoModel{
 			);
 		}
 
+		if($scenario===null) // internally used by populateRecord() and model()
+			return;
+
+		$this->setScenario($scenario);
+		$this->setIsNewRecord(true);
 
 		// Set the default scope now
 		$this->setDbCriteria($this->mergeCriteria($this->_criteria, $this->defaultScope()));
@@ -170,8 +169,15 @@ class EMongoDocument extends EMongoModel{
 	/**
 	 * Atm you are not allowed to change the primary key
 	 */
-	 function primaryKey(){
+	private function primaryKey(){
 		return '_id';
+	}
+
+	/**
+	 * Returns the value of the primary key
+	 */
+	public function getPrimaryKey(){
+		return $this->{$this->primaryKey()};
 	}
 
 	/**
@@ -448,7 +454,7 @@ class EMongoDocument extends EMongoModel{
 			if($attributes!==null){
 				$attributes=$this->getAttributes($attributes);
 				unset($attributes['_id']);
-				$this->updateByPk($this->{$this->primaryKey()}, $attributes);
+				$this->updateByPk($this->{$this->primaryKey()}, array('$set' => $attributes));
 			}else
 				$this->getCollection()->save($this->getAttributes($attributes));
 			$this->afterSave();
@@ -506,6 +512,8 @@ class EMongoDocument extends EMongoModel{
 
 		$oc = isset($this->_criteria['condition']) ? $this->_criteria['condition'] : array();
 		if(($record=$this->getCollection()->findOne($this->mergeCriteria($oc, $criteria)))!==null){
+
+			$this->resetScope();
 			return $this->populateRecord($record);
 		}else
 			return null;
@@ -523,6 +531,8 @@ class EMongoDocument extends EMongoModel{
 			if(isset($this->_criteria['sort'])) $cursor->sort($this->_criteria['sort']);
     		if(isset($this->_criteria['skip'])) $cursor->skip($this->_criteria['skip']);
     		if(isset($this->_criteria['limit'])) $cursor->limit($this->_criteria['limit']);
+
+    		$this->resetScope();
 	   		return $cursor;
     	}else{
     		return new EMongoCursor($this, $criteria);
@@ -537,6 +547,15 @@ class EMongoDocument extends EMongoModel{
     	$this->trace(__FUNCTION__);
 		$_id = $_id instanceof MongoId ? $_id : new MongoId($_id);
 		return $this->findOne(array('_id' => $_id));
+    }
+
+    /**
+     * An alias for findBy_id() that relates to Yiis own findByPk
+     * @param $pk
+     */
+    public function findByPk($pk){
+    	$this->trace(__FUNCTION__);
+		return $this->findBy_id($pk);
     }
 
     /**
@@ -594,7 +613,8 @@ class EMongoDocument extends EMongoModel{
 	 *
 	 * @param $query allows you to specify a query which should always take hold along with the searched fields
 	 */
-	function search($query=array()){
+	public function search($query=array()){
+		$this->trace(__FUNCTION__);
 
 		foreach($this->getSafeAttributeNames() as $attribute){
 
@@ -625,6 +645,16 @@ class EMongoDocument extends EMongoModel{
 			}
 		}
 		return new EMongoDataProvider(array('condition' => $query));
+	}
+
+	/**
+	 * This is an aggregate helper on the model
+	 * Note: This does not return the model but instead the result array directly from MongoDB.
+	 * @param array $pipeline
+	 */
+	public function aggregate($pipeline){
+		$this->trace(__FUNCTION__);
+		return Yii::app()->mongodb->aggregate($this->collectionName(),$pipeline);
 	}
 
     /**
@@ -666,6 +696,14 @@ class EMongoDocument extends EMongoModel{
 		return $this->_criteria=$criteria;
 	}
 
+	/**
+	 * Merges the currrent DB Criteria with the inputted one
+	 * @param array $newCriteria
+	 */
+	public function mergeDbCriteria($newCriteria){
+		 return $this->_criteria=$this->mergeCriteria($this->getDbCriteria(), $newCriteria);
+	}
+
     /**
      * Gets the collection for this model
      */
@@ -674,7 +712,7 @@ class EMongoDocument extends EMongoModel{
     }
 
     /**
-     * Merges criteria for this object. Best used for scopes
+     * Merges two criteria objects. Best used for scopes
      * @param $oldCriteria
      * @param $newCriteria
      */

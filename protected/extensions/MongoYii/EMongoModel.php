@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WHY IS THERE NO FUCKING GOOD NAME FOR THIS FUCKING PIECE OF SHIT
+ *
  */
 class EMongoModel extends CModel{
 
@@ -108,7 +108,7 @@ class EMongoModel extends CModel{
 	 * understand what fields are in our model.
 	 * @param string $scenario
 	 */
-	function __construct($scenario = 'insert'){
+	public function __construct($scenario = 'insert'){
 
 		if($scenario===null) // internally used by populateRecord() and model()
 			return;
@@ -162,7 +162,7 @@ class EMongoModel extends CModel{
 	 * (non-PHPdoc)
 	 * @see CModel::attributeNames()
 	 */
-	function attributeNames(){
+	public function attributeNames(){
 
 		$fields = $this->getDbConnection()->getFieldObjCache(get_class($this));
 		$virtuals = $this->getDbConnection()->getVirtualObjCache(get_class($this));
@@ -175,7 +175,7 @@ class EMongoModel extends CModel{
 	 * Holds all our relations
 	 * @return array
 	 */
-	function relations(){ return array(); }
+	public function relations(){ return array(); }
 
 	/**
 	 * Finds out if a document attributes actually exists
@@ -378,13 +378,13 @@ class EMongoModel extends CModel{
 	 * @param string $attribute
 	 * @param array $errors
 	 */
-	function setAttributeErrors($attribute, $errors){
+	public function setAttributeErrors($attribute, $errors){
 		$this->_errors[$attribute]=$errors;
 	}
-	
+
 	/* THESE ERROR FUNCTIONS ARE ONLY HERE BECAUSE OF THE WAY IN WHICH PHP RESOLVES THE THE SCOPES OF VARS */
 	// I needed to add the error handling function above but I had to include these as well
-	
+
 	/**
 	 * Returns a value indicating whether there is any validation error.
 	 * @param string $attribute attribute name. Use null to check all attributes.
@@ -397,7 +397,7 @@ class EMongoModel extends CModel{
 		else
 			return isset($this->_errors[$attribute]);
 	}
-	
+
 	/**
 	 * Returns the errors for all attribute or a single attribute.
 	 * @param string $attribute attribute name. Use null to retrieve errors for all attributes.
@@ -410,7 +410,7 @@ class EMongoModel extends CModel{
 		else
 			return isset($this->_errors[$attribute]) ? $this->_errors[$attribute] : array();
 	}
-	
+
 	/**
 	 * Returns the first error of the specified attribute.
 	 * @param string $attribute attribute name.
@@ -420,7 +420,7 @@ class EMongoModel extends CModel{
 	{
 		return isset($this->_errors[$attribute]) ? reset($this->_errors[$attribute]) : null;
 	}
-	
+
 	/**
 	 * Adds a new error to the specified attribute.
 	 * @param string $attribute attribute name
@@ -430,7 +430,7 @@ class EMongoModel extends CModel{
 	{
 		$this->_errors[$attribute][]=$error;
 	}
-	
+
 	/**
 	 * Adds a list of errors.
 	 * @param array $errors a list of errors. The array keys must be attribute names.
@@ -451,7 +451,7 @@ class EMongoModel extends CModel{
 				$this->addError($attribute, $error);
 		}
 	}
-	
+
 	/**
 	 * Removes errors for all attributes or a single attribute.
 	 * @param string $attribute attribute name. Use null to remove errors for all attribute.
@@ -462,7 +462,7 @@ class EMongoModel extends CModel{
 			$this->_errors=array();
 		else
 			unset($this->_errors[$attribute]);
-	}	
+	}
 
 	/**
 	 * Returns the database connection used by active record.
@@ -509,7 +509,7 @@ class EMongoModel extends CModel{
 	/**
 	 * Gets the formed document with MongoYii objects included
 	 */
-	function getDocument(){
+	public function getDocument(){
 
 		$attributes = $this->getDbConnection()->getFieldObjCache(get_class($this));
 		$doc = array();
@@ -523,7 +523,7 @@ class EMongoModel extends CModel{
 	/**
 	 * Gets the raw document with MongoYii objects taken out
 	 */
-	function getRawDocument(){
+	public function getRawDocument(){
 		return $this->filterRawDocument($this->getDocument());
 	}
 
@@ -531,7 +531,7 @@ class EMongoModel extends CModel{
 	 * Filters a provided document to take out MongoYii objects.
 	 * @param array $doc
 	 */
-	function filterRawDocument($doc){
+	public function filterRawDocument($doc){
 		if(is_array($doc)){
 			foreach($doc as $k => $v){
 				if(is_array($v)){
@@ -547,14 +547,14 @@ class EMongoModel extends CModel{
 	/**
 	 * Gets the JSON encoded document
 	 */
-	function getJSONDocument(){
+	public function getJSONDocument(){
 		return json_encode($this->getRawDocument());
 	}
 
 	/**
 	 * Gets the BSON encoded document (never normally needed)
 	 */
-	function getBSONDocument(){
+	public function getBSONDocument(){
 		return bson_encode($this->getRawDocument());
 	}
 }
