@@ -79,6 +79,8 @@ class EMongoDataProvider extends CActiveDataProvider{
 	 */
 	public function fetchData(){
 		$criteria=$this->getCriteria();
+
+		// I have not refactored this line considering that the condition may have changed from total item count to here, maybe.
 		$this->_cursor = $this->model->find(isset($criteria['condition']) && is_array($criteria['condition']) ? $criteria['condition'] : array());
 
 		// If we have sort and limit and skip setup within the incoming criteria let's set it
@@ -127,6 +129,10 @@ class EMongoDataProvider extends CActiveDataProvider{
 	 * @see yii/framework/web/CActiveDataProvider::calculateTotalItemCount()
 	 */
 	public function calculateTotalItemCount(){
+		if(!$this->_cursor){
+			$criteria=$this->getCriteria();
+			$this->_cursor=$this->model->find(isset($criteria['condition']) && is_array($criteria['condition']) ? $criteria['condition'] : array());
+		}
 		return $this->_cursor->count();
 	}
 
