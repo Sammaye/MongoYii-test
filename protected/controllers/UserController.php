@@ -44,13 +44,14 @@ class UserController extends Controller
 	public function actionAdmin()
 	{
 
-//		for($i=0;$i<2;$i++){
-//			$d=new User();
-//			$d->username = 'a';
+//		for($i=0;$i<100;$i++){
+//			$d=new Menu();
+//			$d->label = 'a';
+//			$d->title = "whoop";
 //			$d->save();
 //		}
 
-		$model=new User('search');
+		$model=new Menu('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];

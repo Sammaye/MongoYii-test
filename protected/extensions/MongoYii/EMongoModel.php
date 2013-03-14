@@ -201,8 +201,9 @@ class EMongoModel extends CModel{
 
 		if(property_exists($this,$name))
 			$this->$name=$value;
-		else//if(isset($this->_attributes[$name]))
+		else{ //if(isset($this->_attributes[$name]))
 			$this->_attributes[$name]=$value;
+		}
 		//else return false;
 		return true;
 
