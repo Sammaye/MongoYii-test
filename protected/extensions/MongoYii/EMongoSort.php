@@ -84,7 +84,7 @@ class EMongoSort extends CSort
 					if($descending){
 						$orders[$attribute]=isset($definition['desc']) ? -1 : 1;
 					}else
-						$orders[$attribute]=isset($definition['asc']) ? -1 : 1;
+						$orders[$attribute]=isset($definition['asc']) ? 1 : -1;
 				}
 				elseif($definition!==false)
 				{
