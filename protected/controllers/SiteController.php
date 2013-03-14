@@ -28,7 +28,7 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 
-		var_dump(Yii::app()->mongodb);
+		//var_dump(Yii::app()->mongodb);
 
 		/*
 		$u = new User();
@@ -77,33 +77,34 @@ class SiteController extends Controller
 		var_dump($u->getAttributes());
 		*/
 
-		Yii::app()->mongodb->sites->drop();
-        Yii::app()->mongodb->sites->insert(
-            array('_id' => 'example.com', "title" => "Example com")
-        );
-
-        $site = Site::model()->findOne(array('_id' => 'example.com'));
-        var_dump($site);
-        var_dump($site->title=='Example com');
-        var_dump(array('_id'=>'example.com', 'title'=>'Example com')===$site->getAttributes());
-       	//$this->assertTrue($site instanceof Site);
-
-        //$this->assertEquals('Example com', $site->title);
-               // Change title to org
-        $site->attributes = array('_id' => $site->_id, 'title' => 'Example org');
-        var_dump($site->getRawDocument());
-        var_dump($site->save());
-        //$this->assertTrue($site->save());
-
-        $site = Site::model()->findOne(array('_id' => 'example.com', 'title' => 'Example org'));
-        var_dump($site);
-        var_dump($site instanceof Site);
-        var_dump('Example org'==$site->title);
+//		Yii::app()->mongodb->sites->drop();
+//        Yii::app()->mongodb->sites->insert(
+//            array('_id' => 'example.com', "title" => "Example com")
+//        );
+//
+//        $site = Site::model()->findOne(array('_id' => 'example.com'));
+//        var_dump($site);
+//        var_dump($site->title=='Example com');
+//        var_dump(array('_id'=>'example.com', 'title'=>'Example com')===$site->getAttributes());
+//       	//$this->assertTrue($site instanceof Site);
+//
+//        //$this->assertEquals('Example com', $site->title);
+//               // Change title to org
+//        $site->attributes = array('_id' => $site->_id, 'title' => 'Example org');
+//        var_dump($site->getRawDocument());
+//        var_dump($site->save());
+//        //$this->assertTrue($site->save());
+//
+//        $site = Site::model()->findOne(array('_id' => 'example.com', 'title' => 'Example org'));
+//        var_dump($site);
+//        var_dump($site instanceof Site);
+//        var_dump('Example org'==$site->title);
         //$this->assertTrue($site instanceof Site);
         //$this->assertEquals('Example org', $site->title);
 
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
+
 		$this->render('index');
 	}
 

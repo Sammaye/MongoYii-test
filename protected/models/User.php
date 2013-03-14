@@ -16,6 +16,7 @@ class User extends EMongoDocument{
 //				array('post_code', 'string'),
 //				array('telephone', 'integer')
 //			)),
+			array('username', 'safe'),
 
 			array('_id, username, addresses', 'safe', 'on'=>'search'),
 		);
