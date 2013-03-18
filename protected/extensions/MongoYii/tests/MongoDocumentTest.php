@@ -53,16 +53,16 @@ class MongoDocumentTest extends CTestCase{
 
 			$user_ids[] = $u->_id;
 		}
-
+		
 		$interests = array_values(iterator_to_array($c));
 
 		// Now 50^6 times re-insert each interest with a parnt user _id
 		// So we have two forms of the document in interests, one without the parent user and one with
 		for($i=0;$i<50;$i++){
-
+			
 			$randInt = rand(0,sizeof($interests)-1);
 			$row =$interests[$randInt];
-
+				
 			$randPos = rand(0, sizeof($user_ids)-1);
 			$row->i_id = $user_ids[$randPos];
 
@@ -84,11 +84,6 @@ class MongoDocumentTest extends CTestCase{
 
 
 	function testModel(){
-
-		$d = new User();
-		$d->setAttributes(array('addresses'=>'2'));
-		var_dump($d->getAttributes()); exit();
-
 		$c=User::model();
 		$this->assertInstanceOf('EMongoDocument', $c);
 	}
@@ -188,7 +183,7 @@ class MongoDocumentTest extends CTestCase{
 		$c=new User;
 		$c->username='sammaye';
 		$this->assertTrue($c->save());
-
+		
 		$c->job_title='programmer';
 		$r=$c->saveAttributes(array('username'));
 		$this->assertNull($r['err']);
@@ -248,7 +243,7 @@ class MongoDocumentTest extends CTestCase{
 		$c->setScenario('testUnqiue');
 		$c->username='sammaye';
 		$this->assertTrue($c->save());
-
+	
 		$c=new User;
 		$c->setScenario('testUnqiue');
 		$c->username='sammaye';
@@ -257,7 +252,7 @@ class MongoDocumentTest extends CTestCase{
 	}
 
 	function testArraySubdocumentValidator(){
-
+	
 		$c=new User;
 		$c->username='sammaye';
 		$c->addresses = array(
@@ -271,7 +266,7 @@ class MongoDocumentTest extends CTestCase{
 				array('road' => 's', 'town' => 'yo', 'county' => 'sa', 'post_code' => 'g', 'telephone' => 23)
 		);
 		$this->assertTrue($c->validate());
-	}
+	}	
 
 	function testClassSubdocumentValidator(){
 		$c=new User;
@@ -335,23 +330,23 @@ class MongoDocumentTest extends CTestCase{
 		User::model()->resetScope();
 	}
 
-
+	
 	function testClean_Refresh(){
 		$c=new User;
 		User::model()->resetScope();
 		$c->username='sammaye';
 		$this->assertTrue($c->save());
-
+		
 		$this->assertTrue($c->clean());
 		$this->assertNull($c->username);
-
+	
 		$r=User::model()->findOne();
 		$this->assertInstanceOf('EMongoDocument',$r);
-
+	
 		$r->username = 'fgfgfg';
 		$r->refresh();
 		$this->assertEquals('sammaye', $r->username);
-	}
+	}	
 
 	function testGetAttributeLabel(){
 		$c=new User;

@@ -28,6 +28,38 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=true;
+//		$u->save();
+//
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=true;
+//		$u->save();
+//
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=true;
+//		$u->save();
+//
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=true;
+//		$u->save();
+//
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=false;
+//		$u->save();
+//
+//		$u=new User();
+//		$u->username='samaye';
+//		$u->active=false;
+//		$u->save();
+
+		var_dump(User::model()->find()->count());
+
 		//var_dump(Yii::app()->mongodb);
 
 		/*

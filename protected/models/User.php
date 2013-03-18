@@ -33,6 +33,12 @@ class User extends EMongoDocument{
 		);
 	}
 
+	function defaultScope(){
+		return array(
+			'condition' => array('active' => true)
+		);
+	}
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return User the static model class
