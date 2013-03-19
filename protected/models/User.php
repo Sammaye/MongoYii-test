@@ -6,6 +6,7 @@ class User extends EMongoDocument{
 
 	public $username;
 	public $addresses = array();
+	public $boards = array();
 
 	function rules(){
 		return array(
@@ -35,7 +36,7 @@ class User extends EMongoDocument{
 
 	function defaultScope(){
 		return array(
-			'condition' => array('active' => true)
+			//'condition' => array('active' => true)
 		);
 	}
 

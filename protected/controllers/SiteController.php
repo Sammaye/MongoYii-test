@@ -53,12 +53,19 @@ class SiteController extends Controller
 //		$u->active=false;
 //		$u->save();
 //
-//		$u=new User();
-//		$u->username='samaye';
-//		$u->active=false;
-//		$u->save();
+		//$u=new User();
+		//$u->username='samaye';
+		//$u->boards = array(array('dealclub' => 123));
+		//$u->source = 'cheese';
+		//$u->active=false;
+		//var_dump($u->save());
 
 		var_dump(User::model()->find()->count());
+		
+		
+		$u=new EMongoDataProvider('User', array('pagination' => array('pageSize' => 20), 'criteria' => array('condition' => array('boards.dealclub' => 123, 'source' => array('$ne' => 'cheese')))));
+		var_dump($u);
+		var_dump($u->getTotalItemCount());
 
 		//var_dump(Yii::app()->mongodb);
 
