@@ -6,12 +6,11 @@
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'messagePath'=>dirname(__FILE__),
-	'languages'=>array('zh_cn','zh_tw','de','es','el','sv','he','nl','pt','ru','it','fr','ja','pl','hu','ro','id','vi','bg','uk','cs'),
+	'languages'=>array('zh_cn','zh_tw','de','es','el','sv','he','nl','pt','ru','it','fr','ja','pl','hu','ro','id','vi','bg'),
 	'fileTypes'=>array('php'),
-	'overwrite'=>true,
 	'translator'=>'t',
 	'exclude'=>array(
-		'.gitignore',
+		'.svn',
 		'/messages',
 		'/views',
 	),

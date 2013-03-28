@@ -45,13 +45,13 @@ class UserController extends Controller
 	{
 
 //		for($i=0;$i<100;$i++){
-//			$d=new Menu();
-//			$d->label = 'a';
-//			$d->title = "whoop";
+//			$d=new User();
+//			$d->username = 'a';
+//			//$d->title = "whoop";
 //			$d->save();
 //		}
 
-		$model=new Menu('search');
+		$model=new User('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];

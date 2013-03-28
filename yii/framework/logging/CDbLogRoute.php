@@ -18,6 +18,7 @@
  * and used under the application runtime directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CDbLogRoute.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -69,9 +70,10 @@ class CDbLogRoute extends CLogRoute
 		if($this->autoCreateLogTable)
 		{
 			$db=$this->getDbConnection();
+			$sql="DELETE FROM {$this->logTableName} WHERE 0=1";
 			try
 			{
-				$db->createCommand()->delete($this->logTableName,'0=1');
+				$db->createCommand($sql)->execute();
 			}
 			catch(Exception $e)
 			{
@@ -87,13 +89,24 @@ class CDbLogRoute extends CLogRoute
 	 */
 	protected function createLogTable($db,$tableName)
 	{
-		$db->createCommand()->createTable($tableName, array(
-			'id'=>'pk',
-			'level'=>'varchar(128)',
-			'category'=>'varchar(128)',
-			'logtime'=>'integer',
-			'message'=>'text',
-		));
+		$driver=$db->getDriverName();
+		if($driver==='mysql')
+			$logID='id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY';
+		else if($driver==='pgsql')
+			$logID='id SERIAL PRIMARY KEY';
+		else
+			$logID='id INTEGER NOT NULL PRIMARY KEY';
+
+		$sql="
+CREATE TABLE $tableName
+(
+	$logID,
+	level VARCHAR(128),
+	category VARCHAR(128),
+	logtime INTEGER,
+	message TEXT
+)";
+		$db->createCommand($sql)->execute();
 	}
 
 	/**
@@ -104,7 +117,7 @@ class CDbLogRoute extends CLogRoute
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		elseif(($id=$this->connectionID)!==null)
+		else if(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
@@ -125,15 +138,19 @@ class CDbLogRoute extends CLogRoute
 	 */
 	protected function processLogs($logs)
 	{
-		$command=$this->getDbConnection()->createCommand();
+		$sql="
+INSERT INTO {$this->logTableName}
+(level, category, logtime, message) VALUES
+(:level, :category, :logtime, :message)
+";
+		$command=$this->getDbConnection()->createCommand($sql);
 		foreach($logs as $log)
 		{
-			$command->insert($this->logTableName,array(
-				'level'=>$log[1],
-				'category'=>$log[2],
-				'logtime'=>(int)$log[3],
-				'message'=>$log[0],
-			));
+			$command->bindValue(':level',$log[1]);
+			$command->bindValue(':category',$log[2]);
+			$command->bindValue(':logtime',(int)$log[3]);
+			$command->bindValue(':message',$log[0]);
+			$command->execute();
 		}
 	}
 }

@@ -55,6 +55,7 @@
  * @property array $servers List of memcache server configurations. Each element is a {@link CMemCacheServerConfiguration}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CMemCache.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.caching
  * @since 1.0
  */
@@ -94,7 +95,7 @@ class CMemCache extends CCache
 				if($this->useMemcached)
 					$cache->addServer($server->host,$server->port,$server->weight);
 				else
-					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->retryInterval,$server->status);
+					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->status);
 			}
 		}
 		else
@@ -102,21 +103,14 @@ class CMemCache extends CCache
 	}
 
 	/**
-	 * @throws CException if extension isn't loaded
-	 * @return Memcache|Memcached the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
+	 * @return mixed the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
 	 */
 	public function getMemCache()
 	{
 		if($this->_cache!==null)
 			return $this->_cache;
 		else
-		{
-			$extension=$this->useMemcached ? 'memcached' : 'memcache';
-			if(!extension_loaded($extension))
-				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
-                    array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
-		}
 	}
 
 	/**
@@ -227,6 +221,7 @@ class CMemCache extends CCache
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CMemCache.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.caching
  * @since 1.0
  */

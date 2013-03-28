@@ -24,9 +24,10 @@
  * @property string $name The display name for the identity.
  * The default implementation simply returns empty string.
  * @property array $persistentStates The identity states that should be persisted.
- * @property boolean $isAuthenticated Whether the authentication is successful.
+ * @property whether $isAuthenticated The authentication is successful.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CBaseUserIdentity.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web.auth
  * @since 1.0
  */
@@ -80,7 +81,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	}
 
 	/**
-	 * Sets an array of persistent states.
+	 * Sets an array of presistent states.
 	 *
 	 * @param array $states the identity states that should be persisted.
 	 */
@@ -92,7 +93,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Returns a value indicating whether the identity is authenticated.
 	 * This method is required by {@link IUserIdentity}.
-	 * @return boolean whether the authentication is successful.
+	 * @return whether the authentication is successful.
 	 */
 	public function getIsAuthenticated()
 	{

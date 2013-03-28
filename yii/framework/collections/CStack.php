@@ -26,6 +26,7 @@
  * @property integer $count The number of items in the stack.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CStack.php 3427 2011-10-25 00:03:52Z alexander.makarow $
  * @package system.collections
  * @since 1.0
  */
@@ -79,7 +80,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 				++$this->_c;
 			}
 		}
-		elseif($data!==null)
+		else if($data!==null)
 			throw new CException(Yii::t('yii','Stack data must be an array or an object implementing Traversable.'));
 	}
 
@@ -138,7 +139,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	public function push($item)
 	{
 		++$this->_c;
-		$this->_d[]=$item;
+		array_push($this->_d,$item);
 	}
 
 	/**

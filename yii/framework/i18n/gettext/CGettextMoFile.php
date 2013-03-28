@@ -38,6 +38,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CGettextMoFile.php 2798 2011-01-01 19:29:03Z qiang.xue $
  * @package system.i18n.gettext
  * @since 1.0
  */
@@ -76,7 +77,7 @@ class CGettextMoFile extends CGettextFile
 		$magic=current($array=unpack('c',$this->readByte($fr,4)));
 		if($magic==-34)
 			$this->useBigEndian=false;
-		elseif($magic==-107)
+		else if($magic==-107)
 			$this->useBigEndian=true;
 		else
 			throw new CException(Yii::t('yii','Invalid MO file: {file} (magic: {magic}).',
@@ -112,13 +113,9 @@ class CGettextMoFile extends CGettextFile
 		for($i=0;$i<$count;++$i)
 		{
 			$id=$this->readString($fr,$sourceLengths[$i],$sourceOffsets[$i]);
-			$pos = strpos($id,chr(4));
-
-			if(($context && $pos!==false && substr($id,0,$pos)===$context) || (!$context && $pos===false))
+			if(($pos=strpos($id,chr(4)))!==false && substr($id,0,$pos)===$context)
 			{
-				if($pos !== false)
-					$id=substr($id,$pos+1);
-
+				$id=substr($id,$pos+1);
 				$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
 				$messages[$id]=$message;
 			}

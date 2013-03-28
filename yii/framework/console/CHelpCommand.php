@@ -24,6 +24,7 @@
  * @property string $help The command description.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CHelpCommand.php 3426 2011-10-25 00:01:09Z alexander.makarow $
  * @package system.console
  * @since 1.0
  */
@@ -32,7 +33,6 @@ class CHelpCommand extends CConsoleCommand
 	/**
 	 * Execute the action.
 	 * @param array $args command line parameters specific for this command
-	 * @return integer non zero application exit code after printing help
 	 */
 	public function run($args)
 	{
@@ -62,7 +62,6 @@ class CHelpCommand extends CConsoleCommand
 		}
 		else
 			echo $runner->createCommand($name)->getHelp();
-		return 1;
 	}
 
 	/**

@@ -15,6 +15,7 @@
  * {@link CActiveRecord}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CActiveFinder.php 3562 2012-02-13 01:27:06Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -58,6 +59,7 @@ class CActiveFinder extends CComponent
 	public function query($criteria,$all=false)
 	{
 		$this->joinAll=$criteria->together===true;
+		$this->_joinTree->beforeFind(false);
 
 		if($criteria->alias!='')
 		{
@@ -80,7 +82,7 @@ class CActiveFinder extends CComponent
 				$result=$array;
 			}
 		}
-		elseif(count($this->_joinTree->records))
+		else if(count($this->_joinTree->records))
 			$result = reset($this->_joinTree->records);
 		else
 			$result = null;
@@ -101,6 +103,7 @@ class CActiveFinder extends CComponent
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
+			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -122,6 +125,7 @@ class CActiveFinder extends CComponent
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
+			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -163,8 +167,8 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->lazyFind($baseRecord);
 		if(!empty($this->_joinTree->children))
 		{
-			foreach($this->_joinTree->children as $child)
-				$child->afterFind();
+			$child=reset($this->_joinTree->children);
+			$child->afterFind();
 		}
 		$this->destroyJoinTree();
 	}
@@ -213,17 +217,19 @@ class CActiveFinder extends CComponent
 
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
-
 			if($relation instanceof CActiveRelation)
 			{
 				$oldAlias=$model->getTableAlias(false,false);
 				if(isset($options['alias']))
 					$model->setTableAlias($options['alias']);
-				elseif($relation->alias===null)
+				else if($relation->alias===null)
 					$model->setTableAlias($relation->name);
 				else
 					$model->setTableAlias($relation->alias);
 			}
+
+			if(($scope=$model->defaultScope())!==array())
+				$relation->mergeWith($scope,true);
 
 			if(!empty($relation->scopes))
 				$scopes=array_merge($scopes,(array)$relation->scopes); // no need for complex merging
@@ -231,17 +237,40 @@ class CActiveFinder extends CComponent
 			if(!empty($options['scopes']))
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
-			$model->resetScope(false);
-			$criteria=$model->getDbCriteria();
-			$criteria->scopes=$scopes;
-			$model->beforeFindInternal();
-			$model->applyScopes($criteria);
+			if($scopes!==array())
+			{
+				$scs=$model->scopes();
+				foreach($scopes as $k=>$v)
+				{
+					if(is_integer($k))
+					{
+						if(is_string($v))
+						{
+							if(isset($scs[$v]))
+							{
+								$relation->mergeWith($scs[$v],true);
+								continue;
+							}
+							$scope=$v;
+							$params=array();
+						}
+						else if(is_array($v))
+						{
+							$scope=key($v);
+							$params=current($v);
+						}
+					}
+					else if(is_string($k))
+					{
+						$scope=$k;
+						$params=$v;
+					}
 
-			// select has a special meaning in stat relation, so we need to ignore select from scope or model criteria
-			if($relation instanceof CStatRelation)
-				$criteria->select='*';
-
-			$relation->mergeWith($criteria,true);
+					$model->resetScope();
+					call_user_func_array(array($model,$scope),(array)$params);
+					$relation->mergeWith($model->getDbCriteria(),true);
+				}
+			}
 
 			// dynamic options
 			if($options!==null)
@@ -279,7 +308,7 @@ class CActiveFinder extends CComponent
 		{
 			if(is_string($value))  // the value is a relation name
 				$this->buildJoinTree($parent,$value);
-			elseif(is_string($key) && is_array($value))
+			else if(is_string($key) && is_array($value))
 				$this->buildJoinTree($parent,$key,$value);
 		}
 	}
@@ -290,6 +319,7 @@ class CActiveFinder extends CComponent
  * CJoinElement represents a tree node in the join tree created by {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CActiveFinder.php 3562 2012-02-13 01:27:06Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -388,7 +418,7 @@ class CJoinElement
 			$this->_columnAliases[$name]=$alias;
 			if($table->primaryKey===$name)
 				$this->_pkAlias=$alias;
-			elseif(is_array($table->primaryKey) && in_array($name,$table->primaryKey))
+			else if(is_array($table->primaryKey) && in_array($name,$table->primaryKey))
 				$this->_pkAlias[$name]=$alias;
 		}
 	}
@@ -421,7 +451,7 @@ class CJoinElement
 			$this->_finder->baseLimited=false;
 			$this->runQuery($query);
 		}
-		elseif(!$this->_joined && !empty($this->_parent->records)) // not joined before
+		else if(!$this->_joined && !empty($this->_parent->records)) // not joined before
 		{
 			$query=new CJoinQuery($this->_parent);
 			$this->_joined=true;
@@ -456,16 +486,25 @@ class CJoinElement
 		foreach($this->stats as $stat)
 			$stat->query();
 
-		if(!$this->children)
-			return;
-		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
+		switch(count($this->children))
+		{
+			case 0:
+				return;
+			break;
+			case 1:
+				$child=reset($this->children);
+			break;
+			default: // bridge(s) inside
+				$child=end($this->children);
+			break;
+		}
 
 		$query=new CJoinQuery($child);
-		$query->selects=array($child->getColumnSelect($child->relation->select));
-		$query->conditions=array(
-			$child->relation->condition,
-			$child->relation->on,
-		);
+		$query->selects=array();
+		$query->selects[]=$child->getColumnSelect($child->relation->select);
+		$query->conditions=array();
+		$query->conditions[]=$child->relation->condition;
+		$query->conditions[]=$child->relation->on;
 		$query->groups[]=$child->relation->group;
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;
@@ -479,6 +518,7 @@ class CJoinElement
 			$query->offset=$child->relation->offset;
 		}
 
+		$child->beforeFind();
 		$child->applyLazyCondition($query,$baseRecord);
 
 		$this->_joined=true;
@@ -518,11 +558,15 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
-			$joinTableName=$this->relation->getJunctionTableName();
-			if(($joinTable=$schema->getTable($joinTableName))===null)
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
+
+			if(($joinTable=$schema->getTable($matches[1]))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$joinTableName)));
-			$fks=$this->relation->getJunctionForeignKeys();
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+
 
 			$joinAlias=$schema->quoteTableName($this->relation->name.'_'.$this->tableAlias);
 			$parentCondition=array();
@@ -542,7 +586,7 @@ class CJoinElement
 						$params[':ypl'.$count]=$record->$pk;
 						$count++;
 					}
-					elseif(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
+					else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
 						$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 					else
 					{
@@ -620,7 +664,7 @@ class CJoinElement
 					{
 						if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
 							$pk=$parent->_table->foreignKeys[$fk][1];
-						elseif(is_array($this->_table->primaryKey)) // composite PK
+						else if(is_array($this->_table->primaryKey)) // composite PK
 							$pk=$this->_table->primaryKey[$i];
 						else
 							$pk=$this->_table->primaryKey;
@@ -633,7 +677,7 @@ class CJoinElement
 					{
 						if(isset($this->_table->foreignKeys[$fk]))  // FK defined
 							$pk=$this->_table->foreignKeys[$fk][1];
-						elseif(is_array($parent->_table->primaryKey)) // composite PK
+						else if(is_array($parent->_table->primaryKey)) // composite PK
 							$pk=$parent->_table->primaryKey[$i];
 						else
 							$pk=$parent->_table->primaryKey;
@@ -702,7 +746,7 @@ class CJoinElement
 		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
 		if($select!=='*' && !strncasecmp($select,'count',5))
 			$query->selects=array($select);
-		elseif(is_string($this->_table->primaryKey))
+		else if(is_string($this->_table->primaryKey))
 		{
 			$prefix=$this->getColumnPrefix();
 			$schema=$this->_builder->getSchema();
@@ -716,6 +760,19 @@ class CJoinElement
 		$query->limit=$query->offset=-1;
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
+	}
+
+	/**
+	 * Calls {@link CActiveRecord::beforeFind}.
+	 * @param boolean $isChild whether is called for a child
+	 */
+	public function beforeFind($isChild=true)
+	{
+		if($isChild)
+			$this->model->beforeFindInternal();
+
+		foreach($this->children as $child)
+			$child->beforeFind(true);
 	}
 
 	/**
@@ -741,7 +798,7 @@ class CJoinElement
 		{
 			if($child->master!==null)
 				$child->_joined=true;
-			elseif($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
+			else if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
 				|| $this->_finder->joinAll || $child->relation->together || (!$this->_finder->baseLimited && $child->relation->together===null))
 			{
 				$child->_joined=true;
@@ -903,7 +960,7 @@ class CJoinElement
 					$columns[]=$prefix.$schema->quoteColumnName($key).' AS '.$schema->quoteColumnName($this->_columnAliases[$key]);
 					$selected[$this->_columnAliases[$key]]=1;
 				}
-				elseif(preg_match('/^(.*?)\s+AS\s+(\w+)$/im',$name,$matches)) // if the column is already aliased
+				else if(preg_match('/^(.*?)\s+AS\s+(\w+)$/im',$name,$matches)) // if the column is already aliased
 				{
 					$alias=$matches[2];
 					if(!isset($this->_columnAliases[$alias]) || $this->_columnAliases[$alias]!==$alias)
@@ -920,7 +977,7 @@ class CJoinElement
 			// add primary key selection if they are not selected
 			if(is_string($this->_pkAlias) && !isset($selected[$this->_pkAlias]))
 				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
-			elseif(is_array($this->_pkAlias))
+			else if(is_array($this->_pkAlias))
 			{
 				foreach($this->_table->primaryKey as $name)
 					if(!isset($selected[$name]))
@@ -941,7 +998,7 @@ class CJoinElement
 		$columns=array();
 		if(is_string($this->_pkAlias))
 			$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
-		elseif(is_array($this->_pkAlias))
+		else if(is_array($this->_pkAlias))
 		{
 			foreach($this->_pkAlias as $name=>$alias)
 				$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($alias);
@@ -984,12 +1041,15 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
+
 			$schema=$this->_builder->getSchema();
-			$joinTableName=$this->relation->getJunctionTableName();
-			if(($joinTable=$schema->getTable($joinTableName))===null)
+			if(($joinTable=$schema->getTable($matches[1]))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$joinTableName)));
-			$fks=$this->relation->getJunctionForeignKeys();
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 
 			return $this->joinManyMany($joinTable,$fks,$parent);
 		}
@@ -1001,7 +1061,7 @@ class CJoinElement
 				$pke=$this;
 				$fke=$parent;
 			}
-			elseif($this->slave===null)
+			else if($this->slave===null)
 			{
 				$pke=$parent;
 				$fke=$this;
@@ -1090,7 +1150,7 @@ class CJoinElement
 				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
 				if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
 					$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-				elseif(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
+				else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
 					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 				else
 				{
@@ -1146,6 +1206,7 @@ class CJoinElement
  * CJoinQuery represents a JOIN SQL statement.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CActiveFinder.php 3562 2012-02-13 01:27:06Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -1257,7 +1318,7 @@ class CJoinQuery
 	/**
 	 * Creates the SQL statement.
 	 * @param CDbCommandBuilder $builder the command builder
-	 * @return CDbCommand DB command instance representing the SQL statement
+	 * @return string the SQL statement
 	 */
 	public function createCommand($builder)
 	{
@@ -1304,6 +1365,7 @@ class CJoinQuery
  * CStatElement represents STAT join element for {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CActiveFinder.php 3562 2012-02-13 01:27:06Z qiang.xue $
  * @package system.db.ar
  */
 class CStatElement
@@ -1487,7 +1549,7 @@ class CStatElement
 				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
 				if(!isset($joinCondition[$pk]) && $schema->compareTableNames($table->rawName,$tableName))
 					$joinCondition[$pk]=$tableAlias.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
-				elseif(!isset($map[$pk]) && $schema->compareTableNames($pkTable->rawName,$tableName))
+				else if(!isset($map[$pk]) && $schema->compareTableNames($pkTable->rawName,$tableName))
 					$map[$pk]=$fk;
 				else
 				{

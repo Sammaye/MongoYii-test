@@ -12,6 +12,8 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
+ *
+ * @version $Id: $
  */
 return array (
   'GD extension with<br />FreeType support' => 'Rozszerzenie GD <br />ze wsparciem dla FreeType',

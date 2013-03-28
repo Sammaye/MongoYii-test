@@ -43,6 +43,7 @@
  * CSort::SORT_DESC for descending order.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CSort.php 3554 2012-02-08 16:31:30Z alexander.makarow $
  * @package system.web
  */
 class CSort extends CComponent
@@ -167,8 +168,6 @@ class CSort extends CComponent
 	 *     'price'=>CSort::SORT_DESC,
 	 * )
 	 * </pre>
-	 * `SORT_DESC` and `SORT_ASC` are available since 1.1.10. In earlier Yii versions you should use
-	 * `true` and `false` respectively.
 	 *
 	 * Please note when using array to specify the default order, the corresponding attributes
 	 * will be put into {@link directions} and thus affect how the sort links are rendered
@@ -214,7 +213,7 @@ class CSort extends CComponent
 	 */
 	public function applyOrder($criteria)
 	{
-		$order=$this->getOrderBy($criteria);
+		$order=$this->getOrderBy();
 		if(!empty($order))
 		{
 			if(!empty($criteria->order))
@@ -224,12 +223,11 @@ class CSort extends CComponent
 	}
 
 	/**
-	 * @param CDbCriteria $criteria the query criteria
 	 * @return string the order-by columns represented by this sort object.
 	 * This can be put in the ORDER BY clause of a SQL statement.
 	 * @since 1.1.0
 	 */
-	public function getOrderBy($criteria=null)
+	public function getOrderBy()
 	{
 		$directions=$this->getDirections();
 		if(empty($directions))
@@ -249,7 +247,7 @@ class CSort extends CComponent
 					else
 						$orders[]=isset($definition['asc']) ? $definition['asc'] : $attribute;
 				}
-				elseif($definition!==false)
+				else if($definition!==false)
 				{
 					$attribute=$definition;
 					if(isset($schema))
@@ -257,7 +255,7 @@ class CSort extends CComponent
 						if(($pos=strpos($attribute,'.'))!==false)
 							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
 						else
-							$attribute=($criteria===null || $criteria->alias===null ? CActiveRecord::model($this->modelClass)->getTableAlias(true) : $schema->quoteTableName($criteria->alias)).'.'.$schema->quoteColumnName($attribute);
+							$attribute=CActiveRecord::model($this->modelClass)->getTableAlias(true).'.'.$schema->quoteColumnName($attribute);
 					}
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}
@@ -293,7 +291,7 @@ class CSort extends CComponent
 			$descending=!$directions[$attribute];
 			unset($directions[$attribute]);
 		}
-		elseif(is_array($definition) && isset($definition['default']))
+		else if(is_array($definition) && isset($definition['default']))
 			$descending=$definition['default']==='desc';
 		else
 			$descending=false;
@@ -324,7 +322,7 @@ class CSort extends CComponent
 			if(isset($definition['label']))
 				return $definition['label'];
 		}
-		elseif(is_string($definition))
+		else if(is_string($definition))
 			$attribute=$definition;
 		if($this->modelClass!==null)
 			return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
@@ -421,7 +419,7 @@ class CSort extends CComponent
 	{
 		if($this->attributes!==array())
 			$attributes=$this->attributes;
-		elseif($this->modelClass!==null)
+		else if($this->modelClass!==null)
 			$attributes=CActiveRecord::model($this->modelClass)->attributeNames();
 		else
 			return false;
@@ -432,12 +430,12 @@ class CSort extends CComponent
 				if($name===$attribute)
 					return $definition;
 			}
-			elseif($definition==='*')
+			else if($definition==='*')
 			{
 				if($this->modelClass!==null && CActiveRecord::model($this->modelClass)->hasAttribute($attribute))
 					return $attribute;
 			}
-			elseif($definition===$attribute)
+			else if($definition===$attribute)
 				return $attribute;
 		}
 		return false;

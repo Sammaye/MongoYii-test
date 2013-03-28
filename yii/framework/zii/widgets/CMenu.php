@@ -37,6 +37,7 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CMenu.php 3520 2011-12-29 09:54:22Z mdomba $
  * @package zii.widgets
  * @since 1.1
  */
@@ -119,12 +120,6 @@ class CMenu extends CWidget
 	 * @since 1.1.4
 	 */
 	public $linkLabelWrapper;
-	/**
-	 * @var array HTML attributes for the links' wrap element specified in
-	 * {@link linkLabelWrapper}.
-	 * @since 1.1.13
-	 */
-	public $linkLabelWrapperHtmlOptions=array();
 	/**
 	 * @var string the CSS class that will be assigned to the first item in the main menu or each submenu.
 	 * Defaults to null, meaning no such CSS class will be assigned.
@@ -241,7 +236,7 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']))
 		{
-			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
+			$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
 		}
 		else
@@ -289,7 +284,7 @@ class CMenu extends CWidget
 				else
 					$items[$i]['active']=false;
 			}
-			elseif($item['active'])
+			else if($item['active'])
 				$active=true;
 		}
 		return array_values($items);
@@ -307,7 +302,6 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']) && is_array($item['url']) && !strcasecmp(trim($item['url'][0],'/'),$route))
 		{
-			unset($item['url']['#']);
 			if(count($item['url'])>1)
 			{
 				foreach(array_splice($item['url'],1) as $name=>$value)

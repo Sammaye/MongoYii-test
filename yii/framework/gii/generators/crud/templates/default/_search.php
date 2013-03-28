@@ -4,12 +4,6 @@
  * - $this: the CrudCode object
  */
 ?>
-<?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $model <?php echo $this->getModelClass(); ?> */
-/* @var $form CActiveForm */
-?>
-
 <div class="wide form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(

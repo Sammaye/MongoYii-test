@@ -1,6 +1,9 @@
 <?php
 /**
  * Message translations.
+ *
+ *
+ * @version $Id: 1
  */
 return array (
   '$_SERVER does not have {vars}.' => '$_SERVER няма {vars}.',

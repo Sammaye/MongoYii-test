@@ -14,8 +14,7 @@
  * PHP SOAP extension is required.
  *
  * CWebService makes use of {@link CWsdlGenerator} and can generate the WSDL
- * on-the-fly without requiring you to write complex WSDL. However WSDL generator
- * could be customized through {@link generatorConfig} property.
+ * on-the-fly without requiring you to write complex WSDL.
  *
  * To generate the WSDL based on doc comment blocks in the service provider class,
  * call {@link generateWsdl} or {@link renderWsdl}. To process the web service
@@ -24,6 +23,7 @@
  * @property string $methodName The currently requested method name. Empty if no method is being requested.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CWebService.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web.services
  * @since 1.0
  */
@@ -77,15 +77,6 @@ class CWebService extends CComponent
 	 * @see http://www.php.net/manual/en/function.soap-soapserver-setpersistence.php
 	 */
 	public $persistence;
-	/**
-	 * @var string|array WSDL generator configuration. This property may be useful in purpose of enhancing features
-	 * of the standard {@link CWsdlGenerator} class by extending it. For example, some developers may need support
-	 * of the <code>xsd:xsd:base64Binary</code> elements. Another use case is to change initial values
-	 * at instantiation of the default {@link CWsdlGenerator}. The value of this property will be passed
-	 * to {@link Yii::createComponent} to create the generator object. Default value is 'CWsdlGenerator'.
-	 * @since 1.1.12
-	 */
-	public $generatorConfig='CWsdlGenerator';
 
 	private $_method;
 
@@ -147,7 +138,7 @@ class CWebService extends CComponent
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
-		$generator=Yii::createComponent($this->generatorConfig);
+		$generator=new CWsdlGenerator;
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
 		if(isset($key))
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
@@ -237,7 +228,7 @@ class CWebService extends CComponent
 		$options=array();
 		if($this->soapVersion==='1.1')
 			$options['soap_version']=SOAP_1_1;
-		elseif($this->soapVersion==='1.2')
+		else if($this->soapVersion==='1.2')
 			$options['soap_version']=SOAP_1_2;
 		if($this->actor!==null)
 			$options['actor']=$this->actor;
@@ -258,6 +249,7 @@ class CWebService extends CComponent
  * CSoapObjectWrapper is a wrapper class internally used when SoapServer::setObject() is not defined.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CWebService.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web.services
  */
 class CSoapObjectWrapper

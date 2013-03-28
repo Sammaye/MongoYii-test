@@ -27,6 +27,7 @@
  * @property CDbConnection $dbConnection The DB connection instance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CDbCache.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.caching
  * @since 1.0
  */
@@ -124,7 +125,7 @@ class CDbCache extends CCache
 		$driver=$db->getDriverName();
 		if($driver==='mysql')
 			$blob='LONGBLOB';
-		elseif($driver==='pgsql')
+		else if($driver==='pgsql')
 			$blob='BYTEA';
 		else
 			$blob='BLOB';
@@ -147,7 +148,7 @@ EOD;
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		elseif(($id=$this->connectionID)!==null)
+		else if(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
@@ -224,7 +225,7 @@ EOD;
 		foreach($keys as $key)
 			$results[$key]=false;
 		foreach($rows as $row)
-			$results[$row['id']]=$row['value'];
+			$results[$row['id']]=$results[$row['value']];
 		return $results;
 	}
 

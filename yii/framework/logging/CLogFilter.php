@@ -19,9 +19,10 @@
  * issues encountered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CLogFilter.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.logging
  */
-class CLogFilter extends CComponent implements ILogFilter
+class CLogFilter extends CComponent
 {
 	/**
 	 * @var boolean whether to prefix each log message with the current user session ID.

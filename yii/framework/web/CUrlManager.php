@@ -118,6 +118,7 @@
  * Please refer to the guide for more details about the difference between these two formats.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CUrlManager.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -237,7 +238,7 @@ class CUrlManager extends CApplicationComponent
 	 * they will be inserted at the beginning.
 	 * @since 1.1.4
 	 */
-	public function addRules($rules,$append=true)
+	public function addRules($rules, $append=true)
 	{
 		if ($append)
 		{
@@ -246,7 +247,6 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 		{
-			$rules=array_reverse($rules);
 			foreach($rules as $pattern=>$route)
 				array_unshift($this->_rules, $this->createUrlRule($route,$pattern));
 		}
@@ -343,7 +343,7 @@ class CUrlManager extends CApplicationComponent
 				if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 					$url.=$ampersand.$query;
 			}
-			elseif(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
+			else if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 				$url.='?'.$query;
 			return $url;
 		}
@@ -373,9 +373,9 @@ class CUrlManager extends CApplicationComponent
 			else
 				return $pathInfo;
 		}
-		elseif(isset($_GET[$this->routeVar]))
+		else if(isset($_GET[$this->routeVar]))
 			return $_GET[$this->routeVar];
-		elseif(isset($_POST[$this->routeVar]))
+		else if(isset($_POST[$this->routeVar]))
 			return $_POST[$this->routeVar];
 		else
 			return '';
@@ -517,6 +517,7 @@ class CUrlManager extends CApplicationComponent
  * {@link createUrl} and {@link parseUrl}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CUrlManager.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web
  * @since 1.1.8
  */
@@ -555,6 +556,7 @@ abstract class CBaseUrlRule extends CComponent
  * may have a set of named parameters.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: CUrlManager.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -748,7 +750,7 @@ class CUrlRule extends CBaseUrlRule
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!preg_match('/\A'.$value.'\z/u'.$case,$params[$key]))
+				if(!preg_match('/'.$value.'/'.$case,$params[$key]))
 					return false;
 			}
 		}
@@ -831,7 +833,7 @@ class CUrlRule extends CBaseUrlRule
 			{
 				if(isset($this->references[$key]))
 					$tr[$this->references[$key]]=$value;
-				elseif(isset($this->params[$key]))
+				else if(isset($this->params[$key]))
 					$_REQUEST[$key]=$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params

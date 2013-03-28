@@ -6,10 +6,8 @@
  * - $action: the action ID
  */
 ?>
-<?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-
 <?php
+echo "<?php\n";
 $label=ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', basename($this->getControllerID()))))));
 if($action==='index')
 {
@@ -26,7 +24,6 @@ else
 );";
 }
 ?>
-
 ?>
 <h1><?php echo '<?php'; ?> echo $this->id . '/' . $this->action->id; ?></h1>
 

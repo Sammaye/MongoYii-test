@@ -6,12 +6,14 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
+ * @version $Id: ModelCommand.php 3477 2011-12-06 22:33:37Z alexander.makarow $
  */
 
 /**
  * ModelCommand generates a model class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id: ModelCommand.php 3477 2011-12-06 22:33:37Z alexander.makarow $
  * @package system.cli.commands.shell
  * @since 1.0
  */
@@ -205,7 +207,7 @@ EOD;
 		{
 			if($pattern===null)
 				$this->_tables[$name]=$this->generateClassName($this->removePrefix($name));
-			elseif(preg_match($pattern,$name,$matches))
+			else if(preg_match($pattern,$name,$matches))
 			{
 				if(count($matches)>1 && !empty($matches[1]))
 					$className=$this->generateClassName($matches[1]);
@@ -244,7 +246,6 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array command line parameters specific for this command
-	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
 	{
@@ -252,7 +253,7 @@ EOD;
 		{
 			echo "Error: model class name is required.\n";
 			echo $this->getHelp();
-			return 1;
+			return;
 		}
 		$className=$args[0];
 
@@ -261,7 +262,7 @@ EOD;
 			echo "Error: an active 'db' connection is required.\n";
 			echo "If you already added 'db' component in application configuration,\n";
 			echo "please quit and re-enter the yiic shell.\n";
-			return 1;
+			return;
 		}
 
 		$db->active=true;
@@ -270,7 +271,7 @@ EOD;
 		if(!preg_match('/^[\w\.\-\*]*(.*?)$/',$className,$matches))
 		{
 			echo "Error: model class name is invalid.\n";
-			return 1;
+			return;
 		}
 
 		if(empty($matches[1]))  // without regular expression
@@ -406,11 +407,11 @@ EOD;
 					$required[]=$column->name;
 				if($column->type==='integer')
 					$integers[]=$column->name;
-				elseif($column->type==='double')
+				else if($column->type==='double')
 					$numerical[]=$column->name;
-				elseif($column->type==='string' && $column->size>0)
+				else if($column->type==='string' && $column->size>0)
 					$length[$column->size][]=$column->name;
-				elseif(!$column->isPrimaryKey && !$r)
+				else if(!$column->isPrimaryKey && !$r)
 					$safe[]=$column->name;
 			}
 			if($required!==array())
