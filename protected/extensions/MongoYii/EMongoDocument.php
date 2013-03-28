@@ -499,7 +499,7 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function equals($record)
 	{
-		return $this->collectionName()===$record->collectionName() && (string)$this->{$this->primaryKey()}===(string)$record->{$this->primaryKey()};
+		return $this->collectionName()===$record->collectionName() && (string)$this->getPrimaryKey()===(string)$record->getPrimaryKey();
 	}
 
 	/**
