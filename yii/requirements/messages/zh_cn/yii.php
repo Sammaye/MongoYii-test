@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: yii.php 2651 2010-11-14 14:17:44Z qiang.xue $
  */
 return array (
   'PHP version' => 'PHP版本',
