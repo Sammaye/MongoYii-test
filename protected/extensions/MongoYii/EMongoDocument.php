@@ -146,8 +146,8 @@ class EMongoDocument extends EMongoModel{
 	 * function as you would the getMongoId function. These two functions should never have been separate
 	 * for they are the same essentially.
 	 *
-	 * As to what version this will become deprecated; I dunno. It will not be soon since it will be a functionality
-	 * breaker...
+	 * As to what version this will become deprecated:- I dunno. It will not be soon since it will be a
+	 * functionality breaker...
 	 *
 	 * @param string|MongoId $value
 	 * @return MongoId
@@ -474,6 +474,9 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function exists($criteria=array()){
 		$this->trace(__FUNCTION__);
+
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		return $this->getCollection()->findOne($criteria)!==null;
 	}
 
@@ -495,12 +498,12 @@ class EMongoDocument extends EMongoModel{
 	public function findOne($criteria=array()){
 		$this->trace(__FUNCTION__);
 
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		$c=$this->getDbCriteria();
 		if((
-			$record=$this->getCollection()->findOne($this->mergeCriteria(
-										isset($c['condition']) ? $c['condition'] : array(), $criteria
-		)))!==null){
-
+			$record=$this->getCollection()->findOne($this->mergeCriteria(isset($c['condition']) ? $c['condition'] : array(), $criteria))
+		)!==null){
 			$this->resetScope();
 			return $this->populateRecord($record);
 		}else
@@ -514,7 +517,13 @@ class EMongoDocument extends EMongoModel{
     public function find($criteria=array()){
     	$this->trace(__FUNCTION__);
 
-    	$c=$this->getDbCriteria();
+		if($criteria instanceof EMongoCriteria){
+			$c = $criteria->mergeWith($this->getDbCriteria())->toArray();
+			$criteria=null;
+		}else{
+			$c=$this->getDbCriteria();
+		}
+
     	if($c!==array()){
     		$cursor = new EMongoCursor($this, $this->mergeCriteria(isset($c['condition']) ? $c['condition'] : array(), $criteria));
 			if(isset($c['sort'])) $cursor->sort($c['sort']);
@@ -556,6 +565,8 @@ class EMongoDocument extends EMongoModel{
 	public function deleteByPk($pk,$criteria=array(),$options=array()){
 		$this->trace(__FUNCTION__);
 
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		$pk = $this->getPrimaryKey($pk);
 		return $this->getCollection()->remove(array_merge(array($this->primaryKey() => $pk), $criteria),
 					array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
@@ -571,6 +582,8 @@ class EMongoDocument extends EMongoModel{
 	public function updateByPk($pk, $updateDoc = array(), $criteria = array(), $options = array()){
 		$this->trace(__FUNCTION__);
 
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		$pk = $this->getPrimaryKey($pk);
 		return $this->getCollection()->update($this->mergeCriteria($criteria, array($this->primaryKey() => $pk)),$updateDoc,
 				array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
@@ -584,6 +597,9 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function updateAll($criteria=array(),$updateDoc=array(),$options=array('multiple'=>true)){
 		$this->trace(__FUNCTION__);
+
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		return $this->getCollection()->update($criteria, $updateDoc, array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
 
@@ -594,6 +610,9 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function deleteAll($criteria=array(),$options=array()){
 		$this->trace(__FUNCTION__);
+
+		if($criteria instanceof EMongoCriteria)
+			$criteria = $criteria->getCondition();
 		return $this->getCollection()->remove($criteria, array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
 
@@ -626,8 +645,8 @@ class EMongoDocument extends EMongoModel{
 	    $criteria = !empty($criteria) && !$criteria instanceof EMongoCriteira ? $criteria : $this->getDbCriteria();
 
 	    if($criteria instanceof EMongoCriteria)
-	        $crtieria = $criteria->toArray();
-	    return $this->getCollection()->find(isset($criteria['condition']) ? $criteria['condition'] : array())->count();
+	        $crtieria = $criteria->getCondition();
+	    return $this->getCollection()->find(isset($criteria) ? $criteria : array())->count();
 	}
 
 	/**
