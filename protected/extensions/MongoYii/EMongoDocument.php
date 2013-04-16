@@ -138,18 +138,31 @@ class EMongoDocument extends EMongoModel{
 
 	/**
 	 * Returns MongoId based on $value
+	 *
+	 * @deprecated This function will become deprecated in favour of consistently
+	 * using the getPrimaryKey() function instead. Atm, however, the getPrimaryKey
+	 * function actually chains onto this method. If you see this and are wondering
+	 * about what you should do if you want custom primary keys etc just use the getPrimaryKey
+	 * function as you would the getMongoId function. These two functions should never have been separate
+	 * for they are the same essentially.
+	 *
+	 * As to what version this will become deprecated; I dunno. It will not be soon since it will be a functionality
+	 * breaker...
+	 *
 	 * @param string|MongoId $value
 	 * @return MongoId
 	 */
-	public function getMongoId($value){
+	public function getMongoId($value=null){
 		return $value instanceof MongoId ? $value : new MongoId($value);
 	}
 
 	/**
 	 * Returns the value of the primary key
 	 */
-	public function getPrimaryKey(){
-		return $this->{$this->primaryKey()};
+	public function getPrimaryKey($value=null){
+		if($value===null)
+			$value=$this->{$this->primaryKey()};
+		return $this->getMongoId($value);
 	}
 
 	/**
@@ -521,7 +534,7 @@ class EMongoDocument extends EMongoModel{
      */
     public function findBy_id($_id){
     	$this->trace(__FUNCTION__);
-		$_id = $this->getMongoId($_id);
+		$_id = $this->getPrimaryKey($_id);
 		return $this->findOne(array($this->primaryKey() => $_id));
     }
 
@@ -543,7 +556,7 @@ class EMongoDocument extends EMongoModel{
 	public function deleteByPk($pk,$criteria=array(),$options=array()){
 		$this->trace(__FUNCTION__);
 
-		$pk = $this->getMongoId($pk);
+		$pk = $this->getPrimaryKey($pk);
 		return $this->getCollection()->remove(array_merge(array($this->primaryKey() => $pk), $criteria),
 					array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
@@ -558,7 +571,7 @@ class EMongoDocument extends EMongoModel{
 	public function updateByPk($pk, $updateDoc = array(), $criteria = array(), $options = array()){
 		$this->trace(__FUNCTION__);
 
-		$pk = $this->getMongoId($pk);
+		$pk = $this->getPrimaryKey($pk);
 		return $this->getCollection()->update($this->mergeCriteria($criteria, array($this->primaryKey() => $pk)),$updateDoc,
 				array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
@@ -698,7 +711,7 @@ class EMongoDocument extends EMongoModel{
     public function refresh(){
 
 		$this->trace(__FUNCTION__);
-		if(!$this->getIsNewRecord() && ($record=$this->getCollection()->findOne(array($this->primaryKey() => $this->getMongoId($this->getPrimaryKey()))))!==null){
+		if(!$this->getIsNewRecord() && ($record=$this->getCollection()->findOne(array($this->primaryKey() => $this->getPrimaryKey())))!==null){
 			$this->clean();
 
 			foreach($record as $name=>$column)
