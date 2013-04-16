@@ -56,7 +56,12 @@ return array(
 		'mongodb' => array(
 			'class' => 'EMongoClient',
 			'server' => 'mongodb://localhost:27017',
-			'db' => 'super_test'
+			'options' => array(
+				//'replicaSet' => 'rs0'		
+			),
+			'db' => 'super_test',
+			//'w' => 'majority',
+			'RP' => array('RP_PRIMARY', array())
 		),
 		// uncomment the following to use a MySQL database
 		/*
