@@ -28,6 +28,18 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 
+//		$user=new User;
+//		$user->_id='1002';
+//		$user->username='sammaye';
+//		$user->save();
+//		$user = User::model()->findOne(array('_id'=>'1002'));
+//		echo ($user->_id."\n");
+//		print_r($user->delete());
+//		unset($user);
+//		$user = User::model()->findOne(array('_id'=>'1002'));
+//		echo ($user->_id . "\n");
+//		exit;
+
 //		$u=new User();
 //		$u->username='samaye';
 //		$u->active=true;
@@ -61,8 +73,8 @@ class SiteController extends Controller
 		//var_dump($u->save());
 
 		var_dump(User::model()->find()->count());
-		
-		
+
+
 		$u=new EMongoDataProvider('User', array('pagination' => array('pageSize' => 20), 'criteria' => array('condition' => array('boards.dealclub' => 123, 'source' => array('$ne' => 'cheese')))));
 		var_dump($u);
 		var_dump($u->getTotalItemCount());

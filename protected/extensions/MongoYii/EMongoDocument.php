@@ -36,36 +36,9 @@ class EMongoDocument extends EMongoModel{
 	 *
 	 * @param string $scenario
 	 */
-	public function __construct($scenario='insert')
-	{
+	public function __construct($scenario='insert'){
 
-		// Run reflection and cache it if not already there
-		if(!$this->getDbConnection()->getObjCache(get_class($this)) && get_class($this) != 'EMongoDocument' /* We can't cache the model */){
-			$virtualFields = array();
-			$documentFields = array();
-
-			$reflect = new ReflectionClass(get_class($this));
-			$class_vars = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED); // Pre-defined doc attributes
-
-			foreach ($class_vars as $prop) {
-
-				if($prop->isStatic())
-					continue;
-
-				$docBlock = $prop->getDocComment();
-
-				// If it is not public and it is not marked as virtual then assume it is document field
-				if($prop->isProtected() || preg_match('/@virtual/i', $docBlock) <= 0){
-					$documentFields[] = $prop->getName();
-				}else{
-					$virtualFields[] = $prop->getName();
-				}
-			}
-			$this->getDbConnection()->setObjectCache(get_class($this),
-				sizeof($virtualFields) > 0 ? $virtualFields : null,
-				sizeof($documentFields) > 0 ? $documentFields : null
-			);
-		}
+		$this->getDbConnection()->setDocumentCache($this);
 
 		if($scenario===null) // internally used by populateRecord() and model()
 			return;
@@ -596,7 +569,7 @@ class EMongoDocument extends EMongoModel{
 	 * @param array $updateDoc
 	 * @param array $options
 	 */
-	public function updateAll($criteria=array(),$updateDoc=array(),$options=array('multi'=>true)){
+	public function updateAll($criteria=array(),$updateDoc=array(),$options=array('multiple'=>true)){
 		$this->trace(__FUNCTION__);
 		return $this->getCollection()->update($criteria, $updateDoc, array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
@@ -610,7 +583,7 @@ class EMongoDocument extends EMongoModel{
 		$this->trace(__FUNCTION__);
 		return $this->getCollection()->remove($criteria, array_merge($this->getDbConnection()->getDefaultWriteConcern(), $options));
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see http://www.yiiframework.com/doc/api/1.1/CActiveRecord#saveCounters-detail
@@ -626,7 +599,23 @@ class EMongoDocument extends EMongoModel{
 			return $this->updateByPk($this->{$this->primaryKey()}, array('$inc' => $counters));
 		}
 		return true; // Assume true since the action did run it just had nothing to update...
-	}	
+	}
+
+	/**
+	 * Count() allows you to count all the documents returned by a certain condition, it is analogous
+	 * to $db->collection->find()->count() and basically does exactly that...
+	 * @param EMongoCriteria|array $criteria
+	 */
+	public function count($criteria = array()){
+	    $this->trace(__FUNCTION__);
+
+	    // If we provide a manual criteria via EMongoCriteria or an array we do not use the models own DbCriteria
+	    $criteria = !empty($criteria) && !$criteria instanceof EMongoCriteira ? $criteria : $this->getDbCriteria();
+
+	    if($criteria instanceof EMongoCriteria)
+	        $crtieria = $criteria->toArray();
+	    return $this->getCollection()->find(isset($criteria['condition']) ? $criteria['condition'] : array())->count();
+	}
 
 	/**
 	 * Gives basic searching abilities for things like CGridView
@@ -681,6 +670,26 @@ class EMongoDocument extends EMongoModel{
 	public function aggregate($pipeline){
 		$this->trace(__FUNCTION__);
 		return Yii::app()->mongodb->aggregate($this->collectionName(),$pipeline);
+	}
+
+	/**
+	 * A distinct helper on the model, this is not the same as the aggregation framework
+	 * distinct
+	 * @link http://docs.mongodb.org/manual/reference/command/distinct/
+	 * @param string $key
+	 * @param array $query
+	 */
+	public function distinct($key, $query = array()){
+		$this->trace(__FUNCTION__);
+		$c=$this->getDbCriteria();
+		if(is_array($c) && isset($c['condition']) && !empty($c['condition']))
+			$query=CMap::mergeArray($query, $c['condition']);
+
+		return Yii::app()->mongodb->command(array(
+			'distinct' => $this->collectionName(),
+			'key' => $key,
+			'query' => $query
+		));
 	}
 
     /**

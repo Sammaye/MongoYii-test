@@ -2,7 +2,7 @@
 
 /**
  * This is the extensions version of CDbCriteria.
- * 
+ *
  * This class is by no means required however it can help in your programming.
  */
 class EMongoCriteria extends CComponent {
@@ -104,7 +104,15 @@ class EMongoCriteria extends CComponent {
         $this->_condition[$column] = $operator === null ? $value : array($operator => $value);
         return $this;
     }
-    
+
+    /**
+     * Adds an $or condition to the criteria
+     * @param array $condition
+     */
+    public function addOrCondition($condition){
+    	$this->_condition['$or'] = $condition;
+    }
+
     /**
      * Base search functionality
      * @param string $column
@@ -125,19 +133,27 @@ class EMongoCriteria extends CComponent {
                 if (preg_match('/^[0-9]+$/', $value))
                     $value = (int) $value;
             }
-            switch ($op) {
-                case "<>":
-                    $query[$column] = array('$ne' => $value);
-                case "<=":
-                    $query[$column] = array('$lte' => $value);
-                case ">=":
-                    $query[$column] = array('$gte' => $value);
-                case "<":
-                    $query[$column] = array('$lt' => $value);
-                case ">":
-                    $query[$column] = array('$gt' => $value);
-                default:
-                    $query[$column] = $value;
+
+            switch($op){
+            	case "<>":
+            		$query[$column] = array('$ne' => $value);
+            		break;
+            	case "<=":
+            		$query[$column] = array('$lte' => $value);
+            		break;
+            	case ">=":
+            		$query[$column] = array('$gte' => $value);
+            		break;
+            	case "<":
+            		$query[$column] = array('$lt' => $value);
+            		break;
+            	case ">":
+            		$query[$column] = array('$gt' => $value);
+            		break;
+            	case "=":
+            	default:
+            		$query[$column] = $value;
+            		break;
             }
         }
         if (!$query)
@@ -183,13 +199,18 @@ class EMongoCriteria extends CComponent {
     }
 
     /**
-     * Returns the array notation of the criteria
+     * @param boolean $onlyCondition indicates whether to return only condition part or criteria.
+     * Should be setted in "true" if criteria it is used at EMongoDocument::find() and common find methods.
      * @return array native representation of the criteria
      */
-    public function toArray() {
-        $result = array();
-        foreach (array('_condition', '_limit', '_skip', '_sort') as $name)
-            $result[substr($name, 1)] = $this->$name;
-        return $result;
+    public function toArray($onlyCondition = false) {
+    	$result = array();
+    	if ($onlyCondition === true) {
+    		$result = $this->condition;
+    	} else {
+    		foreach (array('_condition', '_limit', '_skip', '_sort') as $name)
+    			$result[substr($name, 1)] = $this->$name;
+    	}
+    	return $result;
     }
 }

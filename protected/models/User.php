@@ -23,6 +23,10 @@ class User extends EMongoDocument{
 		);
 	}
 
+//	function getMongoId($v){
+//		return $v;
+//	}
+
 	function collectionName(){
 		return 'users';
 	}
