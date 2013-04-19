@@ -4,6 +4,11 @@ class User extends EMongoDocument{
 
 	//public $_id;
 
+	/**
+	 *
+	 * Enter description here ...
+	 * @var int
+	 */
 	public $username;
 	public $addresses = array();
 	public $boards = array();

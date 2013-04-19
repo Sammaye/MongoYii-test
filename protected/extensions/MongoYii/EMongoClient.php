@@ -76,7 +76,7 @@ class EMongoClient extends CApplicationComponent{
 	 * to keep getting them
 	 * @var array
 	 */
-	private $_objCache = array();
+	private $_meta = array();
 
 	/**
 	 * The default action is to get a collection
@@ -226,8 +226,7 @@ class EMongoClient extends CApplicationComponent{
 			!$this->getObjCache(get_class($o)) && // Run reflection and cache it if not already there
 			(get_class($o) != 'EMongoDocument' && get_class($o) != 'EMongoModel') /* We can't cache the model */
 		){
-			$virtualFields = array();
-			$documentFields = array();
+			$_meta = array();
 
 			$reflect = new ReflectionClass(get_class($o));
 			$class_vars = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED); // Pre-defined doc attributes
@@ -238,14 +237,21 @@ class EMongoClient extends CApplicationComponent{
 					continue;
 
 				$docBlock = $prop->getDocComment();
+				$field_meta = array(
+					'name' => $prop->getName(),
+					'virtual' => $prop->isProtected() || preg_match('/@virtual/i', $docBlock) <= 0 ? false : true
+				);
 
-				// If it is not public and it is not marked as virtual then assume it is document field
-				if($prop->isProtected() || preg_match('/@virtual/i', $docBlock) <= 0){
-					$documentFields[] = $prop->getName();
-				}else{
-					$virtualFields[] = $prop->getName();
+				// Lets fetch the data type for this field
+				// Since we always fetch the data type for this field we make a regex that will only pick out the first
+				if(preg_match('/@var ([a-zA-Z]+)/', $docBlock, $matches) > 0){
+					//var_dump($matches);
+					$field_meta['type'] = $matches[1];
 				}
+				$_meta[$prop->getName()] = $field_meta;
 			}
+
+			$this->_meta[get_class($o)] = $_meta;
 			$this->setObjectCache(get_class($o),
 				sizeof($virtualFields) > 0 ? $virtualFields : null,
 				sizeof($documentFields) > 0 ? $documentFields : null
@@ -275,7 +281,16 @@ class EMongoClient extends CApplicationComponent{
 	 * @return NULL|array
 	 */
 	public function getVirtualObjCache($name){
-		return isset($this->_objCache[$name], $this->_objCache[$name]['virtual']) ? $this->_objCache[$name]['virtual'] : null;
+		$doc = isset($this->_meta[$name]) ? $this->_meta[$name] : null;
+		$fields = array();
+
+		if($doc){
+			foreach($doc as $name => $opts){
+				if($opts['virtual']) $fields[] = $name;
+			}
+		}
+		return sizeof($fields) > 0 ? $fields : null;
+		//return isset($this->_objCache[$name], $this->_objCache[$name]['virtual']) ? $this->_objCache[$name]['virtual'] : null;
 	}
 
 	/**
@@ -284,7 +299,16 @@ class EMongoClient extends CApplicationComponent{
 	 * @return NULL|array
 	 */
 	public function getFieldObjCache($name){
-		return isset($this->_objCache[$name], $this->_objCache[$name]['document']) ? $this->_objCache[$name]['document'] : null;
+		$doc = isset($this->_meta[$name]) ? $this->_meta[$name] : null;
+		$fields = array();
+
+		if($doc){
+			foreach($doc as $name => $opts){
+				if(!$opts['virtual']) $fields[] = $name;
+			}
+		}
+		return sizeof($fields) > 0 ? $fields : null;
+		//return isset($this->_objCache[$name], $this->_objCache[$name]['document']) ? $this->_objCache[$name]['document'] : null;
 	}
 
 	/**
@@ -293,7 +317,7 @@ class EMongoClient extends CApplicationComponent{
 	 * @return NULL|array
 	 */
 	public function getObjCache($name){
-		return isset($this->_objCache[$name]) ? $this->_objCache[$name] : null;
+		return isset($this->_meta[$name]) ? $this->_meta[$name] : null;
 	}
 
 	/**
