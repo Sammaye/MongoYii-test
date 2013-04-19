@@ -32,7 +32,9 @@ class SiteController extends Controller
 //		$user->_id='1002';
 //		$user->username='sammaye';
 //		$user->save();
-//		$user = User::model()->findOne(array('_id'=>'1002'));
+		$user = User::model()->findOne(array('_id'=>'1002'));
+		
+		var_dump(Yii::app()->mongodb->getDocumentCache('User'));
 //		echo ($user->_id."\n");
 //		print_r($user->delete());
 //		unset($user);
@@ -77,9 +79,9 @@ class SiteController extends Controller
 		$c->addCondition('active', true);
 		$c->skip=1;
 		$c->limit = 5;
-		var_dump(User::model()->find($c)->count());
+		//var_dump(User::model()->find($c)->count());
 
-		var_dump(User::model()->findOne());
+		//var_dump(User::model()->findOne());
 
 		//$u=new EMongoDataProvider('User', array('pagination' => array('pageSize' => 20), 'criteria' => array('condition' => array('boards.dealclub' => 123, 'source' => array('$ne' => 'cheese')))));
 		//var_dump($u);
