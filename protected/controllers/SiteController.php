@@ -28,13 +28,24 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 
+		$db=  Yii::app()->mongodb->connection->students;
+		
+		$result = $db->grades->aggregate(array(
+			array('$match' => array('type' => 'homework')),
+			array('$sort' => array('score' => 1)),
+			array('$group' => array('_id' => '$student_id', 'f_id' => array('$first' => '$_id'), 'score' => array('$first' => '$score')))	
+		));
+		foreach($result['result'] as $student)
+			$db->grades->remove(array('_id' => $student['f_id']));
+		
+		
 //		$user=new User;
 //		$user->_id='1002';
 //		$user->username='sammaye';
 //		$user->save();
-		$user = User::model()->findOne(array('_id'=>'1002'));
+		//$user = User::model()->findOne(array('_id'=>'1002'));
 		
-		var_dump(Yii::app()->mongodb->getDocumentCache('User'));
+		//var_dump(Yii::app()->mongodb->getDocumentCache('User'));
 //		echo ($user->_id."\n");
 //		print_r($user->delete());
 //		unset($user);
@@ -74,11 +85,11 @@ class SiteController extends Controller
 		//$u->active=false;
 		//var_dump($u->save());
 
-		$c = new EMongoCriteria();
-		$c->addCondition('username', 'samaye');
-		$c->addCondition('active', true);
-		$c->skip=1;
-		$c->limit = 5;
+		//$c = new EMongoCriteria();
+		//$c->addCondition('username', 'samaye');
+		//$c->addCondition('active', true);
+		//$c->skip=1;
+		//$c->limit = 5;
 		//var_dump(User::model()->find($c)->count());
 
 		//var_dump(User::model()->findOne());
