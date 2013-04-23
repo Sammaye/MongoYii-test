@@ -121,16 +121,16 @@ class EMongoCriteria extends CComponent {
      * @return EMongoCriteria
      */
     public function compare($column, $value = null, $strong = false) {
-        if (!$value)
+        if ($value===null)
             return $this;
         $query = array();
         if (preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/', $value, $matches)) {
             $value = $matches[2];
             $op = $matches[1];
-            if (!$strong && !preg_match('/^[0-9]+$/', $value))
+            if (!$strong && !preg_match('/^([0-9]|[1-9]{1}\d+)$/', $value))
                 $value = new MongoRegex("/$value/i");
             else {
-                if (preg_match('/^[0-9]+$/', $value))
+                if (preg_match('/^([0-9]|[1-9]{1}\d+)$/', $value))
                     $value = (int) $value;
             }
 

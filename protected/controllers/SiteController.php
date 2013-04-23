@@ -28,23 +28,43 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 
-		$db=  Yii::app()->mongodb->connection->students;
-		
-		$result = $db->grades->aggregate(array(
-			array('$match' => array('type' => 'homework')),
-			array('$sort' => array('score' => 1)),
-			array('$group' => array('_id' => '$student_id', 'f_id' => array('$first' => '$_id'), 'score' => array('$first' => '$score')))	
-		));
-		foreach($result['result'] as $student)
-			$db->grades->remove(array('_id' => $student['f_id']));
-		
-		
+//		$db=  Yii::app()->mongodb->connection->students;
+//
+//		$result = $db->grades->aggregate(array(
+//			array('$match' => array('type' => 'homework')),
+//			array('$sort' => array('score' => 1)),
+//			array('$group' => array('_id' => '$student_id', 'f_id' => array('$first' => '$_id'), 'score' => array('$first' => '$score')))
+//		));
+//		foreach($result['result'] as $student)
+//			$db->grades->remove(array('_id' => $student['f_id']));
+
+
+		$user=new User;
+		$user->username='sammaye';
+		$d = new Menu;
+		$d->label='glgl';
+		$d->title='ghthg';
+		$user->boards[] = $d;
+		$user->save();
+
+		foreach(User::model()->find() as $row){
+			var_dump($row);
+		}
+
+		$row->boards[] = $d;
+		//var_dump($row->getRawDocument());
+		$row->save();
+
+		foreach(User::model()->find() as $row){
+			var_dump($row);
+		}
+
 //		$user=new User;
 //		$user->_id='1002';
 //		$user->username='sammaye';
 //		$user->save();
 		//$user = User::model()->findOne(array('_id'=>'1002'));
-		
+
 		//var_dump(Yii::app()->mongodb->getDocumentCache('User'));
 //		echo ($user->_id."\n");
 //		print_r($user->delete());
