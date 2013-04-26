@@ -75,7 +75,7 @@ class EMongoCriteria extends CComponent {
      * $c->project(array('c','d'));
      */
     public function getProject(){
-		return $this->_projection;
+		return $this->_project;
     }
 
     /**
@@ -113,7 +113,7 @@ class EMongoCriteria extends CComponent {
      * @param $document The document specification for projection
      */
     public function setProject($document){
-		$this->_projection=$document;
+		$this->_project=$document;
 		return $this;
     }
 
