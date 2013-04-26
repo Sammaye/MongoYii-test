@@ -39,24 +39,31 @@ class SiteController extends Controller
 //			$db->grades->remove(array('_id' => $student['f_id']));
 
 
-		$user=new User;
-		$user->username='sammaye';
-		$d = new Menu;
-		$d->label='glgl';
-		$d->title='ghthg';
-		$user->boards[] = $d;
-		$user->save();
+//		$user=new User;
+//		$user->username='sammaye';
+//		$d = new Menu;
+//		$d->label='glgl';
+//		$d->title='ghthg';
+//		$user->boards[] = $d;
+//		$user->save();
+//
+//		foreach(User::model()->find() as $row){
+//			var_dump($row);
+//		}
+//
+//		$row->boards[] = $d;
+//		//var_dump($row->getRawDocument());
+//		$row->save();
+//
+//		foreach(User::model()->find() as $row){
+//			var_dump($row);
+//		}
 
-		foreach(User::model()->find() as $row){
-			var_dump($row);
-		}
+		$u=User::model()->find(array(), array('username' => 1));
 
-		$row->boards[] = $d;
-		//var_dump($row->getRawDocument());
-		$row->save();
-
-		foreach(User::model()->find() as $row){
-			var_dump($row);
+		foreach($u as $k){
+			var_dump($k);
+			$k->save();
 		}
 
 //		$user=new User;
