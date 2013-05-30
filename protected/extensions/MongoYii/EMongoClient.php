@@ -305,7 +305,7 @@ class EMongoClient extends CApplicationComponent{
 
 	    $ts = pack( 'N', $yourTimestamp );
 	    $m = substr( md5( gethostname()), 0, 3 );
-	    $pid = pack( 'n', posix_getpid() );
+	    $pid = pack( 'n', getmypid() );
 	    $trail = substr( pack( 'N', $inc++ ), 1, 3);
 
 	    $bin = sprintf("%s%s%s%s", $ts, $m, $pid, $trail);
@@ -336,4 +336,10 @@ class EMongoClient extends CApplicationComponent{
 	}
 }
 
-class EMongoException extends CException {}
+class EMongoException extends CException{
+	public $errorInfo;
+	public function __construct($message,$code=0,$errorInfo=null){
+		$this->errorInfo=$errorInfo;
+		parent::__construct($message,$code);
+	}
+}

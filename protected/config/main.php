@@ -35,6 +35,12 @@ return array(
 
 	// application components
 	'components'=>array(
+
+		'session' => array(
+			'class' => 'EMongoSession',
+			//'path' => 'application.components.EMongoSession'
+		),
+
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -57,7 +63,7 @@ return array(
 			'class' => 'EMongoClient',
 			'server' => 'mongodb://localhost:27017',
 			'options' => array(
-				//'replicaSet' => 'rs0'		
+				//'replicaSet' => 'rs0'
 			),
 			'db' => 'super_test',
 			//'w' => 'majority',

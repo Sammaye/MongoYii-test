@@ -78,7 +78,7 @@ class EMongoCursor implements Iterator, Countable{
 		if($this->cursor() instanceof MongoCursor && method_exists($this->cursor(), $method)){
 			return call_user_func_array(array($this->cursor(), $method), $params);
 		}
-		throw new EMongoException(Yii::t('yii', "Call to undefined function {method} on the cursor"), array('{method}' => $method));
+		throw new EMongoException(Yii::t('yii', "Call to undefined function {method} on the cursor", array('{method}' => $method)));
     }
 
     /**
@@ -86,6 +86,14 @@ class EMongoCursor implements Iterator, Countable{
      */
     public function cursor(){
     	return $this->cursor;
+    }
+
+    /**
+     * Get next doc in cursor
+     */
+    public function getNext(){
+		if($c=$this->cursor()->getNext())
+			return $this->current=$this->model->populateRecord($c,true,$this->partial);
     }
 
     /**
@@ -99,6 +107,11 @@ class EMongoCursor implements Iterator, Countable{
 
     public function count($takeSkip = false /* Was true originally but it was to change the way the driver worked which seemed wrong */){
     	return $this->cursor()->count($takeSkip);
+    }
+
+    public function slaveOkay($val = true){
+        $this->cursor()->slaveOkay($val);
+        return $this;
     }
 
     public function sort(array $fields){

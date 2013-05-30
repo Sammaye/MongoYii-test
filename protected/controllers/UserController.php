@@ -41,16 +41,28 @@ class UserController extends Controller
 		);
 	}
 
+	public function actionCreate(){
+		$model=new User;
+		if(isset($_POST['User'])){
+			$model->attributes=$_POST['User'];
+			if($model->validate()){
+				if($model->save()){
+			        $identity=new UserIdentity($model->username,'');
+			        //$identity->setID($model->id); /* had to add WebUser::setID() since WebUser::$_id is private */
+			        $identity->errorCode=UserIdentity::ERROR_NONE;
+			        if(Yii::app()->user->login($identity,0)){
+			        	Yii::app()->request->redirect('/');
+			        }
+				}
+			}
+		}
+		$this->render('create',array(
+			'model'=>$model
+		));
+	}
+
 	public function actionAdmin()
 	{
-
-//		for($i=0;$i<100;$i++){
-//			$d=new User();
-//			$d->username = 'a';
-//			//$d->title = "whoop";
-//			$d->save();
-//		}
-
 		$model=new User('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['User']))
