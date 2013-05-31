@@ -6,6 +6,25 @@ class User extends EMongoDocument{
 	public $password;
 
 	public $email;
+	public $group;
+
+	public $totalArticles;
+	public $totalComments;
+
+	public function groups(){
+		return array(
+			'User',
+			'VIP',
+			'Admin'
+		);
+	}
+
+	public function behaviors(){
+	  return array(
+  		'EMongoTimestampBehaviour' => array(
+  			'class' => 'EMongoTimestampBehaviour'
+  	  ));
+	}
 
 	function rules(){
 		return array(

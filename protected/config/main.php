@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Wikiera',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -42,6 +42,8 @@ return array(
 		),
 
 		'user'=>array(
+			'class' => 'EWebUser',
+
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
@@ -56,9 +58,6 @@ return array(
 			),
 		),
 		*/
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
 		'mongodb' => array(
 			'class' => 'EMongoClient',
 			'server' => 'mongodb://localhost:27017',
@@ -69,16 +68,6 @@ return array(
 			//'w' => 'majority',
 			'RP' => array('RP_PRIMARY', array())
 		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
-		),
-		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -99,6 +88,8 @@ return array(
 			),
 		),
 	),
+
+	//'defaultController' => 'article',
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

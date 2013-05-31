@@ -4,9 +4,7 @@
 		'enableAjaxValidation'=>false,
 	)); ?>
 
-	<?php echo $form->errorSummary($model, "<div class='UIMessage create_title_error_summary'>
-		<div class='message error'><h2>Could not register new user</h2>
-			<p>Your account could not be registered because:</p>", '</div></div>'); ?>
+	<?php echo $form->errorSummary($model); ?>
 
 	<div>
 		<?php echo $form->label($model,'username') ?>
