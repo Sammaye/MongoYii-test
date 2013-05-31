@@ -45,19 +45,48 @@ class ArticleController extends CController{
 		if(isset($_POST['Article'])){
 			$model->attributes=$_POST['Article'];
 			if($model->validate()&&$model->save()){
-				Yii::app()->request->redirect('/article/view',array('id'=>$model->_id));
+				$this->redirect(array('article/view','id'=>$model->_id));
 			}
 		}
 		$this->render('create',array('model'=>$model));
 	}
 
-	public function actionView(){
+	public function actionEdit($id){
+		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
+		if($model&&isset($_POST['Article'])){
+			$model->attributes=$_POST['Article'];
+			if($model->validate()&&$model->save())
+				$this->redirect(array('article/view','id'=>$id));
+		}
+		$this->render('edit',array('model'=>$model));
+	}
 
+	public function actionView($id){
+		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
 		$this->render('view',array('model'=>$model));
 	}
 
-	public function actionDelete()
-	{
-		echo "dldeete";
+	public function actionDelete($id){
+		if(Yii::app()->request->isPostRequest){
+			$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
+
+			if(!Yii::app()->user->isAdmin()&&(Yii::app()->user->id!==$model->userId)){
+				// If not admin and this is not the article owner
+				echo "not allowed to delete";
+				Yii::app()->end();
+			}
+
+			if(!$model)
+				echo "That Article does not exist!";
+			else{
+				if($model->delete()){
+					if(!isset($_POST['ajax']))
+						$this->redirect(array('article/index'));
+				}else{
+					echo "An error was found while deleting";
+				}
+			}
+		}else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 }

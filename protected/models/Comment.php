@@ -14,7 +14,8 @@ class Comment extends EMongoDocument{
 
 	public function relations(){
 		return array(
-			'author' => array('one','User','_id','on'=>'userId')
+			'author' => array('one','User','_id','on'=>'userId'),
+			'article' => array('one','Article','_id','on'=>'articleId')
 		);
 	}
 
@@ -28,8 +29,9 @@ class Comment extends EMongoDocument{
 
 	function rules(){
 		return array(
-			array('body', 'required'),
-			array('body', 'length', 'max' => 500)
+			array('body,articleId', 'required'),
+			array('body', 'length', 'max' => 500),
+			array('articleId','exist', 'className'=>'Article', 'attributeName'=>'_id')
 		);
 	}
 
@@ -39,17 +41,26 @@ class Comment extends EMongoDocument{
 	}
 
 	function afterSave(){
-		if($this->getIsNewRecord())
+		if($this->getIsNewRecord()){
 			$this->author->saveCounters(array('totalComments'=>1));
+			$this->article->saveCounters(array('totalComments'=>1));
+		}
 		return parent::afterSave();
 	}
 
 	function afterDelete(){
-		if($this->author->totalComments>1)
+		if($this->author->totalComments>1){
 			$this->author->saveCounters(array('totalComments'=>-1));
-		else{
+		}else{
 			$this->author->totalComments=0; // $inc won't work with 0...I should think of a decent way to fix that...
 			$this->author->save();
+		}
+
+		if($this->article->totalComments>1)
+			$this->article->saveCounters(array('totalComments'=>-1));
+		else{
+			$this->article->totalComments=0; // $inc won't work with 0...I should think of a decent way to fix that...
+			$this->article->save();
 		}
 		return parent::afterDelete();
 	}

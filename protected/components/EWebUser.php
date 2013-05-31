@@ -6,7 +6,7 @@ class EWebUser extends CWebUser{
     function isAdmin(){
         $user = $this->loadUser();
         if ($user)
-           return $user->group===2;
+           return $user->group==2;
         return false;
     }
 

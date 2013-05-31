@@ -13,6 +13,8 @@ class Article extends EMongoDocument{
 	 */
 	public $revisions=array();
 
+	public $totalComments=0;
+
 	function collectionName(){
 		return 'article';
 	}
@@ -26,7 +28,8 @@ class Article extends EMongoDocument{
 
 	public function relations(){
 		return array(
-			'author' => array('one','User','_id','on'=>'userId')
+			'author' => array('one','User','_id','on'=>'userId'),
+			'comments' => array('many','Comment','articleId')
 		);
 	}
 
@@ -74,6 +77,7 @@ class Article extends EMongoDocument{
 			$this->author->totalArticles=0; // $inc won't work with 0...I should think of a decent way to fix that...
 			$this->author->save();
 		}
+		Comment::model()->deleteAll(array('articleId'=>new MongoId($this->_id)));
 		return parent::afterDelete();
 	}
 
