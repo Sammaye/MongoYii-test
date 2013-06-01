@@ -1,7 +1,7 @@
 <?php
 
 if($model===null){
-	echo "404 Not found";
+	throw new CHttpException(404, 'Could not find the article you were looking for');
 	return;
 }
 

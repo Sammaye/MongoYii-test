@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Represents a comment on a wiki article
+ */
 class CommentController extends CController{
 	/**
 	 * @return array action filters

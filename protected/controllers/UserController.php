@@ -1,19 +1,9 @@
 <?php
 /**
- * This is the User controller taking care of all the access to the user table in the database.
- *
- * @author John Eskilsson & Sam Millman
- * @version 0.1
- * @package site.backend.controllers
+ * This represents the user actions
  */
 class UserController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	//public $layout='//layouts/admin';
-
 	/**
 	 * @return array action filters
 	 */
@@ -32,6 +22,12 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
+			array(
+				'deny',
+				'actions' => array('admin'),
+				'users' => array('?'),
+				'expression' => '$user->isAdmin()' // Does this actually work, adding both users and expression??
+			),				
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'users'=>array('*'),
 			),
@@ -41,18 +37,19 @@ class UserController extends Controller
 		);
 	}
 
+	/**
+	 * This creates our new user and also logs them in if the creation is successfull
+	 */
 	public function actionCreate(){
 		$model=new User;
 		if(isset($_POST['User'])){
 			$model->attributes=$_POST['User'];
-			if($model->validate()){
-				if($model->save()){
-			        $identity=new UserIdentity($model->username,'');
-			        $identity->setId($model->_id); /* had to add WebUser::setID() since WebUser::$_id is private */
-			        $identity->errorCode=UserIdentity::ERROR_NONE;
-			        if(Yii::app()->user->login($identity,0)){
-			        	$this->redirect('site/index');
-			        }
+			if($model->validate()&&$model->save()){
+				$identity=new UserIdentity($model->username,'');
+				$identity->setId($model->_id); // we set the id of the identity to the _id of the user
+				$identity->errorCode=UserIdentity::ERROR_NONE;
+				if(Yii::app()->user->login($identity,0)){
+					$this->redirect('site/index');
 				}
 			}
 		}
@@ -61,6 +58,9 @@ class UserController extends Controller
 		));
 	}
 
+	/**
+	 * This lists and allows us to search across all users. Only accessible to Admins
+	 */
 	public function actionAdmin()
 	{
 		$model=new User('search');
@@ -74,7 +74,7 @@ class UserController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
+	 * Displays the users profile and shows their articles and comments and counts etc
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
@@ -85,5 +85,4 @@ class UserController extends Controller
 			'model'=>$model,
 		));
 	}
-
 }
