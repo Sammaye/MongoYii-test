@@ -1,6 +1,16 @@
 <?php
+
+/**
+ * Represents a comment and its data
+ */
 class Comment extends EMongoDocument{
 
+	// No pre-defined schema here!
+	// public $userId // Author id
+	// public $articleId // Article which this is attached to
+	// public $body // content of the comment
+	
+	
 	// Due to how the __get and __set work this won't actually function
 	// Wouldn't mind changing the way MongoYii works to make this function as it should
 	// but then this would only for non-defined vars which would kind of suck...
@@ -16,7 +26,7 @@ class Comment extends EMongoDocument{
 	public function behaviors(){
 	  return array(
   		'EMongoTimestampBehaviour' => array(
-  			'class' => 'EMongoTimestampBehaviour'
+  			'class' => 'EMongoTimestampBehaviour' // Adds a handy create_time and update_time
   	  ));
 	}
 
@@ -44,7 +54,7 @@ class Comment extends EMongoDocument{
 	}
 
 	function beforeSave(){
-		if($this->userId===null) $this->userId = Yii::app()->user->id;
+		if($this->userId===null) $this->userId = Yii::app()->user->id; // If there is no user id here lets just add the one in session
 		$this->articleId=new MongoId($this->articleId);
 		return parent::beforeSave();
 	}
@@ -57,6 +67,10 @@ class Comment extends EMongoDocument{
 		return parent::afterSave();
 	}
 
+	/**
+	 * After delete will deInc all of the pre-aggregated variables needed in each model
+	 * @see EMongoDocument::afterDelete()
+	 */
 	function afterDelete(){
 		if($this->author->totalComments>1){
 			$this->author->saveCounters(array('totalComments'=>-1));

@@ -1,12 +1,15 @@
 <?php
 
+/**
+ * Represents the user and his/her data
+ */
 class User extends EMongoDocument{
 
 	public $username;
 	public $password;
 
 	public $email;
-	public $group;
+	public $group; // 2 is Admin
 
 	public $totalArticles=0;
 	public $totalComments=0;
@@ -15,14 +18,14 @@ class User extends EMongoDocument{
 		return array(
 			'User',
 			'VIP',
-			'Admin'
+			'Admin' // this is position 2
 		);
 	}
 
 	public function behaviors(){
 	  return array(
   		'EMongoTimestampBehaviour' => array(
-  			'class' => 'EMongoTimestampBehaviour'
+  			'class' => 'EMongoTimestampBehaviour' // Adds a handy create_time and update_time
   	  ));
 	}
 
@@ -52,12 +55,16 @@ class User extends EMongoDocument{
 		return parent::model($className);
 	}
 
+	/**
+	 * Hashes our password, taken straight from the tutorial
+	 * @return string
+	 */
 	function hashPassword(){
 		return crypt($this->password,$this->blowfishSalt());
 	}
 
 	function beforeSave(){
-		$this->password=$this->hashPassword();
+		$this->password=$this->hashPassword(); // lets hash that shiz
 		return parent::beforeSave();
 	}
 
