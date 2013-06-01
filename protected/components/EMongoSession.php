@@ -1,75 +1,26 @@
 <?php
 /**
- * CDbHttpSession class
+ * EMongoSession extends {@link CHttpSession} by using database as session data storage.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
-/**
- * CDbHttpSession extends {@link CHttpSession} by using database as session data storage.
- *
- * CDbHttpSession stores session data in a DB table named 'YiiSession'. The table name
- * can be changed by setting {@link sessionTableName}. If the table does not exist,
- * it will be automatically created if {@link autoCreateSessionTable} is set true.
- *
- * The following is the table structure:
- *
- * <pre>
- * CREATE TABLE YiiSession
- * (
- *     id CHAR(32) PRIMARY KEY,
- *     expire INTEGER,
- *     data BLOB
- * )
- * </pre>
- * Where 'BLOB' refers to the BLOB-type of your preffered database.
- *
- * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
- *
- * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
- * You can also specify {@link connectionID} so that it makes use of a DB application component to access database.
- *
- * When using CDbHttpSession in a production server, we recommend you pre-create the session DB table
- * and set {@link autoCreateSessionTable} to be false. This will greatly improve the performance.
- * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
+ * EMongoSession stores session data in a DB collection named 'YiiSession'. The collection name
+ * can be changed by setting {@link sessionTableName}.
  *
  * @property boolean $useCustomStorage Whether to use custom storage.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.web
- * @since 1.0
  */
 class EMongoSession extends CHttpSession
 {
 	/**
-	 * @var string the ID of a {@link CDbConnection} application component. If not set, a SQLite database
-	 * will be automatically created and used. The SQLite database file is
-	 * is <code>protected/runtime/session-YiiVersion.db</code>.
+	 * @var string the ID of a {@link CDbConnection} application component.
 	 */
 	public $connectionID;
 	/**
 	 * @var string the name of the DB table to store session content.
-	 * Note, if {@link autoCreateSessionTable} is false and you want to create the DB table manually by yourself,
-	 * you need to make sure the DB table is of the following structure:
-	 * <pre>
-	 * (id CHAR(32) PRIMARY KEY, expire INTEGER, data BLOB)
-	 * </pre>
-	 * @see autoCreateSessionTable
 	 */
 	public $sessionTableName='YiiSession';
 	/**
-	 * @var boolean whether the session DB table should be automatically created if not exists. Defaults to true.
-	 * @see sessionTableName
-	 */
-	public $autoCreateSessionTable=true;
-	/**
-	 * @var CDbConnection the DB connection instance
+	 * @var EMongoClient the DB connection instance
 	 */
 	private $_db;
-
 
 	/**
 	 * Returns a value indicating whether to use custom session storage.
@@ -121,7 +72,7 @@ class EMongoSession extends CHttpSession
 	}
 
 	/**
-	 * @return CDbConnection the DB connection instance
+	 * @return EMongoClient the DB connection instance
 	 * @throws CException if {@link connectionID} does not point to a valid application component.
 	 */
 	protected function getDbConnection()
