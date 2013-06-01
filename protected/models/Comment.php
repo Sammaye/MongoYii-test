@@ -1,6 +1,14 @@
 <?php
 class Comment extends EMongoDocument{
 
+	// Due to how the __get and __set work this won't actually function
+	// Wouldn't mind changing the way MongoYii works to make this function as it should
+	// but then this would only for non-defined vars which would kind of suck...
+	// @see https://github.com/Sammaye/MongoYii/issues/70
+	function getArticleId(){
+		return new MongoId($this->articleId);
+	}
+	
 	function collectionName(){
 		return 'comment';
 	}
@@ -31,12 +39,13 @@ class Comment extends EMongoDocument{
 		return array(
 			array('body,articleId', 'required'),
 			array('body', 'length', 'max' => 500),
-			array('articleId','exist', 'className'=>'Article', 'attributeName'=>'_id')
+			array('articleId','EExistValidator', 'className'=>'Article', 'attributeName'=>'_id', 'mongoId'=>true)
 		);
 	}
 
 	function beforeSave(){
 		if($this->userId===null) $this->userId = Yii::app()->user->id;
+		$this->articleId=new MongoId($this->articleId);
 		return parent::beforeSave();
 	}
 

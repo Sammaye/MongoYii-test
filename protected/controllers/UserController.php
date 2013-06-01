@@ -48,10 +48,10 @@ class UserController extends Controller
 			if($model->validate()){
 				if($model->save()){
 			        $identity=new UserIdentity($model->username,'');
-			        //$identity->setID($model->id); /* had to add WebUser::setID() since WebUser::$_id is private */
+			        $identity->setId($model->_id); /* had to add WebUser::setID() since WebUser::$_id is private */
 			        $identity->errorCode=UserIdentity::ERROR_NONE;
 			        if(Yii::app()->user->login($identity,0)){
-			        	$this->redirect('/');
+			        	$this->redirect('site/index');
 			        }
 				}
 			}

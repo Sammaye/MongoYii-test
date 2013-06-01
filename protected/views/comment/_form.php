@@ -7,6 +7,7 @@
 	<div>
 		<?php echo $form->textArea($model,'body') ?>
 	</div>
+	<?php echo $form->hiddenField($model,'articleId') ?>
 	<?php echo Chtml::submitButton('Add Comment') ?>
 	<?php $this->endWidget() ?>
 </div>

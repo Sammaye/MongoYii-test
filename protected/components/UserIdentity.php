@@ -31,4 +31,8 @@ class UserIdentity extends CUserIdentity
 	function getId(){
 		return $this->_id;
 	}
+	
+	function setId($_id){
+		$this->_id=$_id;
+	}
 }

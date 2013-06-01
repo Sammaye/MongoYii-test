@@ -8,8 +8,8 @@ class User extends EMongoDocument{
 	public $email;
 	public $group;
 
-	public $totalArticles;
-	public $totalComments;
+	public $totalArticles=0;
+	public $totalComments=0;
 
 	public function groups(){
 		return array(

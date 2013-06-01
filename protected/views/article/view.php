@@ -1,16 +1,36 @@
 <?php
 
+if($model===null){
+	echo "404 Not found";
+	return;
+}
+
+$u=$this->createUrl('comment/create');
 $d=<<<COMMENTS
 
 $(function(){
 
+	$('input[name=yt0]').on('click',function(e){
+		e.preventDefault();
+		$.ajax({
+			url: '$u',
+			data: $(this).parents('.leave_comment').find('input,textarea').serialize(),
+			dataType: 'json',
+			type: 'POST'
+		}).done(function(data){
+			if(data.success){
+				$('.comments').append(data.html);
+			}else{
+				// Show some error messages
+			}
+		});
+	});
 
 });
 
 COMMENTS;
-Yii::app()->getClientScript()->registerScript('comments', $d);
-
-if(Yii::app()->user->isAdmin()||Yii::app()->user->id===$model->userId)
+Yii::app()->getClientScript()->registerScript('addComment', $d);
+if(Yii::app()->user->isAdmin()||(string)Yii::app()->user->id===(string)$model->userId)
 	echo CHtml::linkButton('Delete', array('submit' => array('/article/delete', 'id' => $model->_id)))
 ?>
 <?php echo CHtml::link('Edit', array('/article/edit', 'id'=>$model->_id)) ?>
@@ -44,20 +64,22 @@ if(Yii::app()->user->isAdmin()||Yii::app()->user->id===$model->userId)
 <!-- Comments -->
 
 <div>
-	<?php if($model->totalComments>=1): ?>
-		<h3>Comments (<?php echo $model->totalComments>1?$model->totalComments.' comments':'1 comment'?>)</h3>
+	<h3>Comments <?php if($model->totalComments>0): ?>(<?php echo $model->totalComments>1?$model->totalComments.' comments':'1 comment'?>)<?php endif; ?></h3>
 
+	<div class="comments">
 		<?php $this->renderPartial('_comments', array(
 			'model'=>$model,
-			'coments'=>$model->comments
+			'comments'=>$model->comments
 		)); ?>
-	<?php endif; ?>
+	</div>
 
 	<h3>Leave a Comment</h3>
-	<?php
-	$comment = new Comment();
-	$comment->articleId=$model->_id;
-	$this->renderPartial('/comment/_form', array(
-		'model' => $comment
-	)) ?>
+	<div class='leave_comment'>
+		<?php
+		$comment = new Comment();
+		$comment->articleId=$model->_id;
+		$this->renderPartial('/comment/_form', array(
+			'model' => $comment
+		)) ?>
+	</div>
 </div><!-- Comment list -->

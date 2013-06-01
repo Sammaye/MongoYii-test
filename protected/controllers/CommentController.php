@@ -33,4 +33,59 @@ class CommentController extends CController{
 	public function actionIndex(){
 		$this->render('index');
 	}
+	
+	public function actionCreate(){
+		
+		if(Yii::app()->request->getIsPostRequest()){
+			
+			if(isset($_POST['Comment'])){
+
+				$model=new Comment();
+				$model->attributes=$_POST['Comment'];
+				if($model->validate()&&$model->save()){		
+					if(Yii::app()->request->getIsAjaxRequest()){
+						
+						// return html render
+						ob_start();
+						$this->renderPartial('_comment',array('model'=>$model));
+						$html=ob_get_contents();
+						ob_clean();
+						
+						echo json_encode(array('success'=>true,'html'=>$html));
+						
+					}else{
+						// redirect
+						$this->redirect(array('article/view','id'=>$model->articleId));
+					}
+				}else{
+					if(Yii::app()->request->getIsAjaxRequest()){
+						echo json_encode(array('success'=>false,'errors'=>$model->getErrors()));
+					}else{
+						// Do something fancy with error handling here
+					}
+				}
+			}
+			
+		}else 
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		
+	}
+	
+	public function actionDelete($id){
+		if(Yii::app()->request->getIsPostRequest()){
+			
+			$model=Comment::model()->findBy_id($id);
+			if(
+				$model && 
+				(Yii::app()->user->isAdmin()||(string)Yii::app()->user->id===(string)$model->userId)
+			){
+				$model->delete();
+				echo json_encode(array('success'=>true));
+			}else{
+				echo json_encode(array('success'=>false,'errors'=>array('global'=>'Comment not found')));
+			} 
+				
+		}else 
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
 }

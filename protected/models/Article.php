@@ -66,7 +66,7 @@ class Article extends EMongoDocument{
 
 	function afterSave(){
 		if($this->getIsNewRecord())
-			$this->author->saveCounters(array('titleArticles'=>1));
+			$this->author->saveCounters(array('totleArticles'=>1));
 		return parent::afterSave();
 	}
 
