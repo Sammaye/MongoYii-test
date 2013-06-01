@@ -39,7 +39,7 @@ class Comment extends EMongoDocument{
 		return array(
 			array('body,articleId', 'required'),
 			array('body', 'length', 'max' => 500),
-			array('articleId','EExistValidator', 'className'=>'Article', 'attributeName'=>'_id', 'mongoId'=>true)
+			array('articleId','EMongoExistValidator', 'className'=>'Article', 'attributeName'=>'_id', 'mongoId'=>true)
 		);
 	}
 
