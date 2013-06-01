@@ -24,6 +24,12 @@
 
 	<div id="header">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div style='float:right;'>
+			<?php echo CHtml::form($this->createUrl('article/search'), 'get') ?>
+				<?php echo CHtml::textField('term', isset($_GET['term'])?CHtml::encode($_GET['term']):'', array('placeholder'=>'Search Wikiera')) ?>
+				<?php echo CHtml::submitButton('Search') ?>
+			<?php echo CHtml::endForm() ?>
+		</div>		
 	</div><!-- header -->
 
 	<div id="mainmenu">

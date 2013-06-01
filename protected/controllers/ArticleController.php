@@ -89,4 +89,9 @@ class ArticleController extends CController{
 		}else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
+	
+	public function actionSearch(){
+		$model=new Article;
+		$this->render('search',array('model'=>$model));
+	}
 }
