@@ -227,3 +227,15 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+.like span{
+	padding:0 17px 0 7px;
+	background:url(rate_icons.png) 0 0 no-repeat;
+	background-position:100% 0;
+}
+
+.dislike span{
+	padding:0 17px 0 7px;
+	background:url(rate_icons.png) 0 0 no-repeat;
+	background-position:100% -15px;	
+}

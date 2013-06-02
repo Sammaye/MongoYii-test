@@ -16,7 +16,11 @@ class Article extends EMongoDocument{
 	 * @var array
 	 */
 	public $revisions=array();
+	
+	public $likes=array();
+	public $dislikes=array();
 
+	public $views=0;
 	public $totalComments=0; // Pre-aggregated sum of total comments
 
 	function collectionName(){
@@ -85,6 +89,31 @@ class Article extends EMongoDocument{
 		}
 		Comment::model()->deleteAll(array('articleId'=>new MongoId($this->_id))); // Lets rid ourselves of those troll comments
 		return parent::afterDelete();
+	}
+	
+	/**
+	 * When we like or dislike an article it creates two embedded documents. Notice how I am doing this completely atomically?
+	 * I am merely using MongoYii as a wrapper to process the command. This is how subdocuments work. MongoYii will not get in the way
+	 * and it is upto you, the developer, to code your embedded relationships.
+	 * 
+	 * The next thing about this is to show a list of users who liked and dislike this article. This is easy since the getRelated() function 
+	 * actually supports resolving a list of ObjectIds using the $in operator. All you need to do is specify that the relation is on the "likes" or "dislikes" 
+	 * field, kool eh?
+	 */
+	function like(){
+		$this->updateAll(array('_id'=>$this->_id), array(
+			'$pull' => array('dislikes'=>Yii::app()->user->id),
+			'$addToSet' => array('likes' => Yii::app()->user->id)
+		));
+		$this->refresh();		
+	}
+	
+	function dislike(){
+		$this->updateAll(array('_id'=>$this->_id), array(
+			'$pull' => array('likes'=>Yii::app()->user->id),
+			'$addToSet' => array('dislikes' => Yii::app()->user->id)		
+		));
+		$this->refresh();
 	}
 
 	/**

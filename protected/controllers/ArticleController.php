@@ -78,6 +78,7 @@ class ArticleController extends CController{
 	 */
 	public function actionView($id){
 		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
+		$model->saveCounters(array('views'=>1)); // We viewed this article
 		$this->render('view',array('model'=>$model));
 	}
 
@@ -112,5 +113,41 @@ class ArticleController extends CController{
 	public function actionSearch(){
 		$model=new Article;
 		$this->render('search',array('model'=>$model));
+	}
+	
+	/**
+	 * This deals with liking an article
+	 * @param string $id
+	 * @throws CHttpException
+	 */
+	public function actionLike($id){
+		if(Yii::app()->request->getIsAjaxRequest()){
+			$model=Article::model()->findBy_id($id);
+			if($model){
+				$model->like();
+				echo json_encode(array('success'=>true));
+				Yii::app()->end();			
+			}
+			echo json_encode(array('success'=>false));
+		}else 
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+	
+	/**
+	 * This deals with disliking an article
+	 * @param string $id
+	 * @throws CHttpException
+	 */
+	public function actionDislike($id){
+		if(Yii::app()->request->getIsAjaxRequest()){
+			$model=Article::model()->findBy_id($id);
+			if($model){
+				$model->dislike();
+				echo json_encode(array('success'=>true));
+				Yii::app()->end();
+			}
+			echo json_encode(array('success'=>false));
+		}else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 }

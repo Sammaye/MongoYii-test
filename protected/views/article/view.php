@@ -25,6 +25,21 @@ $(function(){
 			}
 		});
 	});
+	
+	$('li.like a,li.dislike a').on('click',function(e){
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('href'),
+			dataType: 'json',
+			type: 'post'
+		}).done(function(data){
+			if(data.success){
+				// Whoop
+			}else{
+				// poop
+			}
+		});
+	});
 
 });
 
@@ -34,6 +49,12 @@ if(Yii::app()->user->isAdmin()||(string)Yii::app()->user->id===(string)$model->u
 	echo CHtml::linkButton('Delete', array('submit' => array('/article/delete', 'id' => $model->_id)))
 ?>
 <?php echo CHtml::link('Edit', array('/article/edit', 'id'=>$model->_id)) ?>
+
+<ul>
+	<li class="like"><a href="<?php echo $this->createUrl('article/like', array('id'=>$model->_id)) ?>"><span><?php echo count($model->likes) ?></span></a></li>
+	<li class="dislike"><a href="<?php echo $this->createUrl('article/dislike', array('id'=>$model->_id)) ?>"><span><?php echo count($model->dislikes) ?></span></a></li>
+	<li><span>Report</span></li>
+</ul>
 
 <h1><?php echo $model->title ?></h1>
 <div><p>Authored by <?php echo $model->author->username ?> on <?php echo date('d/m/Y h:i:s a',$model->create_time->sec) ?></p></div>
