@@ -61,7 +61,7 @@ class ArticleController extends CController{
 					$m=new ArticleReference();
 					$m->setAttributes($reference);
 					$validR=$m->validate()&&$validR;
-					$model->references[$k]=$m;
+					$model->references[]=$m;
 				}
 			}
 			
@@ -93,7 +93,7 @@ class ArticleController extends CController{
 						$m=new ArticleReference();
 						$m->setAttributes($reference);
 						$validR=$m->validate()&&$validR;
-						$model->references[$k]=$m;
+						$model->references[]=$m;
 					}
 				}
 

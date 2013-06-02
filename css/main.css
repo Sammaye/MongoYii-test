@@ -338,3 +338,8 @@ div.search-form
 .user_profile_container h2{
 	margin:20px 0 10px 0;
 }
+
+#add_reference{
+	display:block;
+	margin-bottom:10px;
+}

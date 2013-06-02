@@ -16,6 +16,7 @@ class Article extends EMongoDocument{
 	 * @var array
 	 */
 	public $revisions=array();
+	public $references=array();
 	
 	public $likes=array();
 	public $dislikes=array();
