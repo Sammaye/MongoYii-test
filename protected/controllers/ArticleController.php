@@ -57,7 +57,7 @@ class ArticleController extends CController{
 			// In reality we could just use the subdocument validator of course.
 			$model->references=array(); $validR=true;
 			if(isset($_POST['ArticleReference'])){
-				foreach($_POST['ArticleRreference'] as $k=>$reference){
+				foreach($_POST['ArticleReference'] as $k=>$reference){
 					$m=new ArticleReference();
 					$m->setAttributes($reference);
 					$validR=$m->validate()&&$validR;
@@ -89,7 +89,7 @@ class ArticleController extends CController{
 				// PHP functions to handle your subdocuments.
 				$model->references=array(); $validR=true;
 				if(isset($_POST['ArticleReference'])){
-					foreach($_POST['ArticleRreference'] as $k=>$reference){
+					foreach($_POST['ArticleReference'] as $k=>$reference){
 						$m=new ArticleReference();
 						$m->setAttributes($reference);
 						$validR=$m->validate()&&$validR;
