@@ -51,7 +51,21 @@ class ArticleController extends CController{
 		$model=new Article();
 		if(isset($_POST['Article'])){
 			$model->attributes=$_POST['Article'];
-			if($model->validate()&&$model->save()){
+			
+			// we are going to purposefully do this the hard way to show people how to do it
+			// First we will construct an array of models for create and place them straight into the var
+			// In reality we could just use the subdocument validator of course.
+			$model->references=array(); $validR=true;
+			if(isset($_POST['ArticleReference'])){
+				foreach($_POST['ArticleRreference'] as $k=>$reference){
+					$m=new ArticleReference();
+					$m->setAttributes($reference);
+					$validR=$m->validate()&&$validR;
+					$model->references[$k]=$m;
+				}
+			}
+			
+			if($model->validate()&&$validR&&$model->save()){
 				$this->redirect(array('article/view','id'=>$model->_id));
 			}
 		}
@@ -66,8 +80,33 @@ class ArticleController extends CController{
 		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
 		if($model&&isset($_POST['Article'])){
 			$model->attributes=$_POST['Article'];
-			if($model->validate()&&$model->save())
+			if($model->validate()&&$model->save()){
+				
+				// We are gong to divert from the create method of assigning references and do it via atomic calls 
+				// for each one. Remember you wouldn't create such flimsy repetitive code normally, I am just doing this for 
+				// demonstration purposes because I lack any imagination to come up with a better example.
+				// This example once again demonstrates how MongoYii just provides a glue for you to use the native 
+				// PHP functions to handle your subdocuments.
+				$model->references=array(); $validR=true;
+				if(isset($_POST['ArticleReference'])){
+					foreach($_POST['ArticleRreference'] as $k=>$reference){
+						$m=new ArticleReference();
+						$m->setAttributes($reference);
+						$validR=$m->validate()&&$validR;
+						$model->references[$k]=$m;
+					}
+				}
+
+				if($validR){
+					foreach($model->references as $k=>$v){
+						$model->updateAll(array('_id'=>$model->_id),array(
+							'$addToSet' => array('references' => $v->getRawDocument())
+						));
+					}
+				}
+				
 				$this->redirect(array('article/view','id'=>$id));
+			}
 		}
 		$this->render('edit',array('model'=>$model));
 	}
