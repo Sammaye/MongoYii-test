@@ -54,7 +54,7 @@ Yii::app()->getClientScript()->registerScript('addComment', $d);
 	<li class="dislike"><a href="<?php echo $this->createUrl('article/dislike', array('id'=>$model->_id)) ?>"><span><?php echo count($model->dislikes) ?></span></a></li>
 </ul>
 <div class="clear"></div>
-<div class="wiki_boody"><?php echo CHtml::encode($model->body)?></div>
+<div class="wiki_body"><?php echo CHtml::encode($model->body)?></div>
 
 <!-- Comments -->
 

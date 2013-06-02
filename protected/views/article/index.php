@@ -1,3 +1,6 @@
+<div class="container view_articles_container">
+<h1>Wiki Articles</h1>
+<div class="span-18">
 <?php
 
 $dataProvider=new EMongoDataProvider('Article');
@@ -9,4 +12,6 @@ $this->widget('zii.widgets.CListView', array(
 //        'title',
 //        'create_time'=>'Post Time',
 //    ),
-));
+)); ?>
+</div>
+</div>

@@ -309,3 +309,21 @@ div.search-form
 	width:500px;
 	height:100px;
 }
+
+.wiki_article_list_view h2{
+	margin:0 0 5px 0;
+}
+
+.wiki_article_list_view p{
+	margin:0;
+}
+
+.wiki_article_list_view p.info_bar{
+	color:#777777;
+	font-size:12px;
+	line-height:19px;
+}
+
+.site_search_container,.view_articles_container{
+	margin:15px 0 0 15px;
+}
