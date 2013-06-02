@@ -228,6 +228,30 @@ div.search-form
 	background: #80CFFF;
 }
 
+.wiki_body_container{
+	margin-left:15px;
+	margin-top:10px;
+}
+
+.wiki_title{
+	float:left;
+	max-width:620px;
+}
+
+.wiki_vote_bar{
+	float:right;
+	margin-top:5px;
+}
+
+.wiki_vote_bar{
+	list-style:none;
+}
+
+.wiki_vote_bar li{
+	float:left;
+	list-style:none;
+}
+
 .like span{
 	padding:0 17px 0 7px;
 	background:url(rate_icons.png) 0 0 no-repeat;
@@ -238,4 +262,50 @@ div.search-form
 	padding:0 17px 0 7px;
 	background:url(rate_icons.png) 0 0 no-repeat;
 	background-position:100% -15px;	
+}
+
+.wiki_body{
+}
+
+.wiki_comments{
+	margin:15px 0 0;
+}
+
+.wiki_side_bar h3{
+	margin:10px 0;
+}
+
+.side_menu.wiki_side_bar_first{
+	margin:10px 0 0 0;
+}
+
+.side_menu{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+
+.side_menu li{
+	line-height:19.5px;
+}
+
+.side_menu.menu_separated{
+	margin:10px 0 0 0;
+	padding:10px 0 0 0;
+	border-top:1px solid #eeeeee;
+}
+
+.comment{
+	margin:0 0 15px 0;
+	background:#f1f1f1;
+	padding:10px;
+}
+
+.comment p{
+	margin:10px 0 0;
+}
+
+.leave_comment textarea{
+	width:500px;
+	height:100px;
 }

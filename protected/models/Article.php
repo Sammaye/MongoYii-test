@@ -37,7 +37,11 @@ class Article extends EMongoDocument{
 	public function relations(){
 		return array(
 			'author' => array('one','User','_id','on'=>'userId'),
-			'comments' => array('many','Comment','articleId')
+			'comments' => array('many','Comment','articleId'),
+				
+			// Here we define the likes/dislikes relationships
+			'usersLiked' => array('many', 'User', '_id','on'=>'likes'),
+			'usersDisliked' => array('many', 'User','_id','on'=>'dislikes')
 		);
 	}
 
@@ -105,7 +109,7 @@ class Article extends EMongoDocument{
 			'$pull' => array('dislikes'=>Yii::app()->user->id),
 			'$addToSet' => array('likes' => Yii::app()->user->id)
 		));
-		$this->refresh();		
+		$this->refresh(); // Probably not needed, would only be needed if you want to show the new like/dislike count in the response		
 	}
 	
 	function dislike(){
