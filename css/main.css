@@ -45,6 +45,13 @@ body
 {
 	padding: 10px 20px;
 	font-size: 200%;
+	float:left;
+}
+
+#site_search{
+	float:right;
+	margin-top:15px;
+	margin-right:20px;
 }
 
 #mainmenu
