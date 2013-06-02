@@ -327,3 +327,7 @@ div.search-form
 .site_search_container,.view_articles_container{
 	margin:15px 0 0 15px;
 }
+
+.user_profile_container h2{
+	margin:20px 0 10px 0;
+}

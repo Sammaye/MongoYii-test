@@ -79,8 +79,7 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
-	  $model = $this->loadModel($id);
-
+	  	$model = User::model()->findBy_id($id);
 		$this->render('view',array(
 			'model'=>$model,
 		));

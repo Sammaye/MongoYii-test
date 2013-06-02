@@ -43,7 +43,10 @@ class User extends EMongoDocument{
 	}
 
 	function relations(){
-		return array();
+		return array(
+			'articles' => array('many','Article','userId'),
+			'comments' => array('many','Comment','userId')		
+		);
 	}
 
 	/**
