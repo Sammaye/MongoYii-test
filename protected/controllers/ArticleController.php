@@ -51,7 +51,7 @@ class ArticleController extends CController{
 		$model=new Article();
 		if(isset($_POST['Article'])){
 			$model->attributes=$_POST['Article'];
-			
+
 			// we are going to purposefully do this the hard way to show people how to do it
 			// First we will construct an array of models for create and place them straight into the var
 			// In reality we could just use the subdocument validator of course.
@@ -64,7 +64,7 @@ class ArticleController extends CController{
 					$model->references[]=$m;
 				}
 			}
-			
+
 			if($model->validate()&&$validR&&$model->save()){
 				$this->redirect(array('article/view','id'=>$model->_id));
 			}
@@ -81,11 +81,11 @@ class ArticleController extends CController{
 		if($model&&isset($_POST['Article'])){
 			$model->attributes=$_POST['Article'];
 			if($model->validate()&&$model->save()){
-				
-				// We are gong to divert from the create method of assigning references and do it via atomic calls 
-				// for each one. Remember you wouldn't create such flimsy repetitive code normally, I am just doing this for 
+
+				// We are gong to divert from the create method of assigning references and do it via atomic calls
+				// for each one. Remember you wouldn't create such flimsy repetitive code normally, I am just doing this for
 				// demonstration purposes because I lack any imagination to come up with a better example.
-				// This example once again demonstrates how MongoYii just provides a glue for you to use the native 
+				// This example once again demonstrates how MongoYii just provides a glue for you to use the native
 				// PHP functions to handle your subdocuments.
 				$model->references=array(); $validR=true;
 				if(isset($_POST['ArticleReference'])){
@@ -104,7 +104,7 @@ class ArticleController extends CController{
 						));
 					}
 				}
-				
+
 				$this->redirect(array('article/view','id'=>$id));
 			}
 		}
@@ -117,7 +117,7 @@ class ArticleController extends CController{
 	 */
 	public function actionView($id){
 		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
-		$model->saveCounters(array('views'=>1)); // We viewed this article
+		if($model) $model->saveCounters(array('views'=>1)); // We viewed this article
 		$this->render('view',array('model'=>$model));
 	}
 
@@ -144,16 +144,16 @@ class ArticleController extends CController{
 		}else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
-	
+
 	/**
-	 * This action is the one we call from the search box you see at the top of every page 
+	 * This action is the one we call from the search box you see at the top of every page
 	 * since we do not always require a $term to be entered we do not require is as dependancy to this function
 	 */
 	public function actionSearch(){
 		$model=new Article;
 		$this->render('search',array('model'=>$model));
 	}
-	
+
 	/**
 	 * This deals with liking an article
 	 * @param string $id
@@ -165,13 +165,13 @@ class ArticleController extends CController{
 			if($model){
 				$model->like();
 				echo json_encode(array('success'=>true));
-				Yii::app()->end();			
+				Yii::app()->end();
 			}
 			echo json_encode(array('success'=>false));
-		}else 
+		}else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
-	
+
 	/**
 	 * This deals with disliking an article
 	 * @param string $id
