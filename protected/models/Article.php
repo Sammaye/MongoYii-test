@@ -17,12 +17,19 @@ class Article extends EMongoDocument{
 	 */
 	public $revisions=array();
 	public $references=array();
-	
+
 	public $likes=array();
 	public $dislikes=array();
 
 	public $views=0;
 	public $totalComments=0; // Pre-aggregated sum of total comments
+
+	function defaultScope(){
+		return array(
+			// Don't allow downvoted articles to show by default
+			'condition' => array('dislikes' => array())
+		);
+	}
 
 	function collectionName(){
 		return 'article';
@@ -39,7 +46,7 @@ class Article extends EMongoDocument{
 		return array(
 			'author' => array('one','User','_id','on'=>'userId'),
 			'comments' => array('many','Comment','articleId'),
-				
+
 			// Here we define the likes/dislikes relationships
 			'usersLiked' => array('many', 'User', '_id','on'=>'likes'),
 			'usersDisliked' => array('many', 'User','_id','on'=>'dislikes')
@@ -59,13 +66,13 @@ class Article extends EMongoDocument{
 			array('title,body','required'),
 			array('title','length','max'=>255),
 			array('body','length','max'=>2500),
-				
+
 			array('title', 'safe', 'on' => 'search') // search by title
 		);
 	}
 
 	function beforeSave(){
-		if($this->userId===null) $this->userId = Yii::app()->user->id; // If the user id is null we just take what is in session 
+		if($this->userId===null) $this->userId = Yii::app()->user->id; // If the user id is null we just take what is in session
 
 		if(!$this->getIsNewRecord()){
 			// If this is not a new recrd then it is being edited
@@ -81,7 +88,7 @@ class Article extends EMongoDocument{
 
 	function afterSave(){
 		if($this->getIsNewRecord())
-			$this->author->saveCounters(array('totalArticles'=>1)); // Inc the amount of articles the user has 
+			$this->author->saveCounters(array('totalArticles'=>1)); // Inc the amount of articles the user has
 		return parent::afterSave();
 	}
 
@@ -95,14 +102,14 @@ class Article extends EMongoDocument{
 		Comment::model()->deleteAll(array('articleId'=>new MongoId($this->_id))); // Lets rid ourselves of those troll comments
 		return parent::afterDelete();
 	}
-	
+
 	/**
 	 * When we like or dislike an article it creates two embedded documents. Notice how I am doing this completely atomically?
 	 * I am merely using MongoYii as a wrapper to process the command. This is how subdocuments work. MongoYii will not get in the way
 	 * and it is upto you, the developer, to code your embedded relationships.
-	 * 
-	 * The next thing about this is to show a list of users who liked and dislike this article. This is easy since the getRelated() function 
-	 * actually supports resolving a list of ObjectIds using the $in operator. All you need to do is specify that the relation is on the "likes" or "dislikes" 
+	 *
+	 * The next thing about this is to show a list of users who liked and dislike this article. This is easy since the getRelated() function
+	 * actually supports resolving a list of ObjectIds using the $in operator. All you need to do is specify that the relation is on the "likes" or "dislikes"
 	 * field, kool eh?
 	 */
 	function like(){
@@ -110,13 +117,13 @@ class Article extends EMongoDocument{
 			'$pull' => array('dislikes'=>Yii::app()->user->id),
 			'$addToSet' => array('likes' => Yii::app()->user->id)
 		));
-		$this->refresh(); // Probably not needed, would only be needed if you want to show the new like/dislike count in the response		
+		$this->refresh(); // Probably not needed, would only be needed if you want to show the new like/dislike count in the response
 	}
-	
+
 	function dislike(){
 		$this->updateAll(array('_id'=>$this->_id), array(
 			'$pull' => array('likes'=>Yii::app()->user->id),
-			'$addToSet' => array('dislikes' => Yii::app()->user->id)		
+			'$addToSet' => array('dislikes' => Yii::app()->user->id)
 		));
 		$this->refresh();
 	}

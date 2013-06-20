@@ -116,7 +116,7 @@ class ArticleController extends CController{
 	 * @param string $id
 	 */
 	public function actionView($id){
-		$model=Article::model()->findOne(array('_id'=>new MongoId($id)));
+		$model=Article::model()->resetScope()->findOne(array('_id'=>new MongoId($id)));
 		if($model) $model->saveCounters(array('views'=>1)); // We viewed this article
 		$this->render('view',array('model'=>$model));
 	}
