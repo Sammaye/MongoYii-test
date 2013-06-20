@@ -27,7 +27,8 @@ class Article extends EMongoDocument{
 	function defaultScope(){
 		return array(
 			// Don't allow downvoted articles to show by default
-			'condition' => array('dislikes' => array())
+			// Uncomment this line to get the default scope to work
+			// 'condition' => array('dislikes' => array())
 		);
 	}
 
