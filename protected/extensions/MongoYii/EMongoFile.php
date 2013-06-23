@@ -11,75 +11,49 @@
  */
 class EMongoFile extends EMongoDocument{
 	
-	private $filename;
-	
-	private $tmp_name;
-	private $type;
-	private $size;
-	private $error;	
-	
+	/**
+	 * Our file object, can be either the MongoGridFSFile or 
+	 * CUploadFile
+	 */
 	private $_file;
 	
-	function getName(){
-		return $this->filename;
+	// Helper functions to get some common functionality on this class
+	
+	public function getFilename(){
+		if($this->_file instanceof MongoGridFSFile)
+			return $this->_file->getFilename();
+		return $this->_file->getTempName();
 	}
 	
-	function setName($v){
-		$this->filename=$v;
+	public function getSize(){
+		return $this->_file->getSize();
+	}
+
+	public function getBytes(){
+		if($this->_file instanceof MongoGridFSFile)
+			return $this->_file->getBytes();
+		return file_get_contents($this->getFilename());
 	}
 	
-	function getTmp_name(){
-		return $this->tmp_name;
-	}
-	
-	function setTmp_name($v){
-		$this->tmp_name=$v;
-	}
-	
-	function getType(){
-		return $this->type;
-	}
-	
-	function setType($v){
-		$this->type=$v;
-	}
-	
-	function getSize(){
-		return $this->size;
-	}
-	
-	function setSize($v){
-		$this->size=$v;
-	}
-	
-	function getError(){
-		return $this->error;
-	}
-	
-	function setError($v){
-		$this->error=$v;
-	}
-	
-	function getBytes(){
-		return $this->_file->getBytes();
-	}
-	
-	function getFile(){
+	/**
+	 * Gets the file object
+	 */
+	public function getFile(){
 		return $this->_file;
 	}
 	
-	function setFile($v){
-		if($v instanceof MongoGridFSFile)
-			$this->_file=$v;
-		return $this;
+	/**
+	 * Sets the file object
+	 */
+	public function setFile($v){
+		$this->_file=$v;
 	}
 	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return User the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__){
 		return parent::model($className);
 	}	
 	
@@ -89,18 +63,13 @@ class EMongoFile extends EMongoDocument{
 	 * @param string $attribute
 	 * @return boolean|EMongoFile|NULL
 	 */
-	static function populate($model,$attribute){
+	public static function populate($model,$attribute){
 		if($file=CUploadedFile::getInstance($model, $attribute)){
 			
 			if($file->getHasError())
 				return false;
 			
 			$model=new EMongoFile();
-			$model->name=$file->getTempName();
-			$model->tmp_name=$file->getTempName();
-			$model->type=$file->getType();
-			$model->size=$file->getSize();
-			$model->error=$file->getError();
 			$model->setFile($file);
 			return $model;
 		}
@@ -112,16 +81,16 @@ class EMongoFile extends EMongoDocument{
 	 * MongoGridFsFile object correctly and other file details like size and name.
 	 * @see EMongoDocument::populateRecord()
 	 */
-	function populateRecord($attributes,$callAfterFind=true,$partial=false){
+	public function populateRecord($attributes,$callAfterFind=true,$partial=false){
 		if($attributes!==false)
 		{
+			// the cursor will actually input a MongoGridFSFile object as the "document" 
+			// so what we wanna do is get the attributes or metadata attached to the file object 
+			// set it as our attributes and then set this classes file as the first param we got
 			$file=$attributes;
 			$attributes=$file->file;
 					
 			$record=$this->instantiate($attributes);			
-			
-			$record->name=$file->getFilename();
-			$record->size=$file->getSize();
 			$record->setFile($file);			
 			$record->setScenario('update');
 			$record->setIsNewRecord(false);
@@ -149,10 +118,12 @@ class EMongoFile extends EMongoDocument{
 	}
 	
 	/**
-	 * Inserts the file
+	 * Inserts the file.
+	 * 
+	 * The only difference between the normal insert is that this uses the storeFile function on the GridFS object
 	 * @see EMongoDocument::insert()
 	 */
-	function insert($attributes=null){
+	public function insert($attributes=null){
 		if(!$this->getIsNewRecord())
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
@@ -160,7 +131,7 @@ class EMongoFile extends EMongoDocument{
 			$this->trace(__FUNCTION__);
 		
 			if(!isset($this->{$this->primaryKey()})) $this->{$this->primaryKey()} = new MongoId;
-			if($this->getCollection()->storeFile($this->getName(), $this->getRawDocument())){ // The key change
+			if($this->getCollection()->storeFile($this->getFilename(), $this->getRawDocument())){ // The key change
 				$this->afterSave();
 				$this->setIsNewRecord(false);
 				$this->setScenario('update');
@@ -171,14 +142,22 @@ class EMongoFile extends EMongoDocument{
 	}
 	
 	/**
-	 * Deletes the file
+	 * Deletes the file.
+	 * 
+	 * If the first param is true it will also seek out all the chunks associated with the file and delete them. This 
+	 * means it truly deletes the files in both the files and the chunks collection.
+	 * 
+	 * Note: gcing the chunks collection can become a stressful job, please make sure running this function with the 
+	 * input of true does not break your own system.
+	 * 
+	 * @param $deleteChunks As to whether or not to gc the chunks collection as well
 	 * @see EMongoDocument::delete()
 	 */
-	function delete($deleteChunks=true){
+	public function delete($deleteChunks=true){
 		if(!$this->getIsNewRecord()){
 			$this->trace(__FUNCTION__);
 			if($this->beforeDelete()){
-				$_id=$this->getPrimaryKey();
+				$_id=$this->getPrimaryKey(); // Store the _id for post-deletion chunk removing
 				$result=$this->deleteByPk($_id);
 				if($deleteChunks) // Do we wanna remove chunks?
 					$this->getCollection()->chunks->remove(array('files_id'=>$_id)); // Ok lets
@@ -193,10 +172,18 @@ class EMongoFile extends EMongoDocument{
 	}
 
 	/**
-	 * Get collection will now return the gridfs object
+	 * Get collection will now return the GridFS object from the driver
 	 * @see EMongoDocument::getCollection()
 	 */
-	function getCollection(){
+	public function getCollection(){
 		return $this->getDbConnection()->getGridFS();
 	}
+	
+	/**
+	 * Produces a trace message for functions in this class
+	 * @param string $func
+	 */
+	public function trace($func){
+		Yii::trace(get_class($this).'.'.$func.'()','extensions.MongoYii.EMongoFile');
+	}	
 }
