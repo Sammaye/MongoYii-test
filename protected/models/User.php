@@ -5,6 +5,9 @@
  */
 class User extends EMongoDocument{
 
+	/** @virtual */
+	public $avatar;
+	
 	public $username;
 	public $password;
 

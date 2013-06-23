@@ -36,6 +36,13 @@ class EMongoDocument extends EMongoModel{
 	private $_projected_fields = array();
 
 	/**
+	 * A bit deceptive, this var actually holds the last response from the server. The reason why it is called this
+	 * is because this is what MongoDB calls it.
+	 * @var mixed
+	 */
+	private $lastError;
+
+	/**
 	 * Sets up our model and set the field cache just like in EMongoModel
 	 *
 	 * It will also set the default scope on the model so be aware that if you want the default scope to not be applied you will
@@ -458,7 +465,7 @@ class EMongoDocument extends EMongoModel{
 			$this->trace(__FUNCTION__);
 
 			if(!isset($this->{$this->primaryKey()})) $this->{$this->primaryKey()} = new MongoId;
-			if($this->getCollection()->insert($this->getRawDocument(), $this->getDbConnection()->getDefaultWriteConcern())){
+			if($this->lastError=$this->getCollection()->insert($this->getRawDocument(), $this->getDbConnection()->getDefaultWriteConcern())){
 				$this->afterSave();
 				$this->setIsNewRecord(false);
 				$this->setScenario('update');
@@ -492,7 +499,7 @@ class EMongoDocument extends EMongoModel{
 				$attributes=$this->getRawDocument();
 			unset($attributes['_id']); // Unset the _id before update
 
-			$this->updateByPk($this->{$this->primaryKey()}, array('$set' => $attributes));
+			$this->lastError=$this->updateByPk($this->{$this->primaryKey()}, array('$set' => $attributes));
 			$this->afterSave();
 			return true;
 		}
@@ -703,8 +710,7 @@ class EMongoDocument extends EMongoModel{
 	    $this->trace(__FUNCTION__);
 
 	    // If we provide a manual criteria via EMongoCriteria or an array we do not use the models own DbCriteria
-	    $criteria = !empty($criteria) && !$criteria instanceof EMongoCriteira ? $criteria : $this->getDbCriteria();
-
+	    $criteria = !empty($criteria) || $criteria instanceof EMongoCriteria ? $criteria : $this->getDbCriteria();
 	    if($criteria instanceof EMongoCriteria)
 	        $crtieria = $criteria->getCondition();
 	    return $this->getCollection()->find(isset($criteria) ? $criteria : array())->count();
@@ -722,9 +728,9 @@ class EMongoDocument extends EMongoModel{
 
 			$value = $this->{$attribute};
 			if($value !== null && $value !== ''){
-				if(is_array($value) || is_object($value)){
+				if((is_array($value) && count($value)) || is_object($value)){
 					$query[$attribute] = $value;
-				}elseif(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches)){
+				}elseif(is_string($value)&&preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches)){
 					$value=$matches[2];
 					$op=$matches[1];
 
@@ -800,6 +806,14 @@ class EMongoDocument extends EMongoModel{
 		}
 		else
 			return false;
+    }
+
+    /**
+     * A bit deceptive, this actually gets the last response from either save() or update(). The reason it is called this
+     * is because MongoDB calls it this and so it seems better to have unity on that front.
+     */
+    public function getLastError(){
+		return $this->lastError;
     }
 
     /**

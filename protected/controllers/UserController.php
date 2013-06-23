@@ -57,6 +57,24 @@ class UserController extends Controller
 			'model'=>$model
 		));
 	}
+	
+	public function actionEdit(){
+		
+		$model=User::model()->findOne(array('_id'=>Yii::app()->user->id));
+		if($model===null)
+			throw new CHttpException(403, 'You are not logged in');
+		
+		if($file=EMongoFile::populate($model,'avatar')){
+			$file->userId=$model->_id;
+			if($file->save()){
+				Yii::app()->user->setFlash('success', "Avatar Changed!");
+			}				
+		}
+				
+		$this->render('edit',array(
+			'model' => $model		
+		));
+	}
 
 	/**
 	 * This lists and allows us to search across all users. Only accessible to Admins
