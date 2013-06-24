@@ -6,8 +6,6 @@
  * WARNING: This file is extremely experimental and its API may change before it is pushed to a tag.
  * 
  * It can accept an input file from $_FILES via ::populate and can also do find() and findOne() on the files collection. 
- * When delete is used it will gc the chunks collection by default as well.
- * 
  * This file is specifically designed for uploading files from a form to GridFS and is merely a helper, IT IS IN NO WAY REQUIRED.
  */
 class EMongoFile extends EMongoDocument{
@@ -59,7 +57,7 @@ class EMongoFile extends EMongoDocument{
 	}	
 	
 	/**
-	 * This cna populate from a $_FILES instance
+	 * This can populate from a $_FILES instance
 	 * @param CModel $model
 	 * @param string $attribute
 	 * @return boolean|EMongoFile|NULL
@@ -141,23 +139,16 @@ class EMongoFile extends EMongoDocument{
 	/**
 	 * Deletes the file.
 	 * 
-	 * If the first param is true it will also seek out all the chunks associated with the file and delete them. This 
-	 * means it truly deletes the files in both the files and the chunks collection.
-	 * 
-	 * Note: gcing the chunks collection can become a stressful job, please make sure running this function with the 
-	 * input of true does not break your own system.
-	 * 
-	 * @param $deleteChunks As to whether or not to gc the chunks collection as well
+	 * When calling delete on the MongoGridFS object in later versions of the driver it will also attempt
+	 * to transmit a delete to the chunk collection, as such any involvement from me on that side is useless.
 	 * @see EMongoDocument::delete()
 	 */
-	public function delete($deleteChunks=true){
+	public function delete(){
 		if(!$this->getIsNewRecord()){
 			$this->trace(__FUNCTION__);
 			if($this->beforeDelete()){
 				$_id=$this->getPrimaryKey(); // Store the _id for post-deletion chunk removing
 				$result=$this->deleteByPk($_id);
-				if($deleteChunks) // Do we wanna remove chunks?
-					$this->getCollection()->chunks->remove(array('files_id'=>$_id)); // Ok lets
 				$this->afterDelete();
 				return $result;
 			}
