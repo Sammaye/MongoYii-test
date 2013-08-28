@@ -3,8 +3,6 @@
 /**
  * The MongoYii representation of a helper for uploading files to GridFS.
  * 
- * WARNING: This file is extremely experimental and its API may change before it is pushed to a tag.
- * 
  * It can accept an input file from $_FILES via ::populate and can also do find() and findOne() on the files collection. 
  * This file is specifically designed for uploading files from a form to GridFS and is merely a helper, IT IS IN NO WAY REQUIRED.
  */
@@ -46,6 +44,14 @@ class EMongoFile extends EMongoDocument{
 	 */
 	public function setFile($v){
 		$this->_file=$v;
+	}
+	
+	/**
+	 * This denotes the prefix to all gridfs collections set by this class
+	 * @return string
+	 */
+	public function collectionPrefix(){
+		return 'fs';
 	}
 	
 	/**
@@ -135,36 +141,13 @@ class EMongoFile extends EMongoDocument{
 		}
 		return false;		
 	}
-	
-	/**
-	 * Deletes the file.
-	 * 
-	 * When calling delete on the MongoGridFS object in later versions of the driver it will also attempt
-	 * to transmit a delete to the chunk collection, as such any involvement from me on that side is useless.
-	 * @see EMongoDocument::delete()
-	 */
-	public function delete(){
-		if(!$this->getIsNewRecord()){
-			$this->trace(__FUNCTION__);
-			if($this->beforeDelete()){
-				$_id=$this->getPrimaryKey(); // Store the _id for post-deletion chunk removing
-				$result=$this->deleteByPk($_id);
-				$this->afterDelete();
-				return $result;
-			}
-			else
-				return false;
-		}
-		else
-			throw new CDbException(Yii::t('yii','The active record cannot be deleted because it is new.'));		
-	}
 
 	/**
 	 * Get collection will now return the GridFS object from the driver
 	 * @see EMongoDocument::getCollection()
 	 */
 	public function getCollection(){
-		return $this->getDbConnection()->getGridFS();
+		return $this->getDbConnection()->getGridFS($this->collectionPrefix());
 	}
 	
 	/**
