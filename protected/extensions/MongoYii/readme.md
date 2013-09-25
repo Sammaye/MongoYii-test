@@ -216,6 +216,8 @@ Returns a string representing the collection name. All active record models shou
 
 Currently only returns `_id` as the key.
 
+### Using a Custom Primary Key
+
 If you are using a primary key that IS NOT a `ObjectId` (otherwise known as a `MongoId` in the PHP driver) then you should override the `getPrimaryKey` function of the `EMongoDocument`
 to not return a `MongoId`:
 
@@ -450,10 +452,45 @@ Same as above really except these translate directly to the MongoDB drivers own 
 
 ## Validation
 
-The validation has pretty much not changed except for one validator which required some rewriting, the unique validator.
+The validation has pretty much not changed except for the names of certain validators due to Yiis own requiring SQL.
 
-Basically the `CUniqueValidator` has been retro-fitted to work for MongoDB so the call to the validator is the same but you must take into account that the name of the
-validator is now `EMongoUniqueValidator`.
+### unique
+
+The `unique` validator is now the `EMongoUnqiueValidator`.
+
+	array('username', 'EMongoUniqueValidator', 'className' => 'User', 'attributeName' => 'username')
+	
+### exist
+
+The `exist` validator is now the `EMongoExistValidator`.
+
+	array('user_id', 'EMongoExistValidator', 'className' => 'User', 'attributeName' => '_id')
+	
+### EMongoIdValidator
+
+This validator was added as a easy, yet flexible, method to automate the conversion of hexidecimal representation of `MongoId`s (for example: `addffrg33334455add0001`) to the 
+`MongoId` object for database manipulation. This validator can also handle arrays of strings that need converting to `MongoId`s.
+
+	array('ids,id', 'EMongoIdValidator'), // ids is an array while id is a single string value
+
+### EMongoSubdocumentValidator
+
+This is the subdocument validator, please see the "Subdocuments" section for full documentation.
+
+## Behaviours
+
+### EMongoTimestampBehaviour
+
+This is the MongoYii edition of `CTimestampBehavior` behaviour and will use `MongoDate` fields, however, an expression can be added to `timestampExpression` to make the 
+behaviour return integer timestamps.
+
+The usage of the behaviour is very much alike to normal, infact only the name is different:
+
+	function behaviors(){
+		return array(
+			'EMongoTimestampBehaviour'
+		);
+	}
 
 ## Subdocuments
 
@@ -665,6 +702,10 @@ Get and set the limit of the query.
 
 Sets the projection of the criteria to state specific fields to include/omit.
 
+### getSelect() / setSelect()
+
+These provide aliases for `getProject()` and `setProject()`.
+
 ### compare()
 
 This works a lot like `CDbCriteria`s and is heavily based on it.
@@ -796,12 +837,16 @@ I am sure there are more but that is the immediate flaws you need to consider in
 
 Probably some, however, I will endeavour to accept pull requests and fix reported bugs.
 
+Please report all issues, including bugs and/or questions, on the [GitHub issue tracker](https://github.com/Sammaye/MongoYii/issues). 
+
 ## Examples
 
 Please look to the tests folder for further examples of how to use this extension, it is quite comprehensive.
 
-There is also an example application which is in the process of being built to accomodate for providing example usages of MongoYii and is worth a look at for most Yii users:
-[here](https://github.com/Sammaye/MongoYii-test)
+There is also a demonstration application built using MongoYii. It is effectively mimicking a Wikipedia type website and allows for user (including sessions) and article management. 
+It is not a good place to start if you are still learning Yii, however, it is a good place to start if you are learning MongoYii. 
+
+[You can find the demonstration application repository here](https://github.com/Sammaye/MongoYii-test).
 
 ## Running the Tests
 
@@ -815,7 +860,7 @@ The tests require the PHPUnit plugin with all dependencies compiled. Using PEAR 
 After that you can just tell PHPUnit to run all tests within the `tests/` folder with no real order.
 
 ## Upgrade Notes
-
+ 
 There has been a small but dramatic change between version 1.x and 2.x of MongoYii. The `compare()` function within the `EMongoCriteria` now no longer uses partial matching by
 default. This means that by default it will try and match the entire field value.
 

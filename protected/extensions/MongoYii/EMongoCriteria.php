@@ -137,6 +137,22 @@ class EMongoCriteria extends CComponent {
 	public function getProject(){
 		return $this->_project;
 	}
+	
+	/**
+	 * An alias for those too used to select
+	 * @see EMongoCriteria::setProject()
+	 */
+	public function setSelect($document){
+		return $this->setProject($document);	
+	}
+	
+	/**
+	 * An alias for those too used to select
+	 * @see EMongoCriteria::getProject()
+	 */
+	public function getSelect(){
+		return $this->getProject();
+	}
 
 	/**
 	 * Append condition to previous ones using the column name as the index

@@ -36,7 +36,7 @@ class User extends EMongoDocument{
 		return array(
 			array('username,email,password', 'required'),
 			array('username', 'length', 'max' => 20),
-			array('email', 'email'),
+			//array('email', 'email'), // Removed this so I could test some bugs
 			array('_id, username', 'safe', 'on'=>'search'),
 		);
 	}

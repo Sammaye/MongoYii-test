@@ -1541,3 +1541,184 @@ Stack trace:
 #13 {main}
 REQUEST_URI=/index.php?r=user/edit
 ---
+2013/09/18 00:49:00 [error] [php] Indirect modification of overloaded property User::$loginstat has no effect (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:35)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/index.php?r=site/index
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (35)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 00:49:01 [error] [php] Indirect modification of overloaded property User::$loginstat has no effect (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:35)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/favicon.ico
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (35)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 01:24:55 [error] [php] Attempt to assign property of non-object (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:40)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/index.php?r=site/index
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (40)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 01:24:56 [error] [php] Attempt to assign property of non-object (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:40)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/favicon.ico
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (40)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 05:38:02 [error] [php] Undefined offset: 0 (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:38)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/user
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (38)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 05:38:02 [error] [php] Undefined offset: 0 (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:38)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/favicon.ico
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (38)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 05:39:59 [error] [php] Undefined offset: 0 (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:39)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/user
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (39)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 05:39:59 [error] [php] Undefined offset: 0 (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:39)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(13): CWebApplication->run()
+REQUEST_URI=/favicon.ico
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (39)
+in /media/server_ws/MongoYii-test/index.php (13)
+2013/09/18 05:46:56 [error] [exception.MongoCursorException] exception 'MongoCursorException' with message 'localhost:27017: E11000 duplicate key error index: super_test.gjgjgjg.$_id_  dup key: { : ObjectId('523768039b7e7a1505000000') }' in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php:36
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(36): MongoCollection->insert(Array)
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/favicon.ico
+---
+2013/09/18 05:47:25 [error] [exception.MongoCursorException] exception 'MongoCursorException' with message 'localhost:27017: E11000 duplicate key error index: super_test.gjgjgjg.$_id_  dup key: { : ObjectId('523768039b7e7a1505000000') }' in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php:39
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): MongoCollection->insert(Array)
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/user
+---
+2013/09/18 05:47:26 [error] [exception.MongoCursorException] exception 'MongoCursorException' with message 'localhost:27017: E11000 duplicate key error index: super_test.gjgjgjg.$_id_  dup key: { : ObjectId('523768039b7e7a1505000000') }' in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php:39
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): MongoCollection->insert(Array)
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/favicon.ico
+---
+2013/09/25 07:44:24 [error] [exception.MongoConnectionException] exception 'MongoConnectionException' with message 'Failed to connect to: localhost:27017: send_package: error reading from socket: The socket is closed' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php:133
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(133): MongoClient->__construct('mongodb://local...', Array)
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(115): EMongoClient->connect()
+#2 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): EMongoClient->init()
+#3 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(103): CModule->getComponent('mongodb')
+#4 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php(505): CModule->__get('mongodb')
+#5 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php(56): EMongoModel->getDbConnection()
+#6 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(31): EMongoDocument->__construct()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2013/09/25 07:45:07 [error] [php] Trying to get property of non-object (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:40)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (40)
+in /media/server_ws/MongoYii-test/index.php (12)
+2013/09/25 07:48:43 [error] [exception.MongoConnectionException] exception 'MongoConnectionException' with message 'Failed to connect to: localhost:27017: send_package: error reading from socket: The socket is closed' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php:133
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(133): MongoClient->__construct('mongodb://local...', Array)
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(115): EMongoClient->connect()
+#2 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): EMongoClient->init()
+#3 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(103): CModule->getComponent('mongodb')
+#4 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php(505): CModule->__get('mongodb')
+#5 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php(56): EMongoModel->getDbConnection()
+#6 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(31): EMongoDocument->__construct()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
