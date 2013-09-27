@@ -44,6 +44,8 @@
 
 				array('label'=>'Add Article', 'url'=>array('/article/create'), 'visible'=>!Yii::app()->user->isGuest),
 
+				array('label'=>'View Users', 'url'=>array('/user'), 'visible'=>!Yii::app()->user->isGuest),
+
 				array('label'=>'Edit Profile', 'url'=>array('/user/edit'), 'visible'=>!Yii::app()->user->isGuest),
 
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)

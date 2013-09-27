@@ -17,18 +17,18 @@ class EMongoFile extends EMongoDocument{
 	// Helper functions to get some common functionality on this class
 	
 	public function getFilename(){
-		if($this->_file instanceof MongoGridFSFile)
-			return $this->_file->getFilename();
-		return $this->_file->getTempName();
+		if($this->getFile() instanceof MongoGridFSFile)
+			return $this->getFile()->getFilename();
+		return $this->getFile()->getTempName();
 	}
 	
 	public function getSize(){
-		return $this->_file->getSize();
+		return $this->getFile()->getSize();
 	}
 
 	public function getBytes(){
-		if($this->_file instanceof MongoGridFSFile)
-			return $this->_file->getBytes();
+		if($this->getFile() instanceof MongoGridFSFile)
+			return $this->getFile()->getBytes();
 		return file_get_contents($this->getFilename());
 	}
 	
@@ -63,6 +63,16 @@ class EMongoFile extends EMongoDocument{
 	}	
 	
 	/**
+	 * Magic will either call a function on the file if it exists or bubble to parent
+	 * @see EMongoDocument::__call()
+	 */
+	public function __call($name,$parameters){
+		if($this->getFile() instanceof MongoGridFSFile && method_exists($this->getFile(), $name))
+			return call_user_func_array(array($this->getFile(), $name), $parameters);
+		return parent::__call($name,$parameters);
+	}
+	
+	/**
 	 * This can populate from a $_FILES instance
 	 * @param CModel $model
 	 * @param string $attribute
@@ -90,7 +100,6 @@ class EMongoFile extends EMongoDocument{
 			// set it as our attributes and then set this classes file as the first param we got
 			$file=$attributes;
 			$attributes=$file->file;
-					
 			$record=$this->instantiate($attributes);			
 			$record->setFile($file);			
 			$record->setScenario('update');
@@ -132,7 +141,9 @@ class EMongoFile extends EMongoDocument{
 			$this->trace(__FUNCTION__);
 		
 			if(!isset($this->{$this->primaryKey()})) $this->{$this->primaryKey()} = new MongoId;
-			if($this->getCollection()->storeFile($this->getFilename(), $this->getRawDocument())){ // The key change
+			if($_id=$this->getCollection()->storeFile($this->getFilename(), $this->getRawDocument())){ // The key change
+				$this->setFile($this->getCollection()->get($_id));
+				
 				$this->afterSave();
 				$this->setIsNewRecord(false);
 				$this->setScenario('update');

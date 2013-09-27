@@ -28,19 +28,19 @@ class SiteController extends Controller
 	public function actionIndex()
 	{	
 		
-		$u=new User();
-		$u->username='gjgjgjg';
-		$u->email='sdfdfdsfdsfdsf';
-		$u->password='dffdsfsf';
-		$u->insert();
-		var_dump($u);
+// 		$u=new User();
+// 		$u->username='gjgjgjg';
+// 		$u->email='sdfdfdsfdsfdsf';
+// 		$u->password='dffdsfsf';
+// 		$u->insert();
+// 		var_dump($u);
 		
-		$us=User::model()->find(array('username'=>'gjgjgjg'));
-		var_dump($us->count());
-		//var_dump($us->_id);
-		foreach($us as $ur)
-			var_dump(User::model()->updateByPk($ur->_id, array('$push'=>array('whoop'=>array('whoop'=>'cheese')))));
-		//exit();
+// 		$us=User::model()->find(array('username'=>'gjgjgjg'));
+// 		var_dump($us->count());
+// 		//var_dump($us->_id);
+// 		foreach($us as $ur)
+// 			var_dump(User::model()->updateByPk($ur->_id, array('$push'=>array('whoop'=>array('whoop'=>'cheese')))));
+// 		//exit();
 		$this->render('index');
 	}
 

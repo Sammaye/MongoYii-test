@@ -12,7 +12,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<?php var_dump($model->username)?>
 <h1>Manage Users</h1>
 
 <p>
@@ -34,8 +34,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'_id',
 		'username',
-		//'addresses',
-		//'create_time',
+		'email',
+		'group',
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{update}{delete}',

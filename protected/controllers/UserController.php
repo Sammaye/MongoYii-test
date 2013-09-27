@@ -36,6 +36,16 @@ class UserController extends Controller
 			),
 		);
 	}
+	
+	public function actionIndex(){
+		
+		$model=new User('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['User']))
+			$model->attributes=$_GET['User'];		
+		
+		$this->render('index',array('model'=>$model));
+	}
 
 	/**
 	 * This creates our new user and also logs them in if the creation is successfull

@@ -67,6 +67,8 @@ class Article extends EMongoDocument{
 			array('title,body','required'),
 			array('title','length','max'=>255),
 			array('body','length','max'=>2500),
+				
+			//array(''),
 
 			array('title', 'safe', 'on' => 'search') // search by title
 		);
