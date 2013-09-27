@@ -16,6 +16,8 @@ class User extends EMongoDocument{
 
 	public $totalArticles=0;
 	public $totalComments=0;
+	
+	public $profile;
 
 	public function groups(){
 		return array(
@@ -36,6 +38,12 @@ class User extends EMongoDocument{
 		return array(
 			array('username,email,password', 'required'),
 			array('username', 'length', 'max' => 20),
+				
+			array('profile','subdocument','type'=>'one','rules'=>array(
+				array('title','length','max'=>12,'tooLong'=>'Second title is bad'),
+				array('url','url')		
+			)),
+				
 			//array('email', 'email'), // Removed this so I could test some bugs
 			array('_id, username, email, group', 'safe', 'on'=>'search'),
 		);
@@ -59,6 +67,12 @@ class User extends EMongoDocument{
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function attributeLabels(){
+		return array(
+			'profile[title]' => 'First title'
+		);
 	}
 
 	/**

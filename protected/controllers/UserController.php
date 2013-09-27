@@ -82,6 +82,15 @@ class UserController extends Controller
 				Yii::app()->user->setFlash('success', "Avatar Changed!");
 			}				
 		}
+		
+		if(isset($_POST['User'])){
+			$model->attributes=$_POST['User'];
+			if($model->validate()){
+				echo "sdjgfldsflksdfkl;sdfgkldsgfkldsmgkdg";
+			}else{
+				echo "poop";
+			}
+		}
 				
 		$this->render('edit',array(
 			'model' => $model		

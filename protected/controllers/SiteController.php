@@ -34,11 +34,19 @@ class SiteController extends Controller
 // 		$u->insert();
 // 		var_dump($u);
 		
+// 			$attributes = array(
+// 					'created' => time(),
+// 					'user' => 2343523,
+// 					'status' => 3,
+// 					'comment' => 'lalaal',
+// 			);
+		
+		
 // 		$us=User::model()->find(array('username'=>'gjgjgjg'));
 // 		var_dump($us->count());
 // 		//var_dump($us->_id);
 // 		foreach($us as $ur)
-// 			var_dump(User::model()->updateByPk($ur->_id, array('$push'=>array('whoop'=>array('whoop'=>'cheese')))));
+// 			var_dump(User::model()->updateByPk($ur->_id, array('$push'=>array('whoop'=>$attributes))));
 // 		//exit();
 		$this->render('index');
 	}
