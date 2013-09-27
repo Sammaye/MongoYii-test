@@ -77,7 +77,6 @@ class UserController extends Controller
 		if($file=EMongoFile::populate($model,'avatar')){
 			if($oldFile=EMongoFile::model()->findOne(array('userId'=>Yii::app()->user->id)))
 				$oldFile->delete();
-			
 			$file->userId=$model->_id;
 			if($file->save()){
 				Yii::app()->user->setFlash('success', "Avatar Changed!");

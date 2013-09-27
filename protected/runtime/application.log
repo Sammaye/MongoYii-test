@@ -1913,3 +1913,43 @@ REQUEST_URI=/index.php?r=user&User%5B_id%5D=&User%5Busername%5D=&User%5Bemail%5D
 in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php (861)
 in /media/server_ws/MongoYii-test/protected/views/user/index.php (32)
 in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (47)
+2013/09/27 02:09:41 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not logged in' in /media/server_ws/MongoYii-test/protected/controllers/UserController.php:75
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): UserController->actionEdit()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#2 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#3 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#5 /media/server_ws/MongoYii-test/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(291): CFilterChain->run()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('edit')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('user/edit')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php?r=user/edit
+HTTP_REFERER=http://192.168.175.129/index.php?r=user/edit
+---
+2013/09/27 02:09:55 [error] [php] Undefined variable: _id (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoFile.php:43)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php(461): EMongoFile->insert()
+#1 /media/server_ws/MongoYii-test/protected/controllers/UserController.php(82): EMongoFile->save()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): UserController->actionEdit()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(133): UserController->runAction()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/filters/CInlineFilter.php(58): UserController->filterAccessControl()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): UserController->runActionWithFilters()
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): UserController->run()
+#12 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#13 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#14 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=user/edit
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoFile.php (43)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoFile.php (20)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoFile.php (149)
