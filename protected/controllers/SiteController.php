@@ -26,8 +26,7 @@ class SiteController extends Controller
 	 * when an action is not explicitly requested by users.
 	 */
 	public function actionIndex()
-	{	
-		
+	{		
 // 		$u=new User();
 // 		$u->username='gjgjgjg';
 // 		$u->email='sdfdfdsfdsfdsf';

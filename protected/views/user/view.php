@@ -6,9 +6,8 @@
 	<?php if($model->totalArticles>0){ ?>
 		<h2><?php echo $model->totalArticles>1?$model->totalArticles.' articles':$model->totalArticles.' article' ?></h2>
 		<?php
-		
 		$dataProvider=new EMongoDataProvider('Article', array(
-			'criteria' => array('userId'=>$model->_id)
+			'criteria' => array('condition'=>array('userId'=>$model->_id))
 		));
 		
 		$this->widget('zii.widgets.CListView', array(
@@ -22,7 +21,7 @@
 		<?php
 		
 		$dataProvider=new EMongoDataProvider('Comment', array(
-			'criteria' => array('userId'=>$model->_id)
+			'criteria' => array('condition'=>array('userId'=>$model->_id))
 		));
 		
 		$this->widget('zii.widgets.CListView', array(
