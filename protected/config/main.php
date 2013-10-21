@@ -66,7 +66,9 @@ return array(
 			),
 			'db' => 'super_test',
 			//'w' => 'majority',
-			'RP' => array('RP_PRIMARY', array())
+			'RP' => array('RP_PRIMARY', array()),
+			
+			'enableProfiling' => true
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
