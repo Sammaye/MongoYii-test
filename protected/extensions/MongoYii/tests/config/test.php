@@ -6,8 +6,7 @@ return CMap::mergeArray(
 			'mongodb' => array(
 				'class' => 'EMongoClient',
 				'server' => 'mongodb://localhost:27017',
-				'db' => 'super_test',
-				'enableProfiling' => true
+				'db' => 'super_test'
 			),
         ),
     )

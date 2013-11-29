@@ -27,7 +27,7 @@ class EMongoClient extends CApplicationComponent{
 	/**
 	 * The name of the database
 	 * @var string
-	 */
+	*/
 	public $db;
 
 	/**
@@ -39,8 +39,8 @@ class EMongoClient extends CApplicationComponent{
 
 	/**
 	 * Are we using journaled writes here? Beware this makes all writes wait for the journal, it does not
-	 * state whether MongoDB is using journaling. Note: this is NOT straight to disk, 
-	 * it infact makes the journal to disk time a third of its normal time (anywhere between 2-30ms). 
+	 * state whether MongoDB is using journaling. Note: this is NOT straight to disk,
+	 * it infact makes the journal to disk time a third of its normal time (anywhere between 2-30ms).
 	 * Only works 1.3+ driver
 	 * @var boolean
 	 */
@@ -58,9 +58,9 @@ class EMongoClient extends CApplicationComponent{
 	/**
 	 * The Legacy read preference. DO NOT USE IF YOU ARE ON VERSION 1.3+
 	 * @var boolean
-	 */
+	*/
 	public $setSlaveOkay = false;
-	
+
 	/**
 	 * Enables logging to the profiler
 	 * @var boolean
@@ -87,9 +87,9 @@ class EMongoClient extends CApplicationComponent{
 	private $_meta = array();
 
 	/**
-	 * The default action is to find a getX whereby X is the $k param 
+	 * The default action is to find a getX whereby X is the $k param
 	 * you input. The secondary function, if not getter found, is to get a collection
-	 */
+	*/
 	public function __get($k){
 		$getter='get'.$k;
 		if(method_exists($this,$getter))
@@ -99,11 +99,14 @@ class EMongoClient extends CApplicationComponent{
 
 	/**
 	 * Will call a function on the database or error out stating that the function does not exist
+	 * @param string $name
+	 * @param array $parameters
+	 * @return mixed
 	 */
 	public function __call($name,$parameters = array()){
-		if(method_exists($this->getDB(), $name)){
-			return call_user_func_array(array($this->getDB(), $name), $parameters);
-		}
+		if(!method_exists($this->getDB(), $name))
+			return null;
+		return call_user_func_array(array($this->getDB(), $name), $parameters);
 	}
 
 	public function __construct(){
@@ -176,7 +179,6 @@ class EMongoClient extends CApplicationComponent{
 	 * @return MongoDB
 	 */
 	public function getDB(){
-
 		if(empty($this->_db))
 			$this->setDB($this->db);
 
@@ -195,7 +197,7 @@ class EMongoClient extends CApplicationComponent{
 	}
 
 	/**
-	 * This function is designed to be a helper to make calling the aggregate command 
+	 * This function is designed to be a helper to make calling the aggregate command
 	 * more standard across all drivers.
 	 * @param string $collection
 	 * @param $pipelines
@@ -204,8 +206,8 @@ class EMongoClient extends CApplicationComponent{
 	public function aggregate($collection, $pipelines){
 		if(version_compare(phpversion('mongo'), '1.3.0', '<')){
 			return $this->getDB()->command(array(
-				'aggregate' => $collection,
-				'pipeline' => $pipelines
+					'aggregate' => $collection,
+					'pipeline' => $pipelines
 			));
 		}
 		return $this->getDB()->$collection->aggregate($pipelines);
@@ -231,14 +233,14 @@ class EMongoClient extends CApplicationComponent{
 
 	/**
 	 * Sets the document cache for any particular document (EMongoDocument/EMongoModel)
-	 * sent in as the first parameter of this function. Will not cache actual EMongoDocument/EMongoModel instances 
+	 * sent in as the first parameter of this function. Will not cache actual EMongoDocument/EMongoModel instances
 	 * only active classes that inherit these
 	 * @param $o
 	 */
 	function setDocumentCache($o){
 		if(
-			$this->getDocumentCache(get_class($o))===array() && // Run reflection and cache it if not already there
-			(get_class($o) != 'EMongoDocument' && get_class($o) != 'EMongoModel') /* We can't cache the model */
+		$this->getDocumentCache(get_class($o))===array() && // Run reflection and cache it if not already there
+		(get_class($o) != 'EMongoDocument' && get_class($o) != 'EMongoModel') /* We can't cache the model */
 		){
 
 			$_meta = array();
@@ -253,8 +255,8 @@ class EMongoClient extends CApplicationComponent{
 
 				$docBlock = $prop->getDocComment();
 				$field_meta = array(
-					'name' => $prop->getName(),
-					'virtual' => $prop->isProtected() || preg_match('/@virtual/i', $docBlock) <= 0 ? false : true
+						'name' => $prop->getName(),
+						'virtual' => $prop->isProtected() || preg_match('/@virtual/i', $docBlock) <= 0 ? false : true
 				);
 
 				// Lets fetch the data type for this field
@@ -277,10 +279,10 @@ class EMongoClient extends CApplicationComponent{
 	public function getFieldCache($name, $include_virtual = false){
 		$doc = isset($this->_meta[$name]) ? $this->_meta[$name] : array();
 		$fields = array();
-		
+
 		foreach($doc as $name => $opts)
-			if($include_virtual || !$opts['virtual']) $fields[] = $name;
-		return $fields;		
+		if($include_virtual || !$opts['virtual']) $fields[] = $name;
+		return $fields;
 	}
 
 	/**
@@ -297,15 +299,12 @@ class EMongoClient extends CApplicationComponent{
 	 * @return array
 	 */
 	public function getDefaultWriteConcern(){
-		if(version_compare(phpversion('mongo'), '1.3.0', '<')){
-			if($this->w == 1){
-				return array('safe' => true);
-			}elseif($this->w > 0){
-				return array('safe' => $this->w);
-			}
-		}else{
+		if(!version_compare(phpversion('mongo'), '1.3.0', '<'))
 			return array('w' => $this->w, 'j' => $this->j);
-		}
+		if($this->w == 1)
+			return array('safe' => true);
+		if($this->w > 0)
+			return array('safe' => $this->w);
 		return array();
 	}
 
@@ -317,21 +316,21 @@ class EMongoClient extends CApplicationComponent{
 	 */
 	public function createMongoIdFromTimestamp($yourTimestamp)
 	{
-	    static $inc = 0;
+		static $inc = 0;
 
-	    $ts = pack( 'N', $yourTimestamp );
-	    $m = substr( md5( gethostname()), 0, 3 );
-	    $pid = pack( 'n', getmypid() );
-	    $trail = substr( pack( 'N', $inc++ ), 1, 3);
+		$ts = pack( 'N', $yourTimestamp );
+		$m = substr( md5( gethostname()), 0, 3 );
+		$pid = pack( 'n', getmypid() );
+		$trail = substr( pack( 'N', $inc++ ), 1, 3);
 
-	    $bin = sprintf("%s%s%s%s", $ts, $m, $pid, $trail);
+		$bin = sprintf("%s%s%s%s", $ts, $m, $pid, $trail);
 
-	    $id = '';
-	    for ($i = 0; $i < 12; $i++ )
-	    {
-	        $id .= sprintf("%02X", ord($bin[$i]));
-	    }
-	    return new MongoID($id);
+		$id = '';
+		for ($i = 0; $i < 12; $i++ )
+		{
+			$id .= sprintf("%02X", ord($bin[$i]));
+		}
+		return new MongoID($id);
 	}
 
 	/**
@@ -351,6 +350,38 @@ class EMongoClient extends CApplicationComponent{
 	 */
 	public function setSlaveOkay($bool){
 		return $this->getConnection()->setSlaveOkay($bool);
+	}
+
+	/**
+	 * @return array the first element indicates the number of query statements executed,
+	 * and the second element the total time spent in query execution.
+	 */
+	public function getStats()
+	{
+		$logger=Yii::getLogger();
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.findOne');
+		$count=count($timings);
+		$time=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.insert');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.find');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.deleteByPk');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.updateByPk');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.updateAll');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'extensions.MongoYii.EMongoDocument.deleteAll');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+
+		return array($count,$time);
 	}
 }
 

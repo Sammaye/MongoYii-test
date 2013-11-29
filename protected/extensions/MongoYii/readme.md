@@ -187,7 +187,7 @@ As you have guessed, you can only define two types of relation in this extension
 
 	function relations(){
 		return array(
-			'others' => array('many', 'Other', 'otherId')
+			'others' => array('many', 'Other', 'otherId', 'sort' => array('_id'=>-1), 'skip' => 1, 'limit' => 10)
 		);
 	}
 
@@ -204,6 +204,27 @@ clause with the primary key field you define in order to query for the relation.
 
 All relations are returned as `EMongoCursor`s which is basically the Yii active record implementation of `MongoCursor`. There is no eager loading, if you wish to use eager loading
 please look into using `iterator_to_array()` on the return value from calling the relation.
+
+#### Caching
+
+Currently there is no relationship caching on relation types of `many` due to the historical reason of returning an `EMongoCursor` for all relationships. 
+You can add caching by setting `cache` to `true` in the relation properties like so:
+
+	function relations(){
+		return array(
+			'others' => array('many', 'Other', 'otherId', 'cache' => true)
+		);
+	}
+
+#### Deprecation Notice
+
+By default currently a `many` relation has no caching to it. This goes against how Yii works as such caching will be turned on by default at some point in the future: 
+[https://github.com/Sammaye/MongoYii/issues/169](https://github.com/Sammaye/MongoYii/issues/169).
+
+The change will not happen for a long time to give people who have come to expect the behaviour of no caching a chance to move their code.
+
+The ability to declare a relationship as uncached is staying. This will help for very large relationships that exist which should not really be 
+brought into memory for performance reasons.
 
 ### getDocument()
 
@@ -920,6 +941,91 @@ As such I believe that the `EMongoCriteria` class is just dead weight consuming 
 This extension does not rely on `EMongoCriteria` internally.
 
 So I expect all modifications to certain parts of MongoYii to be compatible with and without `EMongoCriteria`.
+
+## Utilities
+
+The `util` folder contains general awesome extensions to MongoYii that people may find useful. The sort of things that count as part of this folder are replacements for internal pieces 
+of Yii that might seem outside of the scope of the root of this repository.
+
+### EMongoCache
+
+This is a MongoYii implementation of `CCache` by [Rajcsányi Zoltán](http://ezmegaz.hu/).
+
+To use it first place it in your configuration:
+
+	'components'=>array(
+		...
+		'cache' => array(
+			'class'=>'application.extensions.MongoYii.util.EMongoCache',
+			// 'ensureIndex' => true, //set to false after first use of the cache
+			// 'mongoConnectionId' => 'mongodb',
+			// 'collectionName' => 'mongodb_cache',		
+		),
+	}
+
+The commented out lines are optional parameters you can send in if required.
+
+And now an example of its usage: 
+
+	// flush cache
+	Yii::app()->cache->flush();
+	
+	// add data to cache
+	Yii::app()->cache->set('apple', 'fruit');
+	Yii::app()->cache->set('onion', 'vegetables');
+	Yii::app()->cache->set(1, 'one');
+	Yii::app()->cache->set(2, 'two');
+	Yii::app()->cache->set('one', 1);
+	Yii::app()->cache->set('two', 2);
+	
+	// delete from cache
+	Yii::app()->cache->delete(1);
+	Yii::app()->cache->delete('two');
+	
+	// read from cache
+	echo Yii::app()->cache->get(2);
+	
+	// multiple read from cache
+	$arr = Yii::app()->cache->mget(array('apple', 1, 'two'));
+
+  	print_r($arr); // Array( [apple] => fruit [1] => [two] => )
+  	
+### EMongoMessageSource
+
+This is a MongoYii `Yii::t()` implementation by [Rajcsányi Zoltán](http://ezmegaz.hu/).
+
+To use it first add it to your configuration:
+
+	'components' => array(
+		...
+		'messages' => array(
+			'class' => 'application.extensions.MongoYii.util.EMongoMessageSource',
+			// 'mongoConnectionId' => 'mongodb', 
+			// 'collectionName' => 'YiiMessages',               
+		)        
+	)
+
+The commented out lines are optional parameters you can send in if required.
+
+And then add some messages to the translation table:
+
+	db.YiiMessages.insert( { category:"users", message:"Freund", translations: [ {language:"eng", message:"Friend"} ] } );
+
+And then simply get that message:
+  
+	<?=Yii::t('users', 'Freund'); ?>
+	
+### EMongoSession
+
+This is a MongoYii `CHttpSession` implementation by yours truly.
+
+To use it simply include it in your configuration:
+
+	'session' => array(
+		'class' => 'application.extensions.MongoYii.util.EMongoSession',
+	)
+
+And use it as you would Yiis own normal session.
 
 ## Upgrade Notes
  
