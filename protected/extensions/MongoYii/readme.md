@@ -78,7 +78,7 @@ If you wish to setup the log to insert entries into MongoDB (like in `CDbLogRout
 
 				array(
 					'class'=>'EMongoLogRoute',
-					'connectionId'=>'my_connection_id' // optional, defaults to 'mongodb'
+					'connectionId'=>'my_connection_id', // optional, defaults to 'mongodb'
 					'logCollectionName'=>'my_log_collection', // optional, defaults to 'YiiLog'
 				),
 				
@@ -1026,6 +1026,18 @@ To use it simply include it in your configuration:
 	)
 
 And use it as you would Yiis own normal session.
+
+### EMongoAuthManager
+
+This is a MongoDB replacement for Yiis auth manager by [@tvollstaedt](https://github.com/tvollstaedt).
+
+To use it simply place it in your configuration:
+
+	'authManager' => array(
+    	'class' => 'EMongoAuthManager',
+    )
+    
+It will work the same way as any other auth manager.
 
 ## Upgrade Notes
  

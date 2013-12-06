@@ -18,7 +18,8 @@ return array(
 		'application.components.*',
 		'application.extensions.MongoYii.*',
 		'application.extensions.MongoYii.validators.*',
-		'application.extensions.MongoYii.behaviors.*'
+		'application.extensions.MongoYii.behaviors.*',
+		'application.extensions.MongoYii.util.*'
 	),
 
 	'modules'=>array(
