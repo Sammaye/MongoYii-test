@@ -74,6 +74,18 @@ class User extends EMongoDocument{
 			'profile[title]' => 'First title'
 		);
 	}
+	
+	public function search(){
+		$criteria = new EMongoCriteria;
+		
+		if($this->_id!==null)
+			$criteria->compare('_id', new MongoId($this->_id));
+		//$criteria->compare('__v', $this->__v);
+		return new EMongoDataProvider(get_class($this), array(
+				'criteria' => $criteria,
+		));
+		
+	}
 
 	/**
 	 * Hashes our password, taken straight from the tutorial
