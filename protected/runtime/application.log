@@ -2391,3 +2391,25 @@ Stack trace:
 REQUEST_URI=/index.php?r=user&User%5B_id%5D=529f284e6803fab20586b&User%5Busername%5D=&User%5Bemail%5D=&User%5Bgroup%5D=&User_page=1&ajax=user-grid
 HTTP_REFERER=http://192.168.183.128/index.php?r=user
 ---
+2013/12/21 16:25:15 [error] [php] Indirect modification of overloaded property User::$ex_sub has no effect (/srv/server_ws/MongoYii-test/protected/controllers/SiteController.php:34)
+Stack trace:
+#0 /srv/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /srv/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /srv/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /srv/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /srv/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /srv/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/
+in /srv/server_ws/MongoYii-test/protected/controllers/SiteController.php (34)
+in /srv/server_ws/MongoYii-test/index.php (12)
+2013/12/21 16:25:46 [error] [php] Undefined variable: v (/srv/server_ws/MongoYii-test/protected/controllers/SiteController.php:35)
+Stack trace:
+#0 /srv/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /srv/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /srv/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /srv/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /srv/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /srv/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/
+in /srv/server_ws/MongoYii-test/protected/controllers/SiteController.php (35)
+in /srv/server_ws/MongoYii-test/index.php (12)

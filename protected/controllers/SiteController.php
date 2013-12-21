@@ -26,28 +26,17 @@ class SiteController extends Controller
 	 * when an action is not explicitly requested by users.
 	 */
 	public function actionIndex()
-	{		
-// 		$u=new User();
-// 		$u->username='gjgjgjg';
-// 		$u->email='sdfdfdsfdsfdsf';
-// 		$u->password='dffdsfsf';
+	{	
+		/*	
+ 		$u=new User();
+ 		$u->username='gjgjgjg';
+ 		$u->email='sdfdfdsfdsfdsf';
+ 		$u->password='dffdsfsf';
+ 		$u->ex_sub['title'] = 'sub ';
+ 		$u->validate();
 // 		$u->insert();
-// 		var_dump($u);
-		
-// 			$attributes = array(
-// 					'created' => time(),
-// 					'user' => 2343523,
-// 					'status' => 3,
-// 					'comment' => 'lalaal',
-// 			);
-		
-		
-// 		$us=User::model()->find(array('username'=>'gjgjgjg'));
-// 		var_dump($us->count());
-// 		//var_dump($us->_id);
-// 		foreach($us as $ur)
-// 			var_dump(User::model()->updateByPk($ur->_id, array('$push'=>array('whoop'=>$attributes))));
-// 		//exit();
+ 		var_dump($u);
+ 		*/
 		$this->render('index');
 	}
 

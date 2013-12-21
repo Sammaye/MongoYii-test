@@ -18,6 +18,8 @@ class User extends EMongoDocument{
 	public $totalComments=0;
 	
 	public $profile;
+	
+	public $ex_sub = array();
 
 	public function groups(){
 		return array(
@@ -38,7 +40,13 @@ class User extends EMongoDocument{
 		return array(
 			array('username,email,password', 'required'),
 			array('username', 'length', 'max' => 20),
-				
+			/*	
+			array('ex_sub', 'subdocument', 'type' => 'one', 'rules' => array(
+            	array('title', 'filter', 'filter' => function($c){
+				return new MongoId();        		
+				}) // this seems not to work
+        	)),
+			*/	
 			array('profile','subdocument','type'=>'one','rules'=>array(
 				array('title','length','max'=>12,'tooLong'=>'Second title is bad'),
 				array('url','url')		
