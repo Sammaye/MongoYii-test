@@ -46,7 +46,7 @@ class Article extends EMongoDocument{
 	public function relations(){
 		return array(
 			'author' => array('one','User','_id','on'=>'userId'),
-			'comments' => array('many','Comment','articleId'),
+			'comments' => array('many','Comment','on' => '_id','articleId'),
 
 			// Here we define the likes/dislikes relationships
 			'usersLiked' => array('many', 'User', '_id','on'=>'likes'),
