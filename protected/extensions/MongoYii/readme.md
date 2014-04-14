@@ -351,6 +351,30 @@ Returns the raw `MongoCollection`.
 It is normally best not to use this but instead to use the extension wrapped editions - `updateAll` and `deleteAll`. The only difference of said functions
 from doing it manually on `getCollection()` is that these functions understand the write concern of the extension.
 
+### ensureIndexes()
+
+This function allows the user to ensure a set of indexes by array definition.
+
+This is most useful when used in the `init()` function to produce pre-made indexes on the start up of the model. A good example is:
+
+    public function init()
+    {
+        if(YII_DEBUG){
+            $this->ensureIndexes(array(
+                array('username' => 1),
+                array(array('email' => 1), array('unique' => true)),
+                array(array('description' => 1))
+            ));
+        }
+    }
+
+The above example snippet shows all the different ways you can define indexes.
+
+By default each element of the function input array will be an index definition, element `0` being the fields and `1` being the options.
+
+However you are not required to define index options. You can also simplify the definition further by not defining a `0` element but instead an associative array 
+defining only the fields of the index.
+
 ### setAttributes()
 
 It is important, nay, imperative that you understand exactly how, by default MongoYii assigns integers. Since MongoDB has no strict handling of field types it is very easy
@@ -587,6 +611,9 @@ however with `many` it will create a new element for each model (row) with embed
 			)
 		)
 	)
+	
+**Note:** In order to get filters working on 1.1.4 the validator will now, by default, overwrite what you send into it with the results of the validator output. This means that if your
+rules are not defined correctly you will lose fields within your subdocuments. You can combat this by setting the `strict` parameter of this validator to `false`.
 
 **Note:** While on the subject, to avoid the iteration every time you save the root document (since validation is run by default in Yii on save) you should confine your subdocument
 validators to specific scenarios where they will be actively used.
@@ -876,7 +903,7 @@ To setup a versioned document you can simply create a model implementing `versio
 		
 		public static function model($className=__CLASS__){
 			return parent::model($className);
-		}	
+	    }	
 	}
 
 The verisoning ability of a document cannot be changed during runtime once it has been set, in other words you cannot do `$doc->removeVersion()` to stop versioning from having 
@@ -884,6 +911,19 @@ an effect for a certain insert.
 
 After the documents model has been setup versioning works behind the scenes, there is no need for you to do anything else, everytime `save` is called it will make sure the 
 version you have is upto date.
+
+## Database migrations
+
+Even though MongoDB is schemaless, you sometimes may need to modify your records. To do so, you may use the `yiic mongomigrate` command. 
+It works exactly like `yiic migrate`. For detailed usage, please refer to the [yii docs](http://www.yiiframework.com/doc/guide/1.1/en/database.migration).
+
+To enable the command in your application, add a `commandMap` entry in your config file:
+
+    'commandMap' => array(
+        'migratemongo' => array(
+            'class' => 'application.extensions.MongoYii.util.EMigrateMongoCommand'
+        )
+    )
 
 ## Known Flaws
 
@@ -950,7 +990,7 @@ of Yii that might seem outside of the scope of the root of this repository.
 
 ### EMongoCache
 
-This is a MongoYii implementation of `CCache` by [Rajcs�nyi Zolt�n](http://ezmegaz.hu/).
+This is a MongoYii implementation of `CCache` by [Rajcsányi Zoltán](http://ezmegaz.hu/).
 
 To use it first place it in your configuration:
 
@@ -993,7 +1033,7 @@ And now an example of its usage:
   	
 ### EMongoMessageSource
 
-This is a MongoYii `Yii::t()` implementation by [Rajcs�nyi Zolt�n](http://ezmegaz.hu/).
+This is a MongoYii `Yii::t()` implementation by [Rajcsányi Zoltán](http://ezmegaz.hu/).
 
 To use it first add it to your configuration:
 
@@ -1038,18 +1078,15 @@ To use it simply place it in your configuration:
     	'class' => 'EMongoAuthManager',
     )
     
-It will work the same way as any other auth manager.
+It will work the same way as any other auth manager. 
 
-## Upgrade Notes
- 
-There has been a small but dramatic change between version 1.x and 2.x of MongoYii. The `compare()` function within the `EMongoCriteria` now no longer uses partial matching by
-default. This means that by default it will try and match the entire field value.
+**Note:** You may want to use [Database migrations](#database-migrations) to keep authorization settings across your application instances up to date.
 
-This change was implemented to match Yiis own behaviour. Yii, by default, will not match by `LIKE` when using this function.
+### EMongoPagination
 
-This behaviour WILL NOT change here after. After complying to Yiis own behaviour it will be left alone.
+This is a replacement `CPagination` for MongoYii built by [@kimbeejay](https://github.com/kimbeejay).
 
-**Note:** Only direct accession of `compare()` through `EMongoCriteria` is effected, no section of the extension relies on `EMongoCriteria`.
+It uses the same API as `CPagination` and requires no extra documentation (outside of `CPagination`) aside from making you aware of its existance.
 
 ## Versioning
 
