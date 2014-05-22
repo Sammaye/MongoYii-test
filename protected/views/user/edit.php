@@ -14,6 +14,10 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
 <?php echo $form->textField($model,'profile[title]') ?>
 <?php echo $form->error($model,'profile[title]') ?>
 
+<?php echo $form->label($model,'profile[url]') ?>
+<?php echo $form->textField($model,'profile[url]') ?>
+<?php echo $form->error($model,'profile[url]') ?>
+
 <?php echo $form->fileField($model, 'avatar') ?>
 <?php echo CHtml::submitButton('Set Avatar') ?>
 <?php $this->endWidget(); ?>

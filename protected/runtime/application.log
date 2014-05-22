@@ -2413,3 +2413,104 @@ Stack trace:
 REQUEST_URI=/
 in /srv/server_ws/MongoYii-test/protected/controllers/SiteController.php (35)
 in /srv/server_ws/MongoYii-test/index.php (12)
+2014/05/22 00:05:52 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:06:44 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:09:16 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:09:25 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:11:24 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:12:02 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:12:27 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:13:02 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:13:37 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:13:59 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:14:53 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:15:19 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:15:19 [error] [php] Undefined index: title (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php:477)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/views/user/edit.php(15): CActiveForm->error()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(126): require()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(95): UserController->renderInternal()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(869): UserController->renderFile()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(782): UserController->renderPartial()
+#5 /media/server_ws/MongoYii-test/protected/controllers/UserController.php(97): UserController->render()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): UserController->actionEdit()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(133): UserController->runAction()
+#9 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#11 /media/server_ws/MongoYii-test/yii/framework/web/filters/CInlineFilter.php(58): UserController->filterAccessControl()
+#12 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#13 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): UserController->runActionWithFilters()
+#15 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): UserController->run()
+#16 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#17 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#18 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=user/edit
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (477)
+in /media/server_ws/MongoYii-test/protected/views/user/edit.php (15)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (97)
+2014/05/22 00:15:50 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:16:57 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:17:19 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:18:09 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:18:20 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:22:17 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)
+2014/05/22 00:22:28 [warning] [application] Failed to set unsafe attribute "avatar" of "User".
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (256)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (58)
+in /media/server_ws/MongoYii-test/protected/controllers/UserController.php (87)

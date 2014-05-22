@@ -86,9 +86,8 @@ class UserController extends Controller
 		if(isset($_POST['User'])){
 			$model->attributes=$_POST['User'];
 			if($model->validate()){
-				echo "sdjgfldsflksdfkl;sdfgkldsgfkldsmgkdg";
-			}else{
-				echo "poop";
+				Yii::app()->user->setFlash('success', 'Edit Saved');
+				return $this->redirect('user/edit');
 			}
 		}
 				

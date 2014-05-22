@@ -758,6 +758,16 @@ class EMongoDocument extends EMongoModel{
 	public function findAll($criteria = array(), $fields = array()){
 		return $this->find($criteria, $fields);
 	}
+	
+	/**
+	 * Alias of find
+	 * @param array $criteria
+	 * @param array|string[] $fields
+	 * @return EMongoCursor|EMongoDocument[]
+	 */
+	public function findAllByAttributes($criteria = array(), $fields = array()){
+		return $this->find($criteria, $fields);
+	}
 
 	/**
 	 * Finds all records based on $pk
@@ -1094,7 +1104,7 @@ class EMongoDocument extends EMongoModel{
 	 */
 	public function aggregate($pipeline){
 		$this->trace(__FUNCTION__);
-		return Yii::app()->mongodb->aggregate($this->collectionName(), $pipeline);
+		return $this->getDbConnection()->aggregate($this->collectionName(), $pipeline);
 	}
 
 	/**

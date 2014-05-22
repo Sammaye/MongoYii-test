@@ -325,10 +325,6 @@ class EMongoModel extends CModel{
 
 		Yii::trace('lazy loading '.get_class($this).'.'.$name,'extensions.MongoYii.EMongoModel');
 
-		// I am unsure as to the purpose of this bit
-		//if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
-		//return $relation instanceof CHasOneRelation ? null : array();
-
 		$cursor = array();
 		$relation = $relations[$name];
 
@@ -337,6 +333,12 @@ class EMongoModel extends CModel{
 		$fkey = $relation[2];
 		$pk = isset($relation['on']) ? $this->{$relation['on']} : $this->getPrimaryKey();
 
+		// This takes care of cases where the PK is an DBRef and only one DBRef, where it could 
+		// be mistaken as a multikey field 
+        if($relation[0] === 'one' && is_array($pk) && array_key_exists('$ref', $pk)){
+            $pk = array($pk);
+        }
+        
 		// Form the where clause
 		$where = $params;
 		if(isset($relation['where'])&&!$params) $where = array_merge($relation['where'], $params);
@@ -350,6 +352,9 @@ class EMongoModel extends CModel{
 					$row = $this->populateReference($singleReference, $cname);
 					if ($row) array_push($result, $row);
 				}
+                if($relation[0]==='one' && count($result) > 0){
+                    $result = $result[0];
+                }
 				return $this->_related[$name]=$result;
 			}
 			// It is an array of _ids
@@ -378,8 +383,10 @@ class EMongoModel extends CModel{
 				->sort(isset($relation['sort'])?$relation['sort']:array())
 				->skip(isset($relation['skip'])?$relation['skip']:null)
 				->limit(isset($relation['limit'])?$relation['limit']:null);
-			if(isset($relation['cache']) && $relation['cache']===true)
+			
+			if(!isset($relation['cache']) || $relation['cache'] === true){
 				return $this->_related[$name]=iterator_to_array($cursor);
+			}
 		}
 		return $cursor; // FAIL SAFE
 	}
@@ -463,13 +470,15 @@ class EMongoModel extends CModel{
 		$attribute=trim(strtr($attribute,'][','['),']');
 		if(strpos($attribute,'[') === false)
 			return isset($this->_errors[$attribute]) ? reset($this->_errors[$attribute]) : null;
-
+		
+		
 		$prev=null;
 		foreach(explode('[',$attribute) as $piece){
-			if($prev===null&&isset($this->errors[$piece]))
-				$prev=&$this->_errors[$piece];
-			elseif(isset($prev[$piece]))
-			$prev=is_array($prev)?$prev[$piece]:$prev->$piece;
+			if($prev===null&&isset($this->_errors[$piece])){
+				$prev=$this->_errors[$piece];
+			}elseif(isset($prev[$piece])){
+				$prev=is_array($prev)?$prev[$piece]:$prev->$piece;
+			}
 		}
 		return $prev===null?null:reset($prev);
 	}
