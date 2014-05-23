@@ -23,6 +23,8 @@ class Article extends EMongoDocument{
 
 	public $views=0;
 	public $totalComments=0; // Pre-aggregated sum of total comments
+	
+	public $testemc = array();
 
 	function defaultScope(){
 		return array(
@@ -90,8 +92,9 @@ class Article extends EMongoDocument{
 	}
 
 	function afterSave(){
-		if($this->getIsNewRecord())
-			$this->author->saveCounters(array('totalArticles'=>1)); // Inc the amount of articles the user has
+		if($this->getIsNewRecord()){
+			//$this->author->saveCounters(array('totalArticles'=>1)); // Inc the amount of articles the user has
+		}
 		return parent::afterSave();
 	}
 
