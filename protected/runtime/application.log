@@ -2588,3 +2588,60 @@ Stack trace:
 #15 {main}
 REQUEST_URI=/index.php
 ---
+2014/06/12 01:48:50 [error] [php] Trying to get property of non-object (/media/server_ws/MongoYii-test/protected/views/article/_view.php:4)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/zii/widgets/CListView.php(291): ArticleController->renderFile()
+#1 /media/server_ws/MongoYii-test/yii/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /media/server_ws/MongoYii-test/yii/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /media/server_ws/MongoYii-test/yii/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(173): CListView->run()
+#6 /media/server_ws/MongoYii-test/protected/views/article/index.php(11): ArticleController->widget()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(126): require()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(95): ArticleController->renderInternal()
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(869): ArticleController->renderFile()
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(782): ArticleController->renderPartial()
+#11 /media/server_ws/MongoYii-test/protected/controllers/ArticleController.php(44): ArticleController->render()
+#12 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): ArticleController->actionIndex()
+#13 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(133): ArticleController->runAction()
+#15 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#16 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#17 /media/server_ws/MongoYii-test/yii/framework/web/filters/CInlineFilter.php(58): ArticleController->filterAccessControl()
+#18 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#19 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(291): CFilterChain->run()
+#20 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): ArticleController->runActionWithFilters()
+#21 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): ArticleController->run()
+#22 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#23 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#24 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=article
+in /media/server_ws/MongoYii-test/protected/views/article/_view.php (4)
+in /media/server_ws/MongoYii-test/protected/views/article/index.php (11)
+in /media/server_ws/MongoYii-test/protected/controllers/ArticleController.php (44)
+2014/06/12 01:53:47 [error] [exception.MongoException] exception 'MongoException' with message 'Invalid object ID' in /media/server_ws/MongoYii-test/protected/models/User.php:90
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/models/User.php(90): MongoId->__construct('')
+#1 /media/server_ws/MongoYii-test/protected/views/user/index.php(32): User->search()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(126): require('/media/server_w...')
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/media/server_w...', Array, true)
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(869): CBaseController->renderFile('/media/server_w...', Array, true)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#6 /media/server_ws/MongoYii-test/protected/controllers/UserController.php(47): CController->render('index', Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): UserController->actionIndex()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#10 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#12 /media/server_ws/MongoYii-test/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#13 /media/server_ws/MongoYii-test/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#14 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(291): CFilterChain->run()
+#15 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#16 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#17 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('user')
+#18 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#20 {main}
+REQUEST_URI=/index.php?User%5B_id%5D=&User%5Busername%5D=sammaye&User%5Bemail%5D=&User%5Bgroup%5D=&User_page=1&ajax=user-grid&r=user
+HTTP_REFERER=http://192.168.175.129/index.php?r=user
+---

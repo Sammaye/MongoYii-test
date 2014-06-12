@@ -86,9 +86,10 @@ class User extends EMongoDocument{
 	public function search(){
 		$criteria = new EMongoCriteria;
 		
-		if($this->_id!==null)
-			$criteria->compare('_id', new MongoId($this->_id));
+		//if($this->_id!==null)
+			//$criteria->compare('_id', new MongoId($this->_id));
 		//$criteria->compare('__v', $this->__v);
+		$criteria->compare('username', $this->username, true);
 		return new EMongoDataProvider(get_class($this), array(
 				'criteria' => $criteria,
 		));

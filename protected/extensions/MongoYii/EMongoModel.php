@@ -451,7 +451,7 @@ class EMongoModel extends CModel{
 			$prev=null;
 			foreach(explode('[',$attribute) as $piece){
 				if($prev===null&&isset($this->errors[$piece]))
-					$prev=&$this->_errors[$piece];
+					$prev=$this->_errors[$piece];
 				elseif(isset($prev[$piece]))
 				$prev=is_array($prev)?$prev[$piece]:$prev->$piece;
 			}
@@ -470,15 +470,13 @@ class EMongoModel extends CModel{
 		$attribute=trim(strtr($attribute,'][','['),']');
 		if(strpos($attribute,'[') === false)
 			return isset($this->_errors[$attribute]) ? reset($this->_errors[$attribute]) : null;
-		
-		
+
 		$prev=null;
 		foreach(explode('[',$attribute) as $piece){
-			if($prev===null&&isset($this->_errors[$piece])){
+			if($prev===null&&isset($this->_errors[$piece]))
 				$prev=$this->_errors[$piece];
-			}elseif(isset($prev[$piece])){
-				$prev=is_array($prev)?$prev[$piece]:$prev->$piece;
-			}
+			elseif(isset($prev[$piece]))
+			$prev=is_array($prev)?$prev[$piece]:$prev->$piece;
 		}
 		return $prev===null?null:reset($prev);
 	}
