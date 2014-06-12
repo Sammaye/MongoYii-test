@@ -27,29 +27,6 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{	
-		
-		$r = new Comment;
-		$r->body = 'teststs';
-		$r->articleId = 1;
-		$r->userId = 1;
-		
-		$m = new Article;
-		$m->title="sdefuosdfnj";
-		$m->body="fgjkldcjnhlfdjgkldsngbhl";
-		$m->testemc[] = $r;
-		$m->save();
-		$doc = $m->getRawDocument();
-		var_dump($doc);
-		/*	
- 		$u=new User();
- 		$u->username='gjgjgjg';
- 		$u->email='sdfdfdsfdsfdsf';
- 		$u->password='dffdsfsf';
- 		$u->ex_sub['title'] = 'sub ';
- 		$u->validate();
-// 		$u->insert();
- 		var_dump($u);
- 		*/
 		$this->render('index');
 	}
 

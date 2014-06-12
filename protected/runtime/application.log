@@ -2547,3 +2547,44 @@ Stack trace:
 REQUEST_URI=/
 in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (38)
 in /media/server_ws/MongoYii-test/index.php (12)
+2014/06/12 01:10:22 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/media/server_ws/MongoYii-test/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(136): spl_autoload_call()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(124): EMongoClient->connect()
+#2 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): EMongoClient->init()
+#3 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(103): CWebApplication->getComponent()
+#4 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php(540): CWebApplication->__get()
+#5 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php(56): Comment->getDbConnection()
+#6 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(31): Comment->__construct()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#12 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#13 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php (136)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php (124)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php (540)
+2014/06/12 01:12:38 [error] [exception.MongoConnectionException] exception 'MongoConnectionException' with message 'Failed to connect to: localhost:27017: Connection refused' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php:142
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(142): MongoClient->__construct('mongodb://local...', Array)
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(124): EMongoClient->connect()
+#2 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): EMongoClient->init()
+#3 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(103): CModule->getComponent('mongodb')
+#4 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoModel.php(540): CModule->__get('mongodb')
+#5 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoDocument.php(56): EMongoModel->getDbConnection()
+#6 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(31): EMongoDocument->__construct()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#15 {main}
+REQUEST_URI=/index.php
+---
