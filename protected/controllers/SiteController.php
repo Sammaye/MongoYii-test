@@ -27,6 +27,25 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{	
+		$c = Yii::app()->mongodb->g->find();
+		iterator_to_array($c);
+		//var_dump($c);
+		//exit();
+		$cache = Yii::app()->cache;
+		Yii::app()->mongodb->t->insert(['g' => 1]);
+		/*
+		$cache->set(
+			'12', 
+			'dfgdfgf', 
+			30,
+			new EMongoCacheDependency('t', [
+				[],
+				'limit' => 5
+			])
+		);
+		*/
+		//var_dump($cache);
+		var_dump($cache->get('12'));
 		$this->render('index');
 	}
 

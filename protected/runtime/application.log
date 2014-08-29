@@ -2645,3 +2645,659 @@ Stack trace:
 REQUEST_URI=/index.php?User%5B_id%5D=&User%5Busername%5D=sammaye&User%5Bemail%5D=&User%5Bgroup%5D=&User_page=1&ajax=user-grid&r=user
 HTTP_REFERER=http://192.168.175.129/index.php?r=user
 ---
+2014/08/29 03:12:54 [error] [exception.MongoConnectionException] exception 'MongoConnectionException' with message 'Failed to connect to: localhost:27017: Connection refused' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php:147
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(147): MongoClient->__construct('mongodb://local...', Array)
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(129): EMongoClient->connect()
+#2 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): EMongoClient->init()
+#3 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoSession.php(92): CModule->getComponent('mongodb')
+#4 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoSession.php(116): EMongoSession->getDbConnection()
+#5 [internal function]: EMongoSession->readSession('pkgfao3ilou5c24...')
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CHttpSession.php(114): session_start()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CHttpSession.php(88): CHttpSession->open()
+#8 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): CHttpSession->init()
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(201): CModule->getComponent('session')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/auth/CWebUser.php(199): CWebApplication->getSession()
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(387): CWebUser->init()
+#12 /media/server_ws/MongoYii-test/yii/framework/base/CModule.php(103): CModule->getComponent('user')
+#13 /media/server_ws/MongoYii-test/protected/views/layouts/main.php(42): CModule->__get('user')
+#14 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(126): require('/media/server_w...')
+#15 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/media/server_w...', Array, true)
+#16 /media/server_ws/MongoYii-test/yii/framework/web/widgets/CContentDecorator.php(76): CBaseController->renderFile('/media/server_w...', Array, true)
+#17 /media/server_ws/MongoYii-test/yii/framework/web/widgets/CContentDecorator.php(54): CContentDecorator->decorate('<div id="conten...')
+#18 /media/server_ws/MongoYii-test/yii/framework/web/widgets/COutputProcessor.php(44): CContentDecorator->processOutput('<div id="conten...')
+#19 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(206): COutputProcessor->run()
+#20 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(300): CBaseController->endWidget('CContentDecorat...')
+#21 /media/server_ws/MongoYii-test/protected/views/layouts/column1.php(6): CBaseController->endContent()
+#22 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(126): require('/media/server_w...')
+#23 /media/server_ws/MongoYii-test/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/media/server_w...', Array, true)
+#24 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(784): CBaseController->renderFile('/media/server_w...', Array, true)
+#25 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(30): CController->render('index')
+#26 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#27 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#28 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#29 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#30 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#31 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#32 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#33 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#34 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 04:51:12 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "cache".' in /media/server_ws/MongoYii-test/yii/framework/base/CComponent.php:266
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(30): CComponent->__call('cache', Array)
+#1 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(30): CWebApplication->cache()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#8 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:01:56 [error] [exception.CException] exception 'CException' with message 'EMongoClient and its behaviors do not have a method or closure named "getCollection".' in /media/server_ws/MongoYii-test/yii/framework/base/CComponent.php:266
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoClient.php(161): CComponent->__call('getCollection', Array)
+#1 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(35): EMongoClient->__call('getCollection', Array)
+#2 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(35): EMongoClient->getCollection('t')
+#3 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#9 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:02:28 [error] [php] Object of class EMongoCacheDependency could not be converted to int (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCache.php:221)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(37): EMongoCache->set()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCache.php (221)
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCache.php (200)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (37)
+2014/08/29 05:04:13 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:55 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:55 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:56 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:56 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:56 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:04:56 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:13 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:18 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:19 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:19 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:19 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:47 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(40): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:48 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(40): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:49 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(40): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:49 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(40): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:49 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(40): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:05:54 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoCacheDependency.cursor cannot be empty.' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:62
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(61): EMongoCacheDependency->generateDependentData()
+#1 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): CCacheDependency->evaluateDependency()
+#2 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(39): CCache->set('12', 'lalaal', 30, Object(EMongoCacheDependency))
+#3 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#9 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:06:18 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(41): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:07:19 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(42): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:07:35 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(42): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:07:40 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:58
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(58): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(42): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:09:25 [error] [php] Argument 1 passed to iterator_to_array() must implement interface Traversable, null given, called in /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php on line 61 and defined (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:59)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): EMongoCacheDependency->evaluateDependency()
+#1 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(42): EMongoCache->set()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php (59)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (42)
+in /media/server_ws/MongoYii-test/index.php (12)
+2014/08/29 05:09:41 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:61
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(61): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:10:19 [error] [exception.MongoException] exception 'MongoException' with message 'The MongoCursor object has not been correctly initialized by its constructor' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:59
+Stack trace:
+#0 [internal function]: MongoCursor->rewind()
+#1 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(59): iterator_to_array(Object(MongoCursor))
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(77): EMongoCacheDependency->generateDependentData()
+#3 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(111): CCacheDependency->getHasChanged()
+#4 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->get('12')
+#5 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#10 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#11 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#13 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 05:11:18 [error] [php] Undefined variable: result (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:64)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): EMongoCache->get()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php (64)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (43)
+in /media/server_ws/MongoYii-test/index.php (12)
+2014/08/29 05:11:46 [error] [php] Undefined variable: result (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:65)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): EMongoCache->get()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php (65)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (43)
+in /media/server_ws/MongoYii-test/index.php (12)
+2014/08/29 05:11:54 [error] [php] Undefined variable: result (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:69)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): EMongoCache->get()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php (69)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (43)
+in /media/server_ws/MongoYii-test/index.php (12)
+2014/08/29 05:12:02 [error] [php] Undefined variable: result (/media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:69)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): EMongoCache->get()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php (69)
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (43)
+in /media/server_ws/MongoYii-test/index.php (12)
+2014/08/29 06:50:38 [error] [exception.CException] exception 'CException' with message 'Property "EMongoCacheDependency.cursor" is not defined.' in /media/server_ws/MongoYii-test/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php(50): CComponent->__get('cursor')
+#1 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(61): EMongoCacheDependency->generateDependentData()
+#2 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): CCacheDependency->evaluateDependency()
+#3 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->set('12', 'lalaal', 30, Object(EMongoCacheDependency))
+#4 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#9 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#10 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#12 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 06:50:57 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoCacheDependency.cursor cannot be empty.' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:79
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(61): EMongoCacheDependency->generateDependentData()
+#1 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): CCacheDependency->evaluateDependency()
+#2 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->set('12', 'lalaal', 30, Object(EMongoCacheDependency))
+#3 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#9 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 06:51:08 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoCacheDependency.query cannot be empty.' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:79
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(61): EMongoCacheDependency->generateDependentData()
+#1 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): CCacheDependency->evaluateDependency()
+#2 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->set('12', 'lalaal', 30, Object(EMongoCacheDependency))
+#3 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#9 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php
+---
+2014/08/29 06:51:09 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoCacheDependency.query cannot be empty.' in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/util/EMongoCacheDependency.php:79
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/caching/dependencies/CCacheDependency.php(61): EMongoCacheDependency->generateDependentData()
+#1 /media/server_ws/MongoYii-test/yii/framework/caching/CCache.php(178): CCacheDependency->evaluateDependency()
+#2 /media/server_ws/MongoYii-test/protected/controllers/SiteController.php(43): CCache->set('12', 'lalaal', 30, Object(EMongoCacheDependency))
+#3 /media/server_ws/MongoYii-test/yii/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#4 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): CController->run('')
+#8 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#9 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /media/server_ws/MongoYii-test/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php
+---

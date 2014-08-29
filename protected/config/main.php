@@ -39,12 +39,14 @@ return array(
 
 		'session' => array(
 			'class' => 'EMongoSession',
-			//'path' => 'application.components.EMongoSession'
+		),
+		
+		'cache' => array(
+			'class' => 'EMongoCache',
 		),
 
 		'user'=>array(
 			'class' => 'EWebUser',
-
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
