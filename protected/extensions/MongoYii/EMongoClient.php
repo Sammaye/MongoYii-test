@@ -64,7 +64,6 @@ class EMongoClient extends CApplicationComponent
 	 */
 	public $setSlaveOkay = false;
 	
-	
 	/**
 	 * Allows one to connect when they want to when turned to false
 	 * Note that if you try and access MongoDB before it is connected it
@@ -472,6 +471,18 @@ class EMongoClient extends CApplicationComponent
 		$this->queryCachingDependency = $dependency;
 		$this->queryCachingCount = $queryCount;
 		return $this;
+	}
+	
+	public function getSerialisedQuery($criteria = [], $fields = [], $sort = [], $skip = 0, $limit = null)
+	{
+		$query = array(
+			'$query' => $criteria,
+			'$fields' => $fields,
+			'$sort' => $sort,
+			'$skip' => $skip,
+			'$limit' => $limit
+		);
+		return json_encode($query);
 	}
 	
 	/**
