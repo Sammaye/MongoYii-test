@@ -3462,3 +3462,14 @@ REQUEST_URI=/index.php
 in /media/server_ws/MongoYii-test/protected/extensions/MongoYii/EMongoCursor.php (195)
 in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (57)
 in /media/server_ws/MongoYii-test/index.php (12)
+2014/09/02 04:37:31 [error] [php] Undefined variable: dep (/media/server_ws/MongoYii-test/protected/controllers/SiteController.php:49)
+Stack trace:
+#0 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(286): SiteController->runAction()
+#1 /media/server_ws/MongoYii-test/yii/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#2 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(282): SiteController->run()
+#3 /media/server_ws/MongoYii-test/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#4 /media/server_ws/MongoYii-test/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#5 /media/server_ws/MongoYii-test/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php
+in /media/server_ws/MongoYii-test/protected/controllers/SiteController.php (49)
+in /media/server_ws/MongoYii-test/index.php (12)
