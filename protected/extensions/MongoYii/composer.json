@@ -10,6 +10,9 @@
             "homepage": "http://sammaye.wordpress.com"
         }
     ],
+	"require": {
+		"ext-mongo": "*"
+	},
     "autoload": {
     	"classmap": [
     		"./behaviors",
@@ -20,6 +23,7 @@
     		"./EMongoCursor.php",
     		"./EMongoDataProvider.php",
     		"./EMongoDocument.php",
+    		"./EMongoException.php",
     		"./EMongoFile.php",
     		"./EMongoLogRoute.php",
     		"./EMongoModel.php",

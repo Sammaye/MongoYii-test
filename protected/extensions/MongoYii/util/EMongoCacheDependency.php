@@ -53,7 +53,7 @@ class EMongoCacheDependency extends CCacheDependency
 			
 			if($db->queryCachingDuration > 0){
 				// temporarily disable and re-enable query caching
-				$duration = $db->queryCachingDuration;
+				$duration=$db->queryCachingDuration;
 				$db->queryCachingDuration = 0;
 				$result = iterator_to_array($this->createCursor());
 				$db->queryCachingDuration = $duration;
@@ -86,6 +86,7 @@ class EMongoCacheDependency extends CCacheDependency
 		if(isset($this->query['limit'])){
 			$cursor->limit($this->query['limit']);
 		}
+		
 		return $cursor;
 	}
 	

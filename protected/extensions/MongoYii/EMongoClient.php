@@ -250,6 +250,17 @@ class EMongoClient extends CApplicationComponent
 	}
 	
 	/**
+	 * Selects a different database
+	 * @param $name
+	 * @return MongoDB
+	 */
+	public function selectDB($name)
+	{
+		$this->setDB($name);
+		return $this->getDB();
+	}
+	
+	/**
 	 * Gets the raw Database
 	 * @return MongoDB
 	 */
@@ -473,7 +484,7 @@ class EMongoClient extends CApplicationComponent
 		return $this;
 	}
 	
-	public function getSerialisedQuery($criteria = [], $fields = [], $sort = [], $skip = 0, $limit = null)
+	public function getSerialisedQuery($criteria = array(), $fields = array(), $sort = array(), $skip = 0, $limit = null)
 	{
 		$query = array(
 			'$query' => $criteria,
