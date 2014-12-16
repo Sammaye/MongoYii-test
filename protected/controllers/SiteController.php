@@ -27,6 +27,8 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{	
+		//$q = User::model()->near([59.3, 24.8])->userSearch('text');
+		//var_dump($q->fetchData());
 		$this->render('index');
 	}
 

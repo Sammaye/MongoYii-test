@@ -132,4 +132,54 @@ class User extends EMongoDocument{
 		$salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
 		return $salt;
 	}
+	
+	public function near($lonLat, $placeId=null, $radius=null) {
+		if(is_string($lonLat)) {
+			$lonLat = explode(',', $lonLat);
+			$lonLat = array_map(function($val) {return (float)$val;}, $lonLat);
+		}
+	
+		if(is_array($lonLat) && count($lonLat) == 2 && is_double($lonLat[0]) && is_double($lonLat[1])) {
+			if($placeId)
+				$condition['_id'] = array('$ne'=>$placeId); // Exclude place we are searching around
+			if($radius)
+				$condition['loc'] = array('$geoWithin' => array('$centerSphere'=>array($lonLat, $radius/6378.1)));
+			else
+				$condition['loc'] = array('$near' => array('$geometry'=>array('type'=>'Point', 'coordinates'=>$lonLat)));
+	
+			$this->mergeDbCriteria(array(
+				'condition'=>$condition
+			));
+		}
+	
+		return $this;
+	}
+	
+	public function userSearch($searchCriteria) {
+		if(is_string($searchCriteria)) {
+			$regex = new MongoRegex("/.*$searchCriteria*./i");
+			$criteria = new EMongoCriteria();
+	
+			$criteria->mergeWith($this->getDbCriteria());
+	
+			//foreach (Yii::app()->params['languages'] as $lang) {
+				$condition[] = array("title.en"=>array('$regex'=>$regex));
+				$condition[] = array("description.en"=>array('$regex'=>$regex));
+			//}
+	
+			$condition[] = array('vendor'=>array('$regex'=>$regex));
+	
+			$criteria->addOrCondition($condition);
+			$this->setDbCriteria($criteria->toArray());
+	
+			$dp = new EMongoDataProvider($this, array(
+					//'criteria' => $criteria,
+			));
+	
+			return $dp;
+	
+		}
+	
+		return new EMongoDataProvider($this, array());
+	}
 }
